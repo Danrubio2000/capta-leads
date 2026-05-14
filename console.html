@@ -393,9 +393,7 @@
       <button class="nav-btn" data-section="settings">⚙️ Configurações</button>
       <button class="nav-btn secondary" onclick="window.open('tutorial.html', '_blank')">📚 Tutorial</button>
       <button class="nav-btn secondary" onclick="window.open('video.html', '_blank')">🎥 Vídeo</button>
-      <button class="nav-btn secondary" onclick="showPaymentModal()">💳 Verificar Pagamento</button>
     </nav>
-    <div id="payment-status" style="margin-top: 10px; display: none;"></div>
   </header>
 
   <div class="container">
@@ -1131,57 +1129,6 @@
     // Allow Enter key to send message
     document.getElementById("chat-input")?.addEventListener("keypress", (e) => {
       if (e.key === "Enter") sendMessage();
-    });
-
-    // ═══════════════════════════════════════════════════════════════
-    // PAYMENT VERIFICATION
-    // ═══════════════════════════════════════════════════════════════
-
-    function showPaymentModal() {
-      const email = prompt("Digite seu email para verificar pagamento:");
-      if (!email) return;
-
-      fetch("/api/customers/check", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email })
-      })
-      .then(r => r.json())
-      .then(data => {
-        if (data.isPaid && data.customer) {
-          const date = new Date(data.customer.paidAt).toLocaleDateString("pt-BR");
-          alert(`✅ PAGAMENTO CONFIRMADO!\n\nEmail: ${data.customer.email}\nProduto: ${data.customer.product}\nData: ${date}\nValor: R$ ${data.customer.amount.toFixed(2)}`);
-          displayPaymentStatus(data.customer);
-        } else {
-          alert(`❌ Nenhum pagamento registrado para ${email}\n\nClique em "Pagar" na landing page para processar seu pagamento.`);
-        }
-      })
-      .catch(err => alert("Erro ao verificar: " + err.message));
-    }
-
-    function displayPaymentStatus(customer) {
-      const status = document.getElementById("payment-status");
-      const date = new Date(customer.paidAt).toLocaleDateString("pt-BR");
-      status.innerHTML = `<span class="badge success">✅ Pago em ${date}</span>`;
-      status.style.display = "block";
-      localStorage.setItem("customer_email", customer.email);
-      localStorage.setItem("payment_confirmed", "true");
-    }
-
-    // Check on page load
-    window.addEventListener("load", () => {
-      const email = localStorage.getItem("customer_email");
-      if (email) {
-        fetch("/api/customers/check", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email })
-        })
-        .then(r => r.json())
-        .then(data => {
-          if (data.isPaid) displayPaymentStatus(data.customer);
-        });
-      }
     });
 
     // ═══════════════════════════════════════════════════════════════
