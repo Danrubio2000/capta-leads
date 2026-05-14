@@ -19,13 +19,7 @@ import Anthropic from "@anthropic-ai/sdk";
 
 dotenv.config();
 
-let __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-// On Vercel, resolve to the actual working directory
-if (process.env.VERCEL) {
-  __dirname = process.cwd();
-}
-
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = SERVER_CONFIG.DATA_DIR;
 const UPLOADS_DIR = SERVER_CONFIG.UPLOADS_DIR;
 const PORT = SERVER_CONFIG.PORT;
@@ -341,28 +335,6 @@ async function handleAPI(req, res, url, method) {
   }
 
   // ──────────────────────────────────────────────────────────
-  // 💳 CUSTOMER REGISTRY (Paid Customers)
-  // ──────────────────────────────────────────────────────────
-
-  if (endpoint === "customers") {
-    if (action === "list" && method === "GET") {
-      const customers = loadJSON("paid-customers.json") || [];
-      return json(res, { customers });
-    }
-
-    if (action === "check" && method === "POST") {
-      const body = await parseBody(req);
-      const customers = loadJSON("paid-customers.json") || [];
-      const customer = customers.find(c => c.email === body.email);
-      return json(res, {
-        success: true,
-        isPaid: !!customer,
-        customer: customer || null
-      });
-    }
-  }
-
-  // ──────────────────────────────────────────────────────────
   // 🔐 WEBHOOKS
   // ──────────────────────────────────────────────────────────
 
@@ -380,23 +352,7 @@ async function handleAPI(req, res, url, method) {
       if (event.type === "checkout.session.completed") {
         const session = event.data.object;
         console.log("Payment successful:", session.customer_email);
-
-        // Save customer to registry
-        const customers = loadJSON("paid-customers.json") || [];
-        const existingCustomer = customers.find(c => c.email === session.customer_email);
-
-        if (!existingCustomer) {
-          customers.push({
-            email: session.customer_email,
-            product: session.metadata?.product || "Unknown",
-            sessionId: session.id,
-            paidAt: new Date().toISOString(),
-            amount: session.amount_total / 100, // Convert cents to reais
-            currency: session.currency?.toUpperCase()
-          });
-          saveJSON("paid-customers.json", customers);
-          console.log(`✅ Customer registered: ${session.customer_email}`);
-        }
+        // Save to database in production
       }
 
       return json(res, { received: true });
@@ -413,18 +369,12 @@ async function handleAPI(req, res, url, method) {
 
 function serveStatic(res, filepath, contentType) {
   try {
-    if (!fs.existsSync(filepath)) {
-      console.error(`Static file not found: ${filepath}`);
-      res.writeHead(404, { "Content-Type": "text/plain" });
-      return res.end("File not found");
-    }
     const content = fs.readFileSync(filepath, "utf8");
     res.writeHead(200, { "Content-Type": contentType });
     res.end(content);
   } catch (error) {
-    console.error(`Error serving static file ${filepath}:`, error.message);
-    res.writeHead(500, { "Content-Type": "text/plain" });
-    res.end("Internal server error");
+    res.writeHead(404, { "Content-Type": "text/plain" });
+    res.end("File not found");
   }
 }
 
@@ -432,74 +382,56 @@ function serveStatic(res, filepath, contentType) {
 // SERVER
 // ═══════════════════════════════════════════════════════════════
 
-// Handler function compatible with both Vercel and local Node.js
-const requestHandler = async (req, res) => {
-  try {
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+const server = http.createServer(async (req, res) => {
+  // Enable CORS
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-    // Enable CORS
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
-    if (req.method === "OPTIONS") {
-      res.writeHead(200);
-      return res.end();
-    }
-
-    const url = new URL(req.url, `http://${req.headers.host}`);
-    console.log(`[DEBUG] pathname: ${url.pathname}, __dirname: ${__dirname}`);
-
-    // API routes
-    if (url.pathname.startsWith("/api/")) {
-      return await handleAPI(req, res, url, req.method);
-    }
-
-    // Static files
-    if (url.pathname === "/" || url.pathname === "/index.html") {
-      const filePath = path.join(__dirname, "console.html");
-      console.log(`[DEBUG] Serving console.html from ${filePath}`);
-      return serveStatic(res, filePath, "text/html");
-    }
-
-    if (url.pathname === "/tutorial.html") {
-      return serveStatic(res, path.join(__dirname, "tutorial.html"), "text/html");
-    }
-
-    if (url.pathname === "/video.html") {
-      return serveStatic(res, path.join(__dirname, "video.html"), "text/html");
-    }
-
-    if (url.pathname === "/landing.html") {
-      return serveStatic(res, path.join(__dirname, "landing.html"), "text/html");
-    }
-
-    if (url.pathname === "/chat-widget.js") {
-      return serveStatic(res, path.join(__dirname, "chat-widget.js"), "application/javascript");
-    }
-
-    if (url.pathname === "/logo.png") {
-      return serveStatic(res, path.join(__dirname, "logo.png"), "image/png");
-    }
-
-    // 404
-    res.writeHead(404, { "Content-Type": "text/plain" });
-    res.end("Not Found");
-  } catch (error) {
-    console.error("Server error:", error);
-    res.writeHead(500, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ error: error.message || "Internal server error" }));
+  if (req.method === "OPTIONS") {
+    res.writeHead(200);
+    return res.end();
   }
-};
 
-// Export for Vercel
-export default requestHandler;
+  const url = new URL(req.url, `http://${req.headers.host}`);
 
-// For local development
-if (process.env.NODE_ENV !== "production") {
-  const server = http.createServer(requestHandler);
-  server.listen(PORT, () => {
-    console.log(`
+  // API routes
+  if (url.pathname.startsWith("/api/")) {
+    return await handleAPI(req, res, url, req.method);
+  }
+
+  // Static files
+  if (url.pathname === "/" || url.pathname === "/index.html") {
+    return serveStatic(res, path.join(__dirname, "console.html"), "text/html");
+  }
+
+  if (url.pathname === "/tutorial.html") {
+    return serveStatic(res, path.join(__dirname, "tutorial.html"), "text/html");
+  }
+
+  if (url.pathname === "/video.html") {
+    return serveStatic(res, path.join(__dirname, "video.html"), "text/html");
+  }
+
+  if (url.pathname === "/landing.html") {
+    return serveStatic(res, path.join(__dirname, "landing.html"), "text/html");
+  }
+
+  if (url.pathname === "/chat-widget.js") {
+    return serveStatic(res, path.join(__dirname, "chat-widget.js"), "application/javascript");
+  }
+
+  if (url.pathname === "/logo.png") {
+    return serveStatic(res, path.join(__dirname, "logo.png"), "image/png");
+  }
+
+  // 404
+  res.writeHead(404, { "Content-Type": "text/plain" });
+  res.end("Not Found");
+});
+
+server.listen(PORT, () => {
+  console.log(`
 ╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
 ║              🚀 CAPTA LEADS v2.0.0 Iniciado                  ║
@@ -510,6 +442,5 @@ if (process.env.NODE_ENV !== "production") {
 ║  🎨 Landing Pages: /api/pages                                ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
-    `);
-  });
-}
+  `);
+});
