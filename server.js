@@ -335,6 +335,28 @@ async function handleAPI(req, res, url, method) {
   }
 
   // ──────────────────────────────────────────────────────────
+  // 💳 CUSTOMER REGISTRY (Paid Customers)
+  // ──────────────────────────────────────────────────────────
+
+  if (endpoint === "customers") {
+    if (action === "list" && method === "GET") {
+      const customers = loadJSON("paid-customers.json") || [];
+      return json(res, { customers });
+    }
+
+    if (action === "check" && method === "POST") {
+      const body = await parseBody(req);
+      const customers = loadJSON("paid-customers.json") || [];
+      const customer = customers.find(c => c.email === body.email);
+      return json(res, {
+        success: true,
+        isPaid: !!customer,
+        customer: customer || null
+      });
+    }
+  }
+
+  // ──────────────────────────────────────────────────────────
   // 🔐 WEBHOOKS
   // ──────────────────────────────────────────────────────────
 
@@ -352,7 +374,23 @@ async function handleAPI(req, res, url, method) {
       if (event.type === "checkout.session.completed") {
         const session = event.data.object;
         console.log("Payment successful:", session.customer_email);
-        // Save to database in production
+
+        // Save customer to registry
+        const customers = loadJSON("paid-customers.json") || [];
+        const existingCustomer = customers.find(c => c.email === session.customer_email);
+
+        if (!existingCustomer) {
+          customers.push({
+            email: session.customer_email,
+            product: session.metadata?.product || "Unknown",
+            sessionId: session.id,
+            paidAt: new Date().toISOString(),
+            amount: session.amount_total / 100, // Convert cents to reais
+            currency: session.currency?.toUpperCase()
+          });
+          saveJSON("paid-customers.json", customers);
+          console.log(`✅ Customer registered: ${session.customer_email}`);
+        }
       }
 
       return json(res, { received: true });
