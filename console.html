@@ -777,7 +777,10 @@
     // UTILITIES
     // ═══════════════════════════════════════════════════════════════
 
-    const API = "http://localhost:3000/api";
+    // Detect API URL - use current domain in production, localhost in development
+    const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:3000/api'
+      : `${window.location.protocol}//${window.location.host}/api`;
 
     // ═══════════════════════════════════════════════════════════════
     // PROJECT MANAGEMENT
