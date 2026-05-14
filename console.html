@@ -383,14 +383,22 @@
 <body>
   <!-- Header -->
   <header>
-    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap;">
+    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 15px;">
       <h1>🚀 CAPTA LEADS v2.0</h1>
-      <select id="language-selector" style="background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: 'Times New Roman', Times, serif; font-size: 1em;">
-        <option value="pt" selected>🇧🇷 Português</option>
-        <option value="en">🇺🇸 English</option>
-        <option value="es">🇪🇸 Español</option>
-        <option value="fr">🇫🇷 Français</option>
-      </select>
+      <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <select id="project-selector" style="background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-family: 'Times New Roman', Times, serif; font-size: 0.95em;">
+            <option value="">📁 Selecionar Projeto</option>
+          </select>
+          <button id="new-project-btn" style="background: rgba(255,255,255,0.3); border: 1px solid white; color: white; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-family: 'Times New Roman', Times, serif; font-size: 0.95em; transition: all 0.3s;" data-i18n="btn-new-project">➕ Novo</button>
+        </div>
+        <select id="language-selector" style="background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: 'Times New Roman', Times, serif; font-size: 1em;">
+          <option value="pt" selected>🇧🇷 Português</option>
+          <option value="en">🇺🇸 English</option>
+          <option value="es">🇪🇸 Español</option>
+          <option value="fr">🇫🇷 Français</option>
+        </select>
+      </div>
     </div>
     <nav>
       <button class="nav-btn active" data-section="dashboard">📊 Dashboard</button>
@@ -683,12 +691,119 @@
   <!-- Loading Alert -->
   <div id="alert-container" style="position: fixed; top: 20px; right: 20px; max-width: 400px; z-index: 999;"></div>
 
+  <!-- New Project Modal -->
+  <div id="new-project-modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center;">
+    <div style="background: white; padding: 30px; border-radius: 8px; max-width: 400px; width: 90%;">
+      <h3 style="margin-bottom: 20px; font-weight: bold;" data-i18n="modal-new-project">📁 Criar Novo Projeto</h3>
+      <form id="new-project-form">
+        <input type="text" id="project-name" placeholder="Nome do projeto" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px; font-family: 'Times New Roman', Times, serif;">
+        <textarea id="project-description" placeholder="Descrição (opcional)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px; font-family: 'Times New Roman', Times, serif; min-height: 80px;"></textarea>
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+          <button type="button" onclick="closeNewProjectModal()" style="padding: 10px 20px; background: #999; color: white; border: none; border-radius: 5px; cursor: pointer;" data-i18n="btn-cancel">Cancelar</button>
+          <button type="submit" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;" data-i18n="btn-create">Criar Projeto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
     // ═══════════════════════════════════════════════════════════════
     // UTILITIES
     // ═══════════════════════════════════════════════════════════════
 
     const API = "http://localhost:3000/api";
+
+    // ═══════════════════════════════════════════════════════════════
+    // PROJECT MANAGEMENT
+    // ═══════════════════════════════════════════════════════════════
+
+    let currentProject = null;
+
+    function initializeProjects() {
+      let projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
+      let activeProject = localStorage.getItem('capta_active_project');
+
+      if (projects.length === 0) {
+        // Create default project
+        const defaultProject = { id: 'default_' + Date.now(), name: '📊 Meu Primeiro Projeto', created: Date.now() };
+        projects.push(defaultProject);
+        localStorage.setItem('capta_projects', JSON.stringify(projects));
+        activeProject = defaultProject.id;
+        localStorage.setItem('capta_active_project', activeProject);
+      }
+
+      currentProject = activeProject || projects[0].id;
+      updateProjectSelector();
+    }
+
+    function updateProjectSelector() {
+      const selector = document.getElementById('project-selector');
+      const projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
+
+      selector.innerHTML = '<option value="">📁 Selecionar Projeto</option>';
+      projects.forEach(proj => {
+        const option = document.createElement('option');
+        option.value = proj.id;
+        option.textContent = proj.name;
+        if (proj.id === currentProject) option.selected = true;
+        selector.appendChild(option);
+      });
+    }
+
+    function selectProject(projectId) {
+      if (!projectId) return;
+      currentProject = projectId;
+      localStorage.setItem('capta_active_project', projectId);
+      updateProjectSelector();
+      refreshLeadsList();
+      refreshCampaignsList();
+      refreshPagesList();
+      showAlert('✅ Projeto alterado!', 'success');
+    }
+
+    function openNewProjectModal() {
+      document.getElementById('new-project-modal').style.display = 'flex';
+    }
+
+    function closeNewProjectModal() {
+      document.getElementById('new-project-modal').style.display = 'none';
+      document.getElementById('new-project-form').reset();
+    }
+
+    document.getElementById('project-selector')?.addEventListener('change', (e) => {
+      selectProject(e.target.value);
+    });
+
+    document.getElementById('new-project-btn')?.addEventListener('click', openNewProjectModal);
+
+    document.getElementById('new-project-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('project-name').value;
+      const description = document.getElementById('project-description').value;
+
+      const newProject = {
+        id: 'proj_' + Date.now(),
+        name: name,
+        description: description,
+        created: Date.now()
+      };
+
+      let projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
+      projects.push(newProject);
+      localStorage.setItem('capta_projects', JSON.stringify(projects));
+
+      currentProject = newProject.id;
+      localStorage.setItem('capta_active_project', newProject.id);
+
+      updateProjectSelector();
+      closeNewProjectModal();
+      showAlert('✅ Projeto criado com sucesso!', 'success');
+      refreshLeadsList();
+    });
+
+    function getProjectKey(baseKey) {
+      return `${baseKey}_${currentProject}`;
+    }
 
     function showAlert(message, type = "success") {
       const container = document.getElementById("alert-container");
@@ -810,10 +925,10 @@
     }
 
     function addToLeads(email, name) {
-      let leads = JSON.parse(localStorage.getItem("my_leads") || "[]");
+      let leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
       if (!leads.find((l) => l.email === email)) {
         leads.push({ email, nome: name });
-        localStorage.setItem("my_leads", JSON.stringify(leads));
+        localStorage.setItem(getProjectKey("my_leads"), JSON.stringify(leads));
         showAlert(`✅ ${name} adicionado à lista!`, "success");
         refreshLeadsList();
       } else {
@@ -822,7 +937,7 @@
     }
 
     function refreshLeadsList() {
-      const leads = JSON.parse(localStorage.getItem("my_leads") || "[]");
+      const leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
       const container = document.getElementById("leads-list");
 
       if (leads.length === 0) {
@@ -855,14 +970,14 @@
     }
 
     function removeFromLeads(index) {
-      let leads = JSON.parse(localStorage.getItem("my_leads") || "[]");
+      let leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
       leads.splice(index, 1);
-      localStorage.setItem("my_leads", JSON.stringify(leads));
+      localStorage.setItem(getProjectKey("my_leads"), JSON.stringify(leads));
       refreshLeadsList();
     }
 
     function exportLeads(format) {
-      const leads = JSON.parse(localStorage.getItem("my_leads") || "[]");
+      const leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
       if (format === "csv") {
         const csv = ["Nome,Email", ...leads.map((l) => `${l.nome},${l.email}`)].join("\n");
         downloadFile(csv, "leads.csv", "text/csv");
@@ -882,7 +997,7 @@
 
     function clearLeads() {
       if (confirm("Tem certeza? Esta ação não pode ser desfeita.")) {
-        localStorage.removeItem("my_leads");
+        localStorage.removeItem(getProjectKey("my_leads"));
         refreshLeadsList();
         showAlert("✅ Leads limpos!", "success");
       }
@@ -900,7 +1015,7 @@
         body: document.getElementById("campaign-body").value,
         fromEmail: document.getElementById("campaign-from-email").value,
         fromName: document.getElementById("campaign-from-name").value,
-        recipients: JSON.parse(localStorage.getItem("my_leads") || "[]")
+        recipients: JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]")
       };
 
       try {
@@ -958,7 +1073,7 @@
     }
 
     async function sendCampaign(campaignId) {
-      const leads = JSON.parse(localStorage.getItem("my_leads") || "[]");
+      const leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
       if (leads.length === 0) {
         showAlert("⚠️ Adicione leads primeiro!", "warning");
         return;
@@ -1170,7 +1285,11 @@
         "section-campaigns": "📧 Campanhas de Email",
         "section-landing": "🎨 Criador de Landing Pages",
         "section-chat": "🤖 Assistente IA",
-        "section-settings": "⚙️ Configurações"
+        "section-settings": "⚙️ Configurações",
+        "btn-new-project": "➕ Novo",
+        "modal-new-project": "📁 Criar Novo Projeto",
+        "btn-cancel": "Cancelar",
+        "btn-create": "Criar Projeto"
       },
       en: {
         "dashboard": "Dashboard",
@@ -1194,7 +1313,11 @@
         "section-campaigns": "📧 Email Campaigns",
         "section-landing": "🎨 Landing Page Builder",
         "section-chat": "🤖 AI Assistant",
-        "section-settings": "⚙️ Settings"
+        "section-settings": "⚙️ Settings",
+        "btn-new-project": "➕ New",
+        "modal-new-project": "📁 Create New Project",
+        "btn-cancel": "Cancel",
+        "btn-create": "Create Project"
       },
       es: {
         "dashboard": "Panel de Control",
@@ -1218,7 +1341,11 @@
         "section-campaigns": "📧 Campañas de Email",
         "section-landing": "🎨 Constructor de Landing Pages",
         "section-chat": "🤖 Asistente IA",
-        "section-settings": "⚙️ Configuración"
+        "section-settings": "⚙️ Configuración",
+        "btn-new-project": "➕ Nuevo",
+        "modal-new-project": "📁 Crear Nuevo Proyecto",
+        "btn-cancel": "Cancelar",
+        "btn-create": "Crear Proyecto"
       },
       fr: {
         "dashboard": "Tableau de Bord",
@@ -1242,7 +1369,11 @@
         "section-campaigns": "📧 Campagnes d'Email",
         "section-landing": "🎨 Constructeur de Landing Pages",
         "section-chat": "🤖 Assistant IA",
-        "section-settings": "⚙️ Paramètres"
+        "section-settings": "⚙️ Paramètres",
+        "btn-new-project": "➕ Nouveau",
+        "modal-new-project": "📁 Créer un Nouveau Projet",
+        "btn-cancel": "Annuler",
+        "btn-create": "Créer un Projet"
       }
     };
 
@@ -1301,6 +1432,7 @@
     // INITIALIZATION
     // ═══════════════════════════════════════════════════════════════
 
+    initializeProjects();
     refreshLeadsList();
     refreshSettings();
   </script>
