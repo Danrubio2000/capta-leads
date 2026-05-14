@@ -383,7 +383,15 @@
 <body>
   <!-- Header -->
   <header>
-    <h1>🚀 CAPTA LEADS v2.0</h1>
+    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap;">
+      <h1>🚀 CAPTA LEADS v2.0</h1>
+      <select id="language-selector" style="background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: 'Times New Roman', Times, serif; font-size: 1em;">
+        <option value="pt" selected>🇧🇷 Português</option>
+        <option value="en">🇺🇸 English</option>
+        <option value="es">🇪🇸 Español</option>
+        <option value="fr">🇫🇷 Français</option>
+      </select>
+    </div>
     <nav>
       <button class="nav-btn active" data-section="dashboard">📊 Dashboard</button>
       <button class="nav-btn" data-section="leads">🎯 Buscar Leads</button>
@@ -1134,6 +1142,108 @@
     document.getElementById("chat-input")?.addEventListener("keypress", (e) => {
       if (e.key === "Enter") sendMessage();
     });
+
+    // ═══════════════════════════════════════════════════════════════
+    // MULTILINGUAL SUPPORT
+    // ═══════════════════════════════════════════════════════════════
+
+    const translations = {
+      pt: {
+        "dashboard": "Dashboard",
+        "leads": "🎯 Buscar Leads",
+        "campaigns": "📧 Campanhas",
+        "landing": "🎨 Landing Pages",
+        "chat": "🤖 IA Chat",
+        "settings": "⚙️ Configurações",
+        "welcome": "✨ Bem-vindo ao CAPTA LEADS",
+        "found": "Leads Encontrados",
+        "created": "Campanhas Criadas",
+        "sent": "Emails Enviados",
+        "pages": "Landing Pages",
+        "test-mode": "⚠️ VOCÊ ESTÁ NO MODO TESTE - Acesso grátis e ilimitado para testar todas as funcionalidades"
+      },
+      en: {
+        "dashboard": "Dashboard",
+        "leads": "🎯 Find Leads",
+        "campaigns": "📧 Campaigns",
+        "landing": "🎨 Landing Pages",
+        "chat": "🤖 AI Chat",
+        "settings": "⚙️ Settings",
+        "welcome": "✨ Welcome to CAPTA LEADS",
+        "found": "Leads Found",
+        "created": "Campaigns Created",
+        "sent": "Emails Sent",
+        "pages": "Landing Pages",
+        "test-mode": "⚠️ YOU ARE IN TEST MODE - Free and unlimited access to test all features"
+      },
+      es: {
+        "dashboard": "Panel de Control",
+        "leads": "🎯 Buscar Leads",
+        "campaigns": "📧 Campañas",
+        "landing": "🎨 Landing Pages",
+        "chat": "🤖 Chat IA",
+        "settings": "⚙️ Configuración",
+        "welcome": "✨ Bienvenido a CAPTA LEADS",
+        "found": "Leads Encontrados",
+        "created": "Campañas Creadas",
+        "sent": "Correos Enviados",
+        "pages": "Landing Pages",
+        "test-mode": "⚠️ ESTÁS EN MODO PRUEBA - Acceso gratuito e ilimitado para probar todas las funciones"
+      },
+      fr: {
+        "dashboard": "Tableau de Bord",
+        "leads": "🎯 Trouver des Leads",
+        "campaigns": "📧 Campagnes",
+        "landing": "🎨 Landing Pages",
+        "chat": "🤖 Chat IA",
+        "settings": "⚙️ Paramètres",
+        "welcome": "✨ Bienvenue à CAPTA LEADS",
+        "found": "Leads Trouvés",
+        "created": "Campagnes Créées",
+        "sent": "Courriels Envoyés",
+        "pages": "Landing Pages",
+        "test-mode": "⚠️ VOUS ÊTES EN MODE TEST - Accès gratuit et illimité pour tester toutes les fonctionnalités"
+      }
+    };
+
+    function getCurrentLanguage() {
+      return localStorage.getItem('console_language') || 'pt';
+    }
+
+    function setLanguage(lang) {
+      localStorage.setItem('console_language', lang);
+      document.documentElement.lang = lang;
+      document.getElementById('language-selector').value = lang;
+
+      // Update navigation buttons
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        const section = btn.getAttribute('data-section');
+        if (section === 'dashboard') btn.textContent = translations[lang]["dashboard"];
+        else if (section === 'leads') btn.textContent = translations[lang]["leads"];
+        else if (section === 'campaigns') btn.textContent = translations[lang]["campaigns"];
+        else if (section === 'landing') btn.textContent = translations[lang]["landing"];
+        else if (section === 'chat') btn.textContent = translations[lang]["chat"];
+        else if (section === 'settings') btn.textContent = translations[lang]["settings"];
+      });
+
+      // Update test mode alert
+      const testAlert = document.getElementById('test-mode-alert');
+      if (testAlert) testAlert.textContent = translations[lang]["test-mode"];
+
+      // Update labels
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) el.textContent = translations[lang][key];
+      });
+    }
+
+    // Initialize language
+    document.getElementById('language-selector').addEventListener('change', (e) => {
+      setLanguage(e.target.value);
+    });
+
+    // Set initial language
+    setLanguage(getCurrentLanguage());
 
     // ═══════════════════════════════════════════════════════════════
     // TEST MODE DETECTION
