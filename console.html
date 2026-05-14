@@ -726,31 +726,31 @@
   <!-- Project Settings Modal -->
   <div id="project-settings-modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; overflow-y: auto;">
     <div style="background: white; padding: 30px; border-radius: 8px; max-width: 600px; width: 90%; margin: 20px auto;">
-      <h3 style="margin-bottom: 20px; font-weight: bold;">⚙️ Configurações do Projeto</h3>
+      <h3 style="margin-bottom: 20px; font-weight: bold;" data-i18n="modal-settings-title">⚙️ Configurações do Projeto</h3>
       <form id="project-settings-form">
         <div style="margin-bottom: 20px;">
-          <label style="font-weight: bold; display: block; margin-bottom: 8px;">📝 Nome do Projeto</label>
+          <label style="font-weight: bold; display: block; margin-bottom: 8px;" data-i18n="label-project-name">📝 Nome do Projeto</label>
           <input type="text" id="settings-project-name" placeholder="Nome" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif;">
         </div>
 
         <div style="margin-bottom: 20px;">
-          <label style="font-weight: bold; display: block; margin-bottom: 8px;">🌐 Website</label>
+          <label style="font-weight: bold; display: block; margin-bottom: 8px;" data-i18n="label-website">🌐 Website</label>
           <input type="url" id="settings-website" placeholder="https://seusite.com" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif;">
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
           <div>
-            <label style="font-weight: bold; display: block; margin-bottom: 8px;">📧 Email</label>
+            <label style="font-weight: bold; display: block; margin-bottom: 8px;" data-i18n="label-email">📧 Email</label>
             <input type="email" id="settings-email" placeholder="contato@empresa.com" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif;">
           </div>
           <div>
-            <label style="font-weight: bold; display: block; margin-bottom: 8px;">📱 Telefone</label>
+            <label style="font-weight: bold; display: block; margin-bottom: 8px;" data-i18n="label-phone">📱 Telefone</label>
             <input type="tel" id="settings-phone" placeholder="+55 11 99999-9999" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif;">
           </div>
         </div>
 
         <div style="margin-bottom: 20px;">
-          <label style="font-weight: bold; display: block; margin-bottom: 8px;">🌐 Redes Sociais</label>
+          <label style="font-weight: bold; display: block; margin-bottom: 8px;" data-i18n="label-social">🌐 Redes Sociais</label>
           <input type="url" id="settings-instagram" placeholder="Instagram (URL)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 8px; font-family: 'Times New Roman', Times, serif;">
           <input type="url" id="settings-facebook" placeholder="Facebook (URL)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 8px; font-family: 'Times New Roman', Times, serif;">
           <input type="url" id="settings-linkedin" placeholder="LinkedIn (URL)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 8px; font-family: 'Times New Roman', Times, serif;">
@@ -758,13 +758,13 @@
         </div>
 
         <div style="margin-bottom: 20px;">
-          <label style="font-weight: bold; display: block; margin-bottom: 8px;">📝 Sobre o Projeto</label>
+          <label style="font-weight: bold; display: block; margin-bottom: 8px;" data-i18n="label-about">📝 Sobre o Projeto</label>
           <textarea id="settings-about" placeholder="Descrição completa do seu projeto/empresa..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif; min-height: 100px;"></textarea>
         </div>
 
         <div style="display: flex; gap: 10px; justify-content: flex-end;">
-          <button type="button" onclick="closeProjectSettingsModal()" style="padding: 10px 20px; background: #999; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancelar</button>
-          <button type="submit" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">💾 Salvar Configurações</button>
+          <button type="button" onclick="closeProjectSettingsModal()" style="padding: 10px 20px; background: #999; color: white; border: none; border-radius: 5px; cursor: pointer;" data-i18n="btn-cancel">Cancelar</button>
+          <button type="submit" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;" data-i18n="btn-save-settings">💾 Salvar Configurações</button>
         </div>
       </form>
     </div>
@@ -1408,7 +1408,15 @@
         "btn-new-project": "➕ Novo",
         "modal-new-project": "📁 Criar Novo Projeto",
         "btn-cancel": "Cancelar",
-        "btn-create": "Criar Projeto"
+        "btn-create": "Criar Projeto",
+        "modal-settings-title": "⚙️ Configurações do Projeto",
+        "label-project-name": "📝 Nome do Projeto",
+        "label-website": "🌐 Website",
+        "label-email": "📧 Email",
+        "label-phone": "📱 Telefone",
+        "label-social": "📱 Redes Sociais",
+        "label-about": "📝 Sobre o Projeto",
+        "btn-save-settings": "💾 Salvar Configurações"
       },
       en: {
         "dashboard": "Dashboard",
@@ -1436,7 +1444,15 @@
         "btn-new-project": "➕ New",
         "modal-new-project": "📁 Create New Project",
         "btn-cancel": "Cancel",
-        "btn-create": "Create Project"
+        "btn-create": "Create Project",
+        "modal-settings-title": "⚙️ Project Settings",
+        "label-project-name": "📝 Project Name",
+        "label-website": "🌐 Website",
+        "label-email": "📧 Email",
+        "label-phone": "📱 Phone",
+        "label-social": "📱 Social Media",
+        "label-about": "📝 About the Project",
+        "btn-save-settings": "💾 Save Settings"
       },
       es: {
         "dashboard": "Panel de Control",
@@ -1464,7 +1480,15 @@
         "btn-new-project": "➕ Nuevo",
         "modal-new-project": "📁 Crear Nuevo Proyecto",
         "btn-cancel": "Cancelar",
-        "btn-create": "Crear Proyecto"
+        "btn-create": "Crear Proyecto",
+        "modal-settings-title": "⚙️ Configuración del Proyecto",
+        "label-project-name": "📝 Nombre del Proyecto",
+        "label-website": "🌐 Sitio Web",
+        "label-email": "📧 Correo Electrónico",
+        "label-phone": "📱 Teléfono",
+        "label-social": "📱 Redes Sociales",
+        "label-about": "📝 Acerca del Proyecto",
+        "btn-save-settings": "💾 Guardar Configuración"
       },
       fr: {
         "dashboard": "Tableau de Bord",
@@ -1492,7 +1516,15 @@
         "btn-new-project": "➕ Nouveau",
         "modal-new-project": "📁 Créer un Nouveau Projet",
         "btn-cancel": "Annuler",
-        "btn-create": "Créer un Projet"
+        "btn-create": "Créer un Projet",
+        "modal-settings-title": "⚙️ Paramètres du Projet",
+        "label-project-name": "📝 Nom du Projet",
+        "label-website": "🌐 Site Web",
+        "label-email": "📧 Email",
+        "label-phone": "📱 Téléphone",
+        "label-social": "📱 Réseaux Sociaux",
+        "label-about": "📝 À Propos du Projet",
+        "btn-save-settings": "💾 Enregistrer les Paramètres"
       }
     };
 
