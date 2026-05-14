@@ -1530,7 +1530,23 @@
     };
 
     function getCurrentLanguage() {
-      return localStorage.getItem('console_language') || 'pt';
+      // Check if language is saved in localStorage
+      const saved = localStorage.getItem('console_language');
+      if (saved) return saved;
+
+      // Auto-detect from browser language
+      const browserLang = navigator.language || navigator.userLanguage;
+      const langPrefix = browserLang.split('-')[0].toLowerCase();
+
+      // Map browser language to our supported languages
+      const langMap = {
+        'pt': 'pt',
+        'en': 'en',
+        'es': 'es',
+        'fr': 'fr'
+      };
+
+      return langMap[langPrefix] || 'pt';
     }
 
     function setLanguage(lang) {
