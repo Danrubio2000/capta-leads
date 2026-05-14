@@ -15,9 +15,12 @@ dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// Initialize with defaults
+let SERVER_CONFIG = { DATA_DIR: "./data", UPLOADS_DIR: "./uploads", PORT: 3000 };
+
 // Initialize modules with dynamic imports and error handling
 let LeadsHunter, EmailSender, LandingPageBuilder, StripeManager, Anthropic;
-let INDUSTRIES, EMAIL_TEMPLATES, SERVER_CONFIG;
+let INDUSTRIES, EMAIL_TEMPLATES;
 let leadsHunter, emailSender, landingBuilder, claude, stripeManager;
 
 async function initializeModules() {
