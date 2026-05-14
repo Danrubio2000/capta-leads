@@ -1,0 +1,442 @@
+// Console Translations - Portuguese, English, Spanish, French
+const consoleTranslations = {
+  pt: {
+    // Navigation
+    "nav-dashboard": "📊 Dashboard",
+    "nav-leads": "🎯 Buscar Leads",
+    "nav-campaigns": "📧 Campanhas",
+    "nav-landing": "🎨 Landing Pages",
+    "nav-chat": "🤖 IA Chat",
+    "nav-settings": "⚙️ Configurações",
+    "nav-tutorial": "📚 Tutorial",
+    "nav-video": "🎥 Vídeo",
+
+    // Dashboard Section
+    "dashboard-title": "📊 Dashboard",
+    "dashboard-welcome": "✨ Bem-vindo ao CAPTA LEADS",
+    "dashboard-desc": "CAPTA LEADS é a solução completa para geração de leads, email marketing e criação de landing pages.",
+    "stat-leads": "Leads Encontrados",
+    "stat-campaigns": "Campanhas Criadas",
+    "stat-sent": "Emails Enviados",
+    "stat-pages": "Landing Pages",
+    "feature-search": "🎯 Busca de Leads:",
+    "feature-search-desc": "Encontre contatos de qualquer industria",
+    "feature-email": "📧 Campanhas de Email:",
+    "feature-email-desc": "Envie emails personalizados em massa",
+    "feature-pages": "🎨 Landing Pages:",
+    "feature-pages-desc": "Crie páginas de vendas sem código",
+    "feature-config": "⚙️ Configurável:",
+    "feature-config-desc": "Adapte para qualquer negócio ou profissão",
+
+    // Leads Section
+    "leads-title": "🎯 Buscar Leads",
+    "leads-instructions": "Use a API do Hunter.io para buscar emails por domínio ou palavras-chave",
+    "leads-keywords": "Palavras-chave (separadas por vírgula)",
+    "leads-location": "Localização",
+    "leads-type": "Tipo",
+    "leads-search": "🔍 Buscar",
+    "leads-results": "Resultados da Busca",
+    "leads-export": "📥 Exportar",
+    "leads-no-results": "Nenhum resultado encontrado",
+    "leads-enrich": "Enriquecer",
+    "email-column": "Email",
+    "domain-column": "Domínio",
+    "company-column": "Empresa",
+
+    // Campaigns Section
+    "campaigns-title": "📧 Campanhas",
+    "campaigns-create": "Criar Nova Campanha",
+    "campaigns-name": "Nome da Campanha",
+    "campaigns-subject": "Assunto do Email",
+    "campaigns-body": "Corpo do Email",
+    "campaigns-create-btn": "Criar",
+    "campaigns-list": "Minhas Campanhas",
+    "campaigns-test-email": "Enviar Email de Teste",
+    "campaigns-test-input": "Email para Teste",
+    "campaigns-send": "Enviar Campanha",
+    "campaigns-settings": "Configurações de Email",
+    "campaigns-from-email": "Email de Origem",
+    "campaigns-from-name": "Nome de Origem",
+    "campaigns-save": "Salvar Configurações",
+    "campaigns-status": "Status",
+
+    // Landing Pages Section
+    "landing-title": "🎨 Landing Pages",
+    "landing-create": "Criar Nova Landing Page",
+    "landing-name": "Nome da Página",
+    "landing-title-input": "Título Principal",
+    "landing-description": "Descrição",
+    "landing-create-btn": "Criar",
+    "landing-list": "Minhas Landing Pages",
+    "landing-add-section": "Adicionar Seção",
+    "landing-section-title": "Título da Seção",
+    "landing-section-content": "Conteúdo",
+    "landing-add-section-btn": "Adicionar",
+    "landing-update": "Atualizar",
+    "landing-delete": "Deletar",
+    "landing-preview": "👁️ Visualizar",
+    "landing-export": "📥 Exportar",
+    "landing-no-pages": "Nenhuma landing page criada ainda",
+
+    // Chat Section
+    "chat-title": "🤖 IA Chat",
+    "chat-placeholder": "Digite sua pergunta aqui...",
+    "chat-send": "Enviar",
+    "chat-welcome": "Olá! Sou o assistente IA. Como posso ajudá-lo?",
+
+    // Settings Section
+    "settings-title": "⚙️ Configurações",
+    "settings-email": "Configurações de Email",
+    "settings-from-email": "Email de Origem",
+    "settings-from-name": "Nome de Origem",
+    "settings-status": "Status:",
+    "settings-configured": "Configurado ✅",
+    "settings-not-configured": "Não configurado",
+    "settings-save": "Salvar Configurações",
+    "settings-saved": "✅ Configurações salvas!",
+
+    // Language Selector
+    "language-label": "Idioma:",
+    "language-pt": "🇧🇷 Português",
+    "language-en": "🇺🇸 English",
+    "language-es": "🇪🇸 Español",
+    "language-fr": "🇫🇷 Français",
+
+    // Test Mode
+    "test-badge": "VOCÊ ESTÁ NO MODO TESTE - Acesso grátis e ilimitado para testar todas as funcionalidades",
+
+    // Alerts
+    "alert-success": "✅ Sucesso!",
+    "alert-error": "❌ Erro",
+  },
+
+  en: {
+    "nav-dashboard": "📊 Dashboard",
+    "nav-leads": "🎯 Search Leads",
+    "nav-campaigns": "📧 Campaigns",
+    "nav-landing": "🎨 Landing Pages",
+    "nav-chat": "🤖 AI Chat",
+    "nav-settings": "⚙️ Settings",
+    "nav-tutorial": "📚 Tutorial",
+    "nav-video": "🎥 Video",
+
+    "dashboard-title": "📊 Dashboard",
+    "dashboard-welcome": "✨ Welcome to CAPTA LEADS",
+    "dashboard-desc": "CAPTA LEADS is the complete solution for lead generation, email marketing and landing page creation.",
+    "stat-leads": "Leads Found",
+    "stat-campaigns": "Campaigns Created",
+    "stat-sent": "Emails Sent",
+    "stat-pages": "Landing Pages",
+    "feature-search": "🎯 Lead Search:",
+    "feature-search-desc": "Find contacts from any industry",
+    "feature-email": "📧 Email Campaigns:",
+    "feature-email-desc": "Send personalized bulk emails",
+    "feature-pages": "🎨 Landing Pages:",
+    "feature-pages-desc": "Create sales pages without code",
+    "feature-config": "⚙️ Configurable:",
+    "feature-config-desc": "Adapt to any business or profession",
+
+    "leads-title": "🎯 Search Leads",
+    "leads-instructions": "Use Hunter.io API to search emails by domain or keywords",
+    "leads-keywords": "Keywords (comma separated)",
+    "leads-location": "Location",
+    "leads-type": "Type",
+    "leads-search": "🔍 Search",
+    "leads-results": "Search Results",
+    "leads-export": "📥 Export",
+    "leads-no-results": "No results found",
+    "leads-enrich": "Enrich",
+    "email-column": "Email",
+    "domain-column": "Domain",
+    "company-column": "Company",
+
+    "campaigns-title": "📧 Campaigns",
+    "campaigns-create": "Create New Campaign",
+    "campaigns-name": "Campaign Name",
+    "campaigns-subject": "Email Subject",
+    "campaigns-body": "Email Body",
+    "campaigns-create-btn": "Create",
+    "campaigns-list": "My Campaigns",
+    "campaigns-test-email": "Send Test Email",
+    "campaigns-test-input": "Test Email",
+    "campaigns-send": "Send Campaign",
+    "campaigns-settings": "Email Settings",
+    "campaigns-from-email": "From Email",
+    "campaigns-from-name": "From Name",
+    "campaigns-save": "Save Settings",
+    "campaigns-status": "Status",
+
+    "landing-title": "🎨 Landing Pages",
+    "landing-create": "Create New Landing Page",
+    "landing-name": "Page Name",
+    "landing-title-input": "Main Title",
+    "landing-description": "Description",
+    "landing-create-btn": "Create",
+    "landing-list": "My Landing Pages",
+    "landing-add-section": "Add Section",
+    "landing-section-title": "Section Title",
+    "landing-section-content": "Content",
+    "landing-add-section-btn": "Add",
+    "landing-update": "Update",
+    "landing-delete": "Delete",
+    "landing-preview": "👁️ Preview",
+    "landing-export": "📥 Export",
+    "landing-no-pages": "No landing pages created yet",
+
+    "chat-title": "🤖 AI Chat",
+    "chat-placeholder": "Type your question here...",
+    "chat-send": "Send",
+    "chat-welcome": "Hi! I'm the AI assistant. How can I help you?",
+
+    "settings-title": "⚙️ Settings",
+    "settings-email": "Email Settings",
+    "settings-from-email": "From Email",
+    "settings-from-name": "From Name",
+    "settings-status": "Status:",
+    "settings-configured": "Configured ✅",
+    "settings-not-configured": "Not configured",
+    "settings-save": "Save Settings",
+    "settings-saved": "✅ Settings saved!",
+
+    "language-label": "Language:",
+    "language-pt": "🇧🇷 Português",
+    "language-en": "🇺🇸 English",
+    "language-es": "🇪🇸 Español",
+    "language-fr": "🇫🇷 Français",
+
+    "test-badge": "YOU ARE IN TEST MODE - Free and unlimited access to test all features",
+
+    "alert-success": "✅ Success!",
+    "alert-error": "❌ Error",
+  },
+
+  es: {
+    "nav-dashboard": "📊 Panel de Control",
+    "nav-leads": "🎯 Buscar Leads",
+    "nav-campaigns": "📧 Campañas",
+    "nav-landing": "🎨 Landing Pages",
+    "nav-chat": "🤖 Chat IA",
+    "nav-settings": "⚙️ Configuración",
+    "nav-tutorial": "📚 Tutorial",
+    "nav-video": "🎥 Video",
+
+    "dashboard-title": "📊 Panel de Control",
+    "dashboard-welcome": "✨ Bienvenido a CAPTA LEADS",
+    "dashboard-desc": "CAPTA LEADS es la solución completa para generación de leads, email marketing y creación de landing pages.",
+    "stat-leads": "Leads Encontrados",
+    "stat-campaigns": "Campañas Creadas",
+    "stat-sent": "Emails Enviados",
+    "stat-pages": "Landing Pages",
+    "feature-search": "🎯 Búsqueda de Leads:",
+    "feature-search-desc": "Encuentra contactos de cualquier industria",
+    "feature-email": "📧 Campañas de Email:",
+    "feature-email-desc": "Envía emails personalizados en masa",
+    "feature-pages": "🎨 Landing Pages:",
+    "feature-pages-desc": "Crea páginas de ventas sin código",
+    "feature-config": "⚙️ Configurable:",
+    "feature-config-desc": "Adapta a cualquier negocio o profesión",
+
+    "leads-title": "🎯 Buscar Leads",
+    "leads-instructions": "Usa la API de Hunter.io para buscar emails por dominio o palabras clave",
+    "leads-keywords": "Palabras clave (separadas por coma)",
+    "leads-location": "Ubicación",
+    "leads-type": "Tipo",
+    "leads-search": "🔍 Buscar",
+    "leads-results": "Resultados de la Búsqueda",
+    "leads-export": "📥 Exportar",
+    "leads-no-results": "No se encontraron resultados",
+    "leads-enrich": "Enriquecer",
+    "email-column": "Email",
+    "domain-column": "Dominio",
+    "company-column": "Empresa",
+
+    "campaigns-title": "📧 Campañas",
+    "campaigns-create": "Crear Nueva Campaña",
+    "campaigns-name": "Nombre de la Campaña",
+    "campaigns-subject": "Asunto del Email",
+    "campaigns-body": "Cuerpo del Email",
+    "campaigns-create-btn": "Crear",
+    "campaigns-list": "Mis Campañas",
+    "campaigns-test-email": "Enviar Email de Prueba",
+    "campaigns-test-input": "Email de Prueba",
+    "campaigns-send": "Enviar Campaña",
+    "campaigns-settings": "Configuración de Email",
+    "campaigns-from-email": "Email de Origen",
+    "campaigns-from-name": "Nombre de Origen",
+    "campaigns-save": "Guardar Configuración",
+    "campaigns-status": "Estado",
+
+    "landing-title": "🎨 Landing Pages",
+    "landing-create": "Crear Nueva Landing Page",
+    "landing-name": "Nombre de la Página",
+    "landing-title-input": "Título Principal",
+    "landing-description": "Descripción",
+    "landing-create-btn": "Crear",
+    "landing-list": "Mis Landing Pages",
+    "landing-add-section": "Agregar Sección",
+    "landing-section-title": "Título de la Sección",
+    "landing-section-content": "Contenido",
+    "landing-add-section-btn": "Agregar",
+    "landing-update": "Actualizar",
+    "landing-delete": "Eliminar",
+    "landing-preview": "👁️ Vista Previa",
+    "landing-export": "📥 Exportar",
+    "landing-no-pages": "Ninguna landing page creada aún",
+
+    "chat-title": "🤖 Chat IA",
+    "chat-placeholder": "Escribe tu pregunta aquí...",
+    "chat-send": "Enviar",
+    "chat-welcome": "¡Hola! Soy el asistente de IA. ¿Cómo puedo ayudarte?",
+
+    "settings-title": "⚙️ Configuración",
+    "settings-email": "Configuración de Email",
+    "settings-from-email": "Email de Origen",
+    "settings-from-name": "Nombre de Origen",
+    "settings-status": "Estado:",
+    "settings-configured": "Configurado ✅",
+    "settings-not-configured": "No configurado",
+    "settings-save": "Guardar Configuración",
+    "settings-saved": "✅ ¡Configuración guardada!",
+
+    "language-label": "Idioma:",
+    "language-pt": "🇧🇷 Português",
+    "language-en": "🇺🇸 English",
+    "language-es": "🇪🇸 Español",
+    "language-fr": "🇫🇷 Français",
+
+    "test-badge": "ESTÁS EN MODO PRUEBA - Acceso gratuito e ilimitado para probar todas las funciones",
+
+    "alert-success": "✅ ¡Éxito!",
+    "alert-error": "❌ Error",
+  },
+
+  fr: {
+    "nav-dashboard": "📊 Tableau de Bord",
+    "nav-leads": "🎯 Rechercher des Leads",
+    "nav-campaigns": "📧 Campagnes",
+    "nav-landing": "🎨 Landing Pages",
+    "nav-chat": "🤖 Chat IA",
+    "nav-settings": "⚙️ Paramètres",
+    "nav-tutorial": "📚 Tutoriel",
+    "nav-video": "🎥 Vidéo",
+
+    "dashboard-title": "📊 Tableau de Bord",
+    "dashboard-welcome": "✨ Bienvenue dans CAPTA LEADS",
+    "dashboard-desc": "CAPTA LEADS est la solution complète pour la génération de leads, le email marketing et la création de landing pages.",
+    "stat-leads": "Leads Trouvés",
+    "stat-campaigns": "Campagnes Créées",
+    "stat-sent": "Emails Envoyés",
+    "stat-pages": "Landing Pages",
+    "feature-search": "🎯 Recherche de Leads:",
+    "feature-search-desc": "Trouvez des contacts de n'importe quel secteur",
+    "feature-email": "📧 Campagnes Email:",
+    "feature-email-desc": "Envoyez des emails personnalisés en masse",
+    "feature-pages": "🎨 Landing Pages:",
+    "feature-pages-desc": "Créez des pages de vente sans code",
+    "feature-config": "⚙️ Configurable:",
+    "feature-config-desc": "Adaptez à n'importe quel secteur ou profession",
+
+    "leads-title": "🎯 Rechercher des Leads",
+    "leads-instructions": "Utilisez l'API Hunter.io pour rechercher des emails par domaine ou mots-clés",
+    "leads-keywords": "Mots-clés (séparés par des virgules)",
+    "leads-location": "Localisation",
+    "leads-type": "Type",
+    "leads-search": "🔍 Rechercher",
+    "leads-results": "Résultats de la Recherche",
+    "leads-export": "📥 Exporter",
+    "leads-no-results": "Aucun résultat trouvé",
+    "leads-enrich": "Enrichir",
+    "email-column": "Email",
+    "domain-column": "Domaine",
+    "company-column": "Entreprise",
+
+    "campaigns-title": "📧 Campagnes",
+    "campaigns-create": "Créer une Nouvelle Campagne",
+    "campaigns-name": "Nom de la Campagne",
+    "campaigns-subject": "Objet de l'Email",
+    "campaigns-body": "Corps de l'Email",
+    "campaigns-create-btn": "Créer",
+    "campaigns-list": "Mes Campagnes",
+    "campaigns-test-email": "Envoyer un Email de Test",
+    "campaigns-test-input": "Email de Test",
+    "campaigns-send": "Envoyer la Campagne",
+    "campaigns-settings": "Paramètres d'Email",
+    "campaigns-from-email": "Email Expéditeur",
+    "campaigns-from-name": "Nom de l'Expéditeur",
+    "campaigns-save": "Enregistrer les Paramètres",
+    "campaigns-status": "Statut",
+
+    "landing-title": "🎨 Landing Pages",
+    "landing-create": "Créer une Nouvelle Landing Page",
+    "landing-name": "Nom de la Page",
+    "landing-title-input": "Titre Principal",
+    "landing-description": "Description",
+    "landing-create-btn": "Créer",
+    "landing-list": "Mes Landing Pages",
+    "landing-add-section": "Ajouter une Section",
+    "landing-section-title": "Titre de la Section",
+    "landing-section-content": "Contenu",
+    "landing-add-section-btn": "Ajouter",
+    "landing-update": "Mettre à Jour",
+    "landing-delete": "Supprimer",
+    "landing-preview": "👁️ Aperçu",
+    "landing-export": "📥 Exporter",
+    "landing-no-pages": "Aucune landing page créée encore",
+
+    "chat-title": "🤖 Chat IA",
+    "chat-placeholder": "Tapez votre question ici...",
+    "chat-send": "Envoyer",
+    "chat-welcome": "Bonjour! Je suis l'assistant IA. Comment puis-je vous aider?",
+
+    "settings-title": "⚙️ Paramètres",
+    "settings-email": "Paramètres d'Email",
+    "settings-from-email": "Email Expéditeur",
+    "settings-from-name": "Nom de l'Expéditeur",
+    "settings-status": "Statut:",
+    "settings-configured": "Configuré ✅",
+    "settings-not-configured": "Non configuré",
+    "settings-save": "Enregistrer les Paramètres",
+    "settings-saved": "✅ Paramètres enregistrés!",
+
+    "language-label": "Langue:",
+    "language-pt": "🇧🇷 Português",
+    "language-en": "🇺🇸 English",
+    "language-es": "🇪🇸 Español",
+    "language-fr": "🇫🇷 Français",
+
+    "test-badge": "VOUS ÊTES EN MODE TEST - Accès gratuit et illimité pour tester toutes les fonctionnalités",
+
+    "alert-success": "✅ Succès!",
+    "alert-error": "❌ Erreur",
+  }
+};
+
+// Function to get translation
+function t(key, lang = 'pt') {
+  return consoleTranslations[lang]?.[key] || key;
+}
+
+// Function to set language and update all text
+function setConsoleLanguage(lang) {
+  localStorage.setItem('consoleLanguage', lang);
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.getAttribute('data-i18n'), lang);
+  });
+  document.documentElement.lang = lang;
+}
+
+// Function to get current language
+function getConsoleLanguage() {
+  return localStorage.getItem('consoleLanguage') ||
+         (navigator.language.split('-')[0] in consoleTranslations ? navigator.language.split('-')[0] : 'pt');
+}
+
+// Initialize language
+function initConsoleLanguage() {
+  const lang = getConsoleLanguage();
+  setConsoleLanguage(lang);
+  const selector = document.getElementById('language-selector');
+  if (selector) {
+    selector.value = lang;
+  }
+}
