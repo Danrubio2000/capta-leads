@@ -526,7 +526,7 @@ const server = http.createServer(async (req, res) => {
 
     // Static files
     if (url.pathname === "/" || url.pathname === "/index.html") {
-      return serveStatic(res, path.join(__dirname, "console.html"), "text/html");
+      return serveStatic(res, path.join(__dirname, "console-simple.html"), "text/html");
     }
 
     if (url.pathname === "/tutorial.html") {
