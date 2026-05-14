@@ -1,0 +1,28 @@
+{
+  "name": "capta-leads",
+  "version": "2.0.0",
+  "description": "CAPTA LEADS - All-in-One Lead Generation, Email Marketing & Landing Page Builder",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo 'Tests coming soon'"
+  },
+  "keywords": [
+    "lead-generation",
+    "email-marketing",
+    "landing-page-builder",
+    "automation",
+    "crm"
+  ],
+  "author": "Dan Rubio",
+  "license": "MIT",
+  "dependencies": {
+    "resend": "^3.0.0",
+    "dotenv": "^16.0.0",
+    "axios": "^1.6.0",
+    "@anthropic-ai/sdk": "^0.24.0",
+    "stripe": "^14.0.0"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "name": "capta-leads",
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "console.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "landing.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "tutorial.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "video.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "chat-widget.js",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "server.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}

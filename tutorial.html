@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📚 Tutorial Completo - CAPTA LEADS</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    header h1 { font-size: 2em; margin-bottom: 10px; }
+    header p { opacity: 0.9; }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+
+    .toc {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .toc h2 { margin-bottom: 20px; color: #667eea; }
+    .toc ul { list-style: none; }
+    .toc li { margin: 10px 0; }
+    .toc a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .toc a:hover { text-decoration: underline; }
+
+    section {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      scroll-margin-top: 100px;
+    }
+
+    section h2 {
+      color: #667eea;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    section h3 {
+      color: #764ba2;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    .step {
+      background: #f9f9f9;
+      padding: 15px;
+      border-left: 4px solid #667eea;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+
+    .step strong { color: #667eea; }
+
+    code {
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+    }
+
+    .button-demo {
+      background: #667eea;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .button-demo:hover {
+      background: #764ba2;
+    }
+
+    .note {
+      background: #E8F4F8;
+      border-left: 4px solid #3498DB;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+
+    .warning {
+      background: #FFF3CD;
+      border-left: 4px solid #FF9800;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+
+    .success {
+      background: #D4EDDA;
+      border-left: 4px solid #27AE60;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 4px;
+    }
+
+    footer {
+      background: #333;
+      color: white;
+      text-align: center;
+      padding: 30px;
+      margin-top: 40px;
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📚 Tutorial Completo - CAPTA LEADS</h1>
+    <p>Guia passo a passo para dominar a plataforma</p>
+  </header>
+
+  <div class="container">
+    <div class="toc">
+      <h2>📋 Sumário</h2>
+      <ul>
+        <li>✓ <a href="#intro">Introdução</a></li>
+        <li>✓ <a href="#setup">Setup Inicial</a></li>
+        <li>✓ <a href="#leads">Como Buscar Leads</a></li>
+        <li>✓ <a href="#campaigns">Criar Campanhas de Email</a></li>
+        <li>✓ <a href="#landing">Criar Landing Pages</a></li>
+        <li>✓ <a href="#advanced">Recursos Avançados</a></li>
+        <li>✓ <a href="#faq">Perguntas Frequentes</a></li>
+      </ul>
+    </div>
+
+    <section id="intro">
+      <h2>🎯 Introdução</h2>
+      <p>Bem-vindo ao <strong>CAPTA LEADS</strong>! Esta é uma solução all-in-one para:</p>
+      <ul style="margin-left: 20px;">
+        <li>Buscar leads qualificados</li>
+        <li>Enviar campanhas de email em massa</li>
+        <li>Criar landing pages sem código</li>
+        <li>Rastrear resultados</li>
+      </ul>
+
+      <div class="note">
+        <strong>💡 Dica:</strong> Você pode começar com a versão gratuita e explorar a plataforma sem limites. Os únicos limites são: 100 leads de teste por busca.
+      </div>
+
+      <h3>O que você vai aprender neste tutorial:</h3>
+      <div class="step">
+        <strong>⏱️ Tempo estimado: 30 minutos</strong><br>
+        Após este tutorial, você saberá usar todos os recursos principais do CAPTA LEADS.
+      </div>
+    </section>
+
+    <section id="setup">
+      <h2>⚙️ Setup Inicial (5 minutos)</h2>
+
+      <h3>Passo 1: Acessar o Console</h3>
+      <div class="step">
+        <strong>Abra:</strong> <code>http://localhost:3000</code><br>
+        Você deve ver um dashboard bonito com 4 seções principais.
+      </div>
+
+      <h3>Passo 2: Entender as Seções</h3>
+      <div class="step">
+        <strong>1. 📊 Dashboard:</strong> Vê seus stats (leads, campanhas, emails enviados)<br>
+        <strong>2. 🎯 Buscar Leads:</strong> Encontre contatos qualificados<br>
+        <strong>3. 📧 Campanhas:</strong> Crie e envie emails<br>
+        <strong>4. 🎨 Landing Pages:</strong> Crie páginas de venda<br>
+        <strong>5. ⚙️ Configurações:</strong> Email, API keys, etc.
+      </div>
+
+      <h3>Passo 3: Configurar Email</h3>
+      <div class="step">
+        <strong>Vá em:</strong> Configurações → Email<br>
+        <strong>Preencha:</strong><br>
+        - Email de origem (seu email)<br>
+        - Nome do remetente (seu nome ou empresa)<br>
+        <strong>Resultado:</strong> Agora você pode enviar emails de verdade!
+      </div>
+
+      <div class="success">
+        ✅ <strong>Setup concluído!</strong> Você está pronto para usar CAPTA LEADS.
+      </div>
+    </section>
+
+    <section id="leads">
+      <h2>🎯 Como Buscar Leads (10 minutos)</h2>
+
+      <h3>Entender a Busca de Leads</h3>
+      <p>O CAPTA LEADS busca leads em múltiplas fontes:</p>
+      <ul style="margin-left: 20px;">
+        <li><strong>Hunter.io:</strong> Emails corporativos</li>
+        <li><strong>Clearbit:</strong> Dados corporativos</li>
+        <li><strong>Google:</strong> Busca web</li>
+        <li><strong>Database Local:</strong> 50+ leads verificados</li>
+      </ul>
+
+      <h3>Passo 1: Navegar para Busca de Leads</h3>
+      <div class="step">
+        Clique em: <strong>🎯 Buscar Leads</strong>
+      </div>
+
+      <h3>Passo 2: Preencher Critérios</h3>
+      <div class="step">
+        <strong>1. Palavras-chave:</strong> O que você procura?<br>
+        Exemplo: "fundação documentário", "agência marketing", "clínica médica"<br><br>
+        <strong>2. Localização:</strong> Onde? (Ex: Brasil, USA, Internacional)<br><br>
+        <strong>3. Tipo:</strong> Que tipo de negócio?<br>
+        - Negócio<br>
+        - Fundação<br>
+        - ONG<br>
+        - Qualquer
+      </div>
+
+      <h3>Passo 3: Clicar em "Buscar"</h3>
+      <div class="step">
+        <strong>Aguarde 2-3 segundos.</strong> Os resultados aparecem em uma tabela com:
+        <ul style="margin-left: 20px;">
+          <li>Nome da organização</li>
+          <li>Email de contato</li>
+          <li>Website</li>
+          <li>Score de confiabilidade (0-100)</li>
+        </ul>
+      </div>
+
+      <h3>Passo 4: Adicionar Leads à Lista</h3>
+      <div class="step">
+        Para cada lead interessante, clique em: <strong>➕ Adicionar</strong><br>
+        O lead é salvo em sua lista pessoal.
+      </div>
+
+      <h3>Exemplo Prático</h3>
+      <div class="step">
+        <strong>Cenário:</strong> Você é documentarista buscando fundações<br><br>
+        <strong>Palavras-chave:</strong> "documentary grant, film funding"<br>
+        <strong>Localização:</strong> International<br>
+        <strong>Tipo:</strong> Fundação<br><br>
+        <strong>Resultado esperado:</strong> 20-50 fundações que financiam documentários
+      </div>
+
+      <div class="success">
+        ✅ <strong>Leads encontrados!</strong> Próximo passo: enviar campanhas.
+      </div>
+    </section>
+
+    <section id="campaigns">
+      <h2>📧 Criar Campanhas de Email (10 minutos)</h2>
+
+      <h3>Passo 1: Navegar para Campanhas</h3>
+      <div class="step">
+        Clique em: <strong>📧 Campanhas</strong>
+      </div>
+
+      <h3>Passo 2: Criar Nova Campanha</h3>
+      <div class="step">
+        <strong>Preencha:</strong><br>
+        1. <strong>Assunto:</strong> Linhas de assunto atraem cliques<br>
+        Exemplo: "Documentário Sobre Mudanças Climáticas - Busco Parceiros"<br><br>
+        2. <strong>Corpo do Email:</strong> Sua mensagem<br>
+        Personalize com: {nome}, {empresa}, {email}<br><br>
+        3. <strong>Email de Origem:</strong> Seu email<br><br>
+        4. <strong>Nome do Remetente:</strong> Seu nome ou empresa
+      </div>
+
+      <h3>Exemplo de Email Efetivo</h3>
+      <div class="step">
+        <strong>Assunto:</strong> "Parceria para Documentário Premiado - {empresa}"<br><br>
+        <strong>Corpo:</strong><br>
+        Olá {nome},<br><br>
+        Sou documentarista e meu projeto "Mudanças Climáticas" foi selecionado para Sundance 2026.<br><br>
+        Gostaria de explorar uma parceria com {empresa} para financiar a pós-produção.<br><br>
+        Podemos conversar essa semana?<br><br>
+        Abraços,<br>
+        [Seu Nome]
+      </div>
+
+      <h3>Passo 3: Enviar Campanha</h3>
+      <div class="step">
+        <strong>1. Clique:</strong> "Criar Campanha"<br>
+        <strong>2. Na tabela abaixo, clique:</strong> "📧 Enviar"<br>
+        <strong>3. Aguarde:</strong> Emails são enviados em 2-3 minutos para todos os leads<br>
+        <strong>4. Veja resultado:</strong> Dashboard mostra "Emails Enviados"
+      </div>
+
+      <h3>Testar Email (Recomendado)</h3>
+      <div class="step">
+        Antes de enviar para todos, teste com sua próprio email:<br>
+        <strong>Seção "Testar Email"</strong> → Digite seu email → Clique "🧪 Enviar Email de Teste"<br>
+        Você receberá o email em segundos para verificar formatting.
+      </div>
+
+      <div class="note">
+        <strong>💡 Dicas de Assunto Efetivo:</strong>
+        <ul style="margin-left: 20px;">
+          <li>❌ "Olá" (genérico)</li>
+          <li>✅ "Parceria: Documentário sobre [Tema]" (específico)</li>
+          <li>❌ "Me patrocine" (direto demais)</li>
+          <li>✅ "Oportunidade de Impacto Social" (benefício)</li>
+        </ul>
+      </div>
+
+      <div class="success">
+        ✅ <strong>Campanha enviada!</strong> Próximo: Criar landing pages.
+      </div>
+    </section>
+
+    <section id="landing">
+      <h2>🎨 Criar Landing Pages (10 minutos)</h2>
+
+      <h3>Por que Landing Pages?</h3>
+      <p>Uma landing page profissional aumenta muito a chance de conseguir financiamento. Mostra seriedade e profissionalismo.</p>
+
+      <h3>Passo 1: Navegar para Landing Pages</h3>
+      <div class="step">
+        Clique em: <strong>🎨 Landing Pages</strong>
+      </div>
+
+      <h3>Passo 2: Criar Nova Página</h3>
+      <div class="step">
+        <strong>Preencha:</strong><br>
+        1. <strong>Título:</strong> Nome do seu projeto<br>
+        Exemplo: "Documentário - Mudanças Climáticas"<br><br>
+        2. <strong>Indústria:</strong> Escolha a categoria<br>
+        - Cinema & Audiovisual<br>
+        - Arte & Cultura<br>
+        - Ou outras...<br><br>
+        3. <strong>SEO (opcional):</strong> Para Google encontrar sua página
+      </div>
+
+      <h3>Passo 3: Adicionar Seções</h3>
+      <div class="step">
+        <strong>Após criar, clique "Ver" para editar.</strong><br><br>
+        Você pode adicionar seções:<br>
+        - <strong>Hero:</strong> Imagem + headline<br>
+        - <strong>Features:</strong> Pontos principais<br>
+        - <strong>Testimonials:</strong> Críticas<br>
+        - <strong>CTA:</strong> Chamada para ação<br>
+        - <strong>Footer:</strong> Contato
+      </div>
+
+      <h3>Exemplo: Landing Page de Documentário</h3>
+      <div class="step">
+        <strong>Hero:</strong><br>
+        Imagem do documentário + "Documentário Premiado Busca Financiamento"<br><br>
+        <strong>Features:</strong><br>
+        ✓ Selecionado para Sundance 2026<br>
+        ✓ Tema: Mudanças Climáticas<br>
+        ✓ Impacto Social Comprovado<br><br>
+        <strong>CTA:</strong><br>
+        "Seja Produtor Executivo - R$50.000+" botão para enviar email
+      </div>
+
+      <h3>Passo 4: Publicar</h3>
+      <div class="step">
+        <strong>Clique "Ver"</strong> para gerar URL pública<br>
+        Copie o link e compartilhe nos emails!
+      </div>
+
+      <div class="success">
+        ✅ <strong>Landing page pronta!</strong> Agora comente nos emails.
+      </div>
+    </section>
+
+    <section id="advanced">
+      <h2>🚀 Recursos Avançados</h2>
+
+      <h3>Automação de Follow-up</h3>
+      <div class="step">
+        <strong>Crie múltiplas campanhas:</strong><br>
+        - Email 1: Apresentação (dia 1)<br>
+        - Email 2: Follow-up (dia 3)<br>
+        - Email 3: Última chance (dia 7)<br><br>
+        Isso aumenta taxa de resposta de 5% para 20%!
+      </div>
+
+      <h3>Integração com APIs</h3>
+      <div class="step">
+        <strong>Em Configurações, você pode adicionar:</strong><br>
+        - <strong>Hunter.io:</strong> Encontre mais emails<br>
+        - <strong>Clearbit:</strong> Enriqueça dados de contatos<br>
+        - <strong>Resend:</strong> Envie emails de verdade<br><br>
+        Isso potencializa os resultados!
+      </div>
+
+      <h3>Exportar Resultados</h3>
+      <div class="step">
+        <strong>Na seção Leads:</strong><br>
+        Clique em "📥 Baixar CSV" para exportar para Excel/Google Sheets
+      </div>
+    </section>
+
+    <section id="faq">
+      <h2>❓ Perguntas Frequentes</h2>
+
+      <h3>P: Posso enviar emails sem configurar Resend?</h3>
+      <div class="step">
+        <strong>R:</strong> Sim! Em modo teste você vê a visualização. Para enviar de verdade, configure Resend (é gratuito para 100 emails/dia).
+      </div>
+
+      <h3>P: Quantos leads posso buscar?</h3>
+      <div class="step">
+        <strong>R:</strong> Ilimitados! Quanto mais específico você for com palavras-chave, melhores os resultados.
+      </div>
+
+      <h3>P: As landing pages são SEO-friendly?</h3>
+      <div class="step">
+        <strong>R:</strong> Sim! Preencha título, descrição e keywords. Google encontrará sua página em 1-2 semanas.
+      </div>
+
+      <h3>P: Posso customizar templates?</h3>
+      <div class="step">
+        <strong>R:</strong> 100%! Todos os elementos são editáveis. Cores, fontes, conteúdo - você controla tudo.
+      </div>
+
+      <h3>P: Há suporte?</h3>
+      <div class="step">
+        <strong>R:</strong> Sim! Email: danrubio_2000@yahoo.com ou visite https://artver.com.br
+      </div>
+    </section>
+
+    <div style="background: #E8F5E9; padding: 30px; border-radius: 8px; margin: 40px 0; text-align: center;">
+      <h3 style="color: #27AE60; margin-bottom: 15px;">🎉 Você aprendeu!</h3>
+      <p style="font-size: 1.1em; margin-bottom: 20px;">
+        Agora você sabe usar <strong>CAPTA LEADS</strong> completamente!<br>
+        Próximo passo: <strong>Fazer sua primeira busca de leads agora mesmo!</strong>
+      </p>
+      <button class="button-demo" onclick="window.location.href='http://localhost:3000'">
+        🚀 Voltar para Console
+      </button>
+    </div>
+  </div>
+
+  <footer>
+    <p><strong>CAPTA LEADS - Tutorial Completo</strong></p>
+    <p>Desenvolvido com ❤️ para pequenos negócios</p>
+  </footer>
+  <script src="chat-widget.js"></script>
+</body>
+</html>
