@@ -383,27 +383,16 @@
 <body>
   <!-- Header -->
   <header>
-    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-      <h1>🚀 CAPTA LEADS v2.0</h1>
-      <div style="display: flex; gap: 15px; align-items: center;">
-        <label data-i18n="language-label" style="color: white; font-weight: bold;">Idioma:</label>
-        <select id="language-selector" onchange="changeConsoleLanguage(this.value)" style="padding: 8px 15px; border-radius: 5px; font-family: 'Times New Roman', Times, serif; border: 1px solid white;">
-          <option value="pt" data-i18n-opt="language-pt">🇧🇷 Português</option>
-          <option value="en" data-i18n-opt="language-en">🇺🇸 English</option>
-          <option value="es" data-i18n-opt="language-es">🇪🇸 Español</option>
-          <option value="fr" data-i18n-opt="language-fr">🇫🇷 Français</option>
-        </select>
-      </div>
-    </div>
-    <nav style="width: 100%; margin-top: 10px;">
-      <button class="nav-btn active" data-section="dashboard" data-i18n="nav-dashboard">📊 Dashboard</button>
-      <button class="nav-btn" data-section="leads" data-i18n="nav-leads">🎯 Buscar Leads</button>
-      <button class="nav-btn" data-section="campaigns" data-i18n="nav-campaigns">📧 Campanhas</button>
-      <button class="nav-btn" data-section="landing" data-i18n="nav-landing">🎨 Landing Pages</button>
-      <button class="nav-btn" data-section="chat" data-i18n="nav-chat">🤖 IA Chat</button>
-      <button class="nav-btn" data-section="settings" data-i18n="nav-settings">⚙️ Configurações</button>
-      <button class="nav-btn secondary" onclick="window.open('tutorial.html', '_blank')" data-i18n="nav-tutorial">📚 Tutorial</button>
-      <button class="nav-btn secondary" onclick="window.open('video.html', '_blank')" data-i18n="nav-video">🎥 Vídeo</button>
+    <h1>🚀 CAPTA LEADS v2.0</h1>
+    <nav>
+      <button class="nav-btn active" data-section="dashboard">📊 Dashboard</button>
+      <button class="nav-btn" data-section="leads">🎯 Buscar Leads</button>
+      <button class="nav-btn" data-section="campaigns">📧 Campanhas</button>
+      <button class="nav-btn" data-section="landing">🎨 Landing Pages</button>
+      <button class="nav-btn" data-section="chat">🤖 IA Chat</button>
+      <button class="nav-btn" data-section="settings">⚙️ Configurações</button>
+      <button class="nav-btn secondary" onclick="window.open('tutorial.html', '_blank')">📚 Tutorial</button>
+      <button class="nav-btn secondary" onclick="window.open('video.html', '_blank')">🎥 Vídeo</button>
     </nav>
   </header>
 
@@ -1164,22 +1153,6 @@
 
     refreshLeadsList();
     refreshSettings();
-  </script>
-  <script src="translations-console.js"></script>
-  <script>
-    // Change console language
-    function changeConsoleLanguage(lang) {
-      setConsoleLanguage(lang);
-      // Reload page to apply translations to dynamically generated content
-      location.reload();
-    }
-
-    // Initialize language when page loads
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        initConsoleLanguage();
-      }, 100);
-    });
   </script>
   <script src="chat-widget.js"></script>
 </body>
