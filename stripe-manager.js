@@ -34,8 +34,8 @@ class StripeManager {
           }
         ],
         mode: "payment",
-        success_url: "{success_url}",
-        cancel_url: "{cancel_url}",
+        success_url: "https://capta-leads.vercel.app/?payment=success&session_id={CHECKOUT_SESSION_ID}",
+        cancel_url: "https://capta-leads.vercel.app/landing.html",
         customer_email: email,
         metadata: {
           email: email,
