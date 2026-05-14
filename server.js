@@ -435,6 +435,8 @@ function serveStatic(res, filepath, contentType) {
 // Handler function compatible with both Vercel and local Node.js
 const requestHandler = async (req, res) => {
   try {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+
     // Enable CORS
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
@@ -446,6 +448,7 @@ const requestHandler = async (req, res) => {
     }
 
     const url = new URL(req.url, `http://${req.headers.host}`);
+    console.log(`[DEBUG] pathname: ${url.pathname}, __dirname: ${__dirname}`);
 
     // API routes
     if (url.pathname.startsWith("/api/")) {
@@ -454,7 +457,9 @@ const requestHandler = async (req, res) => {
 
     // Static files
     if (url.pathname === "/" || url.pathname === "/index.html") {
-      return serveStatic(res, path.join(__dirname, "console.html"), "text/html");
+      const filePath = path.join(__dirname, "console.html");
+      console.log(`[DEBUG] Serving console.html from ${filePath}`);
+      return serveStatic(res, filePath, "text/html");
     }
 
     if (url.pathname === "/tutorial.html") {
@@ -483,7 +488,7 @@ const requestHandler = async (req, res) => {
   } catch (error) {
     console.error("Server error:", error);
     res.writeHead(500, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ error: "Internal server error" }));
+    res.end(JSON.stringify({ error: error.message || "Internal server error" }));
   }
 };
 
