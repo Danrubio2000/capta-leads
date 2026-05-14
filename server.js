@@ -19,7 +19,13 @@ import Anthropic from "@anthropic-ai/sdk";
 
 dotenv.config();
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+let __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// On Vercel, resolve to the actual working directory
+if (process.env.VERCEL) {
+  __dirname = process.cwd();
+}
+
 const DATA_DIR = SERVER_CONFIG.DATA_DIR;
 const UPLOADS_DIR = SERVER_CONFIG.UPLOADS_DIR;
 const PORT = SERVER_CONFIG.PORT;
@@ -407,12 +413,18 @@ async function handleAPI(req, res, url, method) {
 
 function serveStatic(res, filepath, contentType) {
   try {
+    if (!fs.existsSync(filepath)) {
+      console.error(`Static file not found: ${filepath}`);
+      res.writeHead(404, { "Content-Type": "text/plain" });
+      return res.end("File not found");
+    }
     const content = fs.readFileSync(filepath, "utf8");
     res.writeHead(200, { "Content-Type": contentType });
     res.end(content);
   } catch (error) {
-    res.writeHead(404, { "Content-Type": "text/plain" });
-    res.end("File not found");
+    console.error(`Error serving static file ${filepath}:`, error.message);
+    res.writeHead(500, { "Content-Type": "text/plain" });
+    res.end("Internal server error");
   }
 }
 
