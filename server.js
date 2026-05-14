@@ -420,56 +420,69 @@ function serveStatic(res, filepath, contentType) {
 // SERVER
 // ═══════════════════════════════════════════════════════════════
 
-const server = http.createServer(async (req, res) => {
-  // Enable CORS
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+// Handler function compatible with both Vercel and local Node.js
+const requestHandler = async (req, res) => {
+  try {
+    // Enable CORS
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-  if (req.method === "OPTIONS") {
-    res.writeHead(200);
-    return res.end();
+    if (req.method === "OPTIONS") {
+      res.writeHead(200);
+      return res.end();
+    }
+
+    const url = new URL(req.url, `http://${req.headers.host}`);
+
+    // API routes
+    if (url.pathname.startsWith("/api/")) {
+      return await handleAPI(req, res, url, req.method);
+    }
+
+    // Static files
+    if (url.pathname === "/" || url.pathname === "/index.html") {
+      return serveStatic(res, path.join(__dirname, "console.html"), "text/html");
+    }
+
+    if (url.pathname === "/tutorial.html") {
+      return serveStatic(res, path.join(__dirname, "tutorial.html"), "text/html");
+    }
+
+    if (url.pathname === "/video.html") {
+      return serveStatic(res, path.join(__dirname, "video.html"), "text/html");
+    }
+
+    if (url.pathname === "/landing.html") {
+      return serveStatic(res, path.join(__dirname, "landing.html"), "text/html");
+    }
+
+    if (url.pathname === "/chat-widget.js") {
+      return serveStatic(res, path.join(__dirname, "chat-widget.js"), "application/javascript");
+    }
+
+    if (url.pathname === "/logo.png") {
+      return serveStatic(res, path.join(__dirname, "logo.png"), "image/png");
+    }
+
+    // 404
+    res.writeHead(404, { "Content-Type": "text/plain" });
+    res.end("Not Found");
+  } catch (error) {
+    console.error("Server error:", error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "Internal server error" }));
   }
+};
 
-  const url = new URL(req.url, `http://${req.headers.host}`);
+// Export for Vercel
+export default requestHandler;
 
-  // API routes
-  if (url.pathname.startsWith("/api/")) {
-    return await handleAPI(req, res, url, req.method);
-  }
-
-  // Static files
-  if (url.pathname === "/" || url.pathname === "/index.html") {
-    return serveStatic(res, path.join(__dirname, "console.html"), "text/html");
-  }
-
-  if (url.pathname === "/tutorial.html") {
-    return serveStatic(res, path.join(__dirname, "tutorial.html"), "text/html");
-  }
-
-  if (url.pathname === "/video.html") {
-    return serveStatic(res, path.join(__dirname, "video.html"), "text/html");
-  }
-
-  if (url.pathname === "/landing.html") {
-    return serveStatic(res, path.join(__dirname, "landing.html"), "text/html");
-  }
-
-  if (url.pathname === "/chat-widget.js") {
-    return serveStatic(res, path.join(__dirname, "chat-widget.js"), "application/javascript");
-  }
-
-  if (url.pathname === "/logo.png") {
-    return serveStatic(res, path.join(__dirname, "logo.png"), "image/png");
-  }
-
-  // 404
-  res.writeHead(404, { "Content-Type": "text/plain" });
-  res.end("Not Found");
-});
-
-server.listen(PORT, () => {
-  console.log(`
+// For local development
+if (process.env.NODE_ENV !== "production") {
+  const server = http.createServer(requestHandler);
+  server.listen(PORT, () => {
+    console.log(`
 ╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
 ║              🚀 CAPTA LEADS v2.0.0 Iniciado                  ║
@@ -480,5 +493,6 @@ server.listen(PORT, () => {
 ║  🎨 Landing Pages: /api/pages                                ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
-  `);
-});
+    `);
+  });
+}
