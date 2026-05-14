@@ -397,6 +397,10 @@
   </header>
 
   <div class="container">
+    <div id="test-mode-alert" style="display:none; background: #fff3cd; border: 2px solid #ffc107; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: bold; color: #856404;">
+      ⚠️ VOCÊ ESTÁ NO MODO TESTE - Acesso grátis e ilimitado para testar todas as funcionalidades
+    </div>
+
     <!-- Dashboard -->
     <section id="dashboard" class="active">
       <h2>📊 Dashboard</h2>
@@ -1130,6 +1134,18 @@
     document.getElementById("chat-input")?.addEventListener("keypress", (e) => {
       if (e.key === "Enter") sendMessage();
     });
+
+    // ═══════════════════════════════════════════════════════════════
+    // TEST MODE DETECTION
+    // ═══════════════════════════════════════════════════════════════
+
+    const params = new URLSearchParams(window.location.search);
+    const isTestMode = params.has('test') && params.get('test') === 'true';
+
+    if (isTestMode) {
+      document.getElementById('test-mode-alert').style.display = 'block';
+      localStorage.setItem('test_mode', 'true');
+    }
 
     // ═══════════════════════════════════════════════════════════════
     // INITIALIZATION

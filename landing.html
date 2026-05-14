@@ -245,16 +245,19 @@
     </div>
 
     <div class="pricing">
+      <div id="test-badge" style="display:none; background: #fff3cd; border: 2px solid #ffc107; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: bold; color: #856404;">
+        ⚠️ MODO TESTE - ACESSO GRÁTIS ILIMITADO
+      </div>
       <h2>Comece Hoje Mesmo</h2>
       <div class="price-label">Plano Único</div>
-      <div class="price">R$80</div>
-      <p style="font-size: 1.2em; margin-bottom: 20px;">por mês</p>
+      <div id="price-display" class="price">R$80</div>
+      <p id="price-period" style="font-size: 1.2em; margin-bottom: 20px;">por mês</p>
       <p>✓ Busca ilimitada de leads em múltiplas fontes</p>
       <p>✓ Campanhas de email em massa com personalização</p>
       <p>✓ Landing page builder sem código</p>
       <p>✓ Assistente IA Claude integrado</p>
       <p>✓ Dashboard com analytics completo</p>
-      <button class="cta-button" onclick="window.location.href='http://localhost:3000'">
+      <button id="cta-btn" class="cta-button" onclick="handleCTA()">
         🚀 Abrir Console Agora
       </button>
     </div>
@@ -264,5 +267,25 @@
     <p><strong>CAPTA LEADS v2.0</strong> | All-in-One Lead Generation Platform</p>
     <p>Email: danrubio_2000@yahoo.com | Site: https://artver.com.br</p>
   </footer>
+
+  <script>
+    // Detect test mode
+    const params = new URLSearchParams(window.location.search);
+    const isTestMode = params.has('test') && params.get('test') === 'true';
+
+    if (isTestMode) {
+      // Show test badge
+      document.getElementById('test-badge').style.display = 'block';
+      document.getElementById('price-display').textContent = 'GRÁTIS';
+      document.getElementById('price-period').textContent = 'Acesso ilimitado';
+      document.getElementById('cta-btn').textContent = '✨ Acessar Teste Grátis';
+      localStorage.setItem('test_mode', 'true');
+    }
+
+    function handleCTA() {
+      const consoleUrl = window.location.origin + '/?test=' + (isTestMode ? 'true' : 'false');
+      window.location.href = consoleUrl;
+    }
+  </script>
 </body>
 </html>
