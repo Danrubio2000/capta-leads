@@ -28,32 +28,52 @@ const PORT = SERVER_CONFIG.PORT;
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 
-// Initialize modules
-const leadsHunter = new LeadsHunter({
-  hunterKey: process.env.HUNTER_API_KEY,
-  clearbitKey: process.env.CLEARBIT_API_KEY
-});
+// Initialize modules with error handling
+let leadsHunter, emailSender, landingBuilder, claude, stripeManager;
 
-const emailSender = new EmailSender({
-  resendKey: process.env.RESEND_API_KEY,
-  fromEmail: process.env.FROM_EMAIL || "noreply@captaleads.com",
-  fromName: process.env.FROM_NAME || "CAPTA Leads"
-});
+try {
+  leadsHunter = new LeadsHunter({
+    hunterKey: process.env.HUNTER_API_KEY,
+    clearbitKey: process.env.CLEARBIT_API_KEY
+  });
+} catch (e) {
+  console.error("Failed to initialize LeadsHunter:", e.message);
+}
 
-const landingBuilder = new LandingPageBuilder({
-  industry: process.env.DEFAULT_INDUSTRY || "generic"
-});
+try {
+  emailSender = new EmailSender({
+    resendKey: process.env.RESEND_API_KEY,
+    fromEmail: process.env.FROM_EMAIL || "noreply@captaleads.com",
+    fromName: process.env.FROM_NAME || "CAPTA Leads"
+  });
+} catch (e) {
+  console.error("Failed to initialize EmailSender:", e.message);
+}
 
-// Initialize Claude API
-const claude = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY || "sk-ant-test"
-});
+try {
+  landingBuilder = new LandingPageBuilder({
+    industry: process.env.DEFAULT_INDUSTRY || "generic"
+  });
+} catch (e) {
+  console.error("Failed to initialize LandingPageBuilder:", e.message);
+}
 
-// Initialize Stripe Manager
-const stripeManager = new StripeManager(
-  process.env.STRIPE_SECRET_KEY,
-  process.env.STRIPE_WEBHOOK_SECRET
-);
+try {
+  claude = new Anthropic({
+    apiKey: process.env.ANTHROPIC_API_KEY || "sk-ant-test"
+  });
+} catch (e) {
+  console.error("Failed to initialize Claude API:", e.message);
+}
+
+try {
+  stripeManager = new StripeManager(
+    process.env.STRIPE_SECRET_KEY,
+    process.env.STRIPE_WEBHOOK_SECRET
+  );
+} catch (e) {
+  console.error("Failed to initialize StripeManager:", e.message);
+}
 
 // ═══════════════════════════════════════════════════════════════
 // UTILITIES
