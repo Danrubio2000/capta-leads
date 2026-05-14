@@ -479,21 +479,21 @@
   </style>
 </head>
 <body>
-  <!-- Splash Screen / Welcome -->
-  <div id="splash-overlay" class="splash-overlay">
+  <!-- MAIN HOME SCREEN / Console Principal -->
+  <div id="home-screen" class="splash-overlay" style="display: flex;">
     <div class="splash-content">
       <h1>🚀 CAPTA LEADS</h1>
-      <p>Plataforma completa de geração e gerenciamento de leads com IA</p>
+      <p style="font-size: 1.3em; margin-bottom: 30px;">Bem-vindo! Gerencie seus projetos de leads com inteligência artificial</p>
       <div class="splash-buttons">
-        <button class="splash-btn" id="splash-new-project">
+        <button class="splash-btn" id="home-new-project">
           <span>➕</span>
           Novo Projeto
         </button>
-        <button class="splash-btn" id="splash-projects">
+        <button class="splash-btn" id="home-projects">
           <span>📁</span>
-          Projetos
+          Meus Projetos
         </button>
-        <button class="splash-btn" id="splash-tutorial">
+        <button class="splash-btn" id="home-tutorial">
           <span>📚</span>
           Tutorial
         </button>
@@ -504,13 +504,11 @@
   <!-- Header -->
   <header>
     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 15px;">
-      <h1>🚀 CAPTA LEADS v2.0</h1>
+      <h1 id="current-project-name">🚀 CAPTA LEADS</h1>
       <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <select id="project-selector" style="background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-family: 'Times New Roman', Times, serif; font-size: 0.95em;">
-            <option value="">📁 Selecionar Projeto</option>
-          </select>
-          <button id="new-project-btn" style="background: rgba(255,255,255,0.3); border: 1px solid white; color: white; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-family: 'Times New Roman', Times, serif; font-size: 0.95em; transition: all 0.3s;" data-i18n="btn-new-project">➕ Novo</button>
+          <button id="back-to-home-btn" style="background: rgba(255,255,255,0.3); border: 1px solid white; color: white; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-family: 'Times New Roman', Times, serif; font-size: 0.95em; transition: all 0.3s; display: none;" data-i18n="btn-back-to-home">📁 Meus Projetos</button>
+          <button id="new-project-btn" style="background: rgba(255,255,255,0.3); border: 1px solid white; color: white; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-family: 'Times New Roman', Times, serif; font-size: 0.95em; transition: all 0.3s; display: none;" data-i18n="btn-new-project">➕ Novo</button>
         </div>
         <select id="language-selector" style="background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: 'Times New Roman', Times, serif; font-size: 1em;">
           <option value="pt" selected>🇧🇷 Português</option>
@@ -901,32 +899,69 @@
       : `${window.location.protocol}//${window.location.host}/api`;
 
     // ═══════════════════════════════════════════════════════════════
-    // SPLASH SCREEN / WELCOME
+    // HOME SCREEN / CONSOLE PRINCIPAL
     // ═══════════════════════════════════════════════════════════════
 
-    function hideSplashScreen() {
-      const splash = document.getElementById('splash-overlay');
-      splash.classList.add('hidden');
+    let projectSelected = false;
+
+    function showHomeScreen() {
+      const home = document.getElementById('home-screen');
+      const header = document.querySelector('header');
+      const container = document.querySelector('.container');
+
+      home.style.display = 'flex';
+      header.style.display = 'none';
+      container.style.display = 'none';
+      projectSelected = false;
     }
 
-    // Splash screen button handlers
-    document.getElementById('splash-new-project').addEventListener('click', () => {
-      hideSplashScreen();
+    function hideHomeScreen() {
+      const home = document.getElementById('home-screen');
+      const header = document.querySelector('header');
+      const container = document.querySelector('.container');
+
+      home.style.display = 'none';
+      header.style.display = 'block';
+      container.style.display = 'block';
+      document.getElementById('back-to-home-btn').style.display = 'inline-block';
+      document.getElementById('new-project-btn').style.display = 'inline-block';
+      projectSelected = true;
+    }
+
+    // Home screen button handlers
+    document.getElementById('home-new-project').addEventListener('click', () => {
+      hideHomeScreen();
       setTimeout(() => {
-        document.getElementById('new-project-btn').click();
-      }, 500);
+        // Trigger new project modal
+        const modal = document.getElementById('new-project-modal');
+        if (modal) {
+          modal.style.display = 'flex';
+        } else {
+          // Fallback: create new project
+          const projectName = prompt('Nome do novo projeto:');
+          if (projectName) {
+            createNewProject(projectName);
+            hideHomeScreen();
+          }
+        }
+      }, 300);
     });
 
-    document.getElementById('splash-projects').addEventListener('click', () => {
-      hideSplashScreen();
+    document.getElementById('home-projects').addEventListener('click', () => {
+      hideHomeScreen();
       setTimeout(() => {
         const dashboardBtn = document.querySelector('[data-section="dashboard"]');
-        dashboardBtn.click();
-      }, 500);
+        if (dashboardBtn) dashboardBtn.click();
+      }, 300);
     });
 
-    document.getElementById('splash-tutorial').addEventListener('click', () => {
+    document.getElementById('home-tutorial').addEventListener('click', () => {
       window.open('tutorial.html', '_blank');
+    });
+
+    // Back to home button
+    document.getElementById('back-to-home-btn').addEventListener('click', () => {
+      showHomeScreen();
     });
 
     // ═══════════════════════════════════════════════════════════════
@@ -1754,6 +1789,9 @@
     initializeProjects();
     refreshLeadsList();
     refreshSettings();
+
+    // Show home screen on initial load
+    showHomeScreen();
   </script>
   <script src="chat-widget.js"></script>
 </body>
