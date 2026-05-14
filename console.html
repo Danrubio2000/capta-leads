@@ -421,6 +421,22 @@
     <section id="dashboard" class="active">
       <h2 data-i18n="section-dashboard">📊 Dashboard</h2>
 
+      <!-- Projects Card -->
+      <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; border-left: 4px solid #667eea; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+          <div>
+            <h3 style="color: #667eea; margin-bottom: 8px; font-weight: bold;">📁 Projeto Ativo</h3>
+            <p id="current-project-name" style="font-size: 1.1em; font-weight: bold; color: #333;">Carregando...</p>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button onclick="openNewProjectModal()" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s;">➕ Novo Projeto</button>
+            <select id="project-selector-dashboard" style="padding: 10px 15px; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; font-family: 'Times New Roman', Times, serif; font-size: 1em;">
+              <option value="">📁 Trocar Projeto</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
       <div class="stats">
         <div class="stat">
           <div class="stat-label" data-i18n="stat-leads-label">Leads Encontrados</div>
@@ -738,15 +754,26 @@
 
     function updateProjectSelector() {
       const selector = document.getElementById('project-selector');
+      const dashboardSelector = document.getElementById('project-selector-dashboard');
       const projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
+      const currentProjectObj = projects.find(p => p.id === currentProject);
 
-      selector.innerHTML = '<option value="">📁 Selecionar Projeto</option>';
-      projects.forEach(proj => {
-        const option = document.createElement('option');
-        option.value = proj.id;
-        option.textContent = proj.name;
-        if (proj.id === currentProject) option.selected = true;
-        selector.appendChild(option);
+      // Update current project name
+      if (currentProjectObj) {
+        document.getElementById('current-project-name').textContent = currentProjectObj.name;
+      }
+
+      // Update both selectors
+      [selector, dashboardSelector].forEach(sel => {
+        if (!sel) return;
+        sel.innerHTML = '<option value="">📁 Selecionar Projeto</option>';
+        projects.forEach(proj => {
+          const option = document.createElement('option');
+          option.value = proj.id;
+          option.textContent = proj.name;
+          if (proj.id === currentProject) option.selected = true;
+          sel.appendChild(option);
+        });
       });
     }
 
@@ -771,6 +798,10 @@
     }
 
     document.getElementById('project-selector')?.addEventListener('change', (e) => {
+      selectProject(e.target.value);
+    });
+
+    document.getElementById('project-selector-dashboard')?.addEventListener('change', (e) => {
       selectProject(e.target.value);
     });
 
