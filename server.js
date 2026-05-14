@@ -554,13 +554,18 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || SERVER_CONFIG?.PORT || 3000;
+// Initialize modules on startup
+await initializeModules();
 
-server.listen(PORT, async () => {
-  // Initialize modules asynchronously after server starts listening
-  await initializeModules();
+// Export for Vercel Serverless
+export default server;
 
-  console.log(`
+// Start server locally if not in Vercel
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || SERVER_CONFIG?.PORT || 3000;
+
+  server.listen(PORT, () => {
+    console.log(`
 ╔═══════════════════════════════════════════════════════════════╗
 ║                                                               ║
 ║              🚀 CAPTA LEADS v2.0.0 Iniciado                  ║
@@ -571,5 +576,6 @@ server.listen(PORT, async () => {
 ║  🎨 Landing Pages: /api/pages                                ║
 ║                                                               ║
 ╚═══════════════════════════════════════════════════════════════╝
-  `);
-});
+    `);
+  });
+}
