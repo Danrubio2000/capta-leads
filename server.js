@@ -184,15 +184,16 @@ async function handleAPI(req, res, url, method) {
 
   // 🎯 LEADS HUNTING
   if (endpoint === "leads") {
-    if (action === "search" && method === "POST" && leadsHunter) {
+    if (action === "search" && method === "POST") {
       const body = await parseBody(req);
       try {
-        const leads = await leadsHunter.searchLeads(
-          body.keywords,
-          body.location || "International",
-          body.type || "business"
-        );
-        return json(res, { success: true, leads });
+        const businessType = body.businessType || "Dentista";
+        const location = body.location || "São Paulo";
+        const keywords = body.keywords || "";
+        const type = body.type || "business";
+
+        const leads = await leadsHunter.searchLeads(keywords, location, type, businessType);
+        return json(res, { success: true, leads, total: leads.length });
       } catch (error) {
         return json(res, { error: error.message }, 400);
       }

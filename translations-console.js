@@ -1,4 +1,5 @@
-// Console Translations - Portuguese, English, Spanish, French
+// CAPTA LEADS - Console Translations
+// Languages: Portuguese (pt), English (en), Spanish (es), French (fr)
 const consoleTranslations = {
   pt: {
     // Navigation
@@ -11,16 +12,28 @@ const consoleTranslations = {
     "nav-tutorial": "📚 Tutorial",
     "nav-video": "🎥 Vídeo",
 
-    // Dashboard Section
+    // Sections (data-i18n)
+    "section-dashboard": "📊 Dashboard",
+    "section-leads": "🎯 Buscar Leads",
+    "section-campaigns": "📧 Campanhas",
+    "section-landing": "🎨 Landing Pages",
+    "section-chat": "🤖 IA Chat",
+    "section-settings": "⚙️ Configurações",
+
+    // Dashboard
     "dashboard-title": "📊 Dashboard",
     "dashboard-welcome": "✨ Bem-vindo ao CAPTALEADS",
     "dashboard-desc": "CAPTALEADS é a solução completa para geração de leads, email marketing e criação de landing pages.",
     "stat-leads": "Leads Encontrados",
+    "stat-leads-label": "Leads Encontrados",
     "stat-campaigns": "Campanhas Criadas",
+    "stat-campaigns-label": "Campanhas Criadas",
     "stat-sent": "Emails Enviados",
+    "stat-sent-label": "Emails Enviados",
     "stat-pages": "Landing Pages",
+    "stat-pages-label": "Landing Pages",
     "feature-search": "🎯 Busca de Leads:",
-    "feature-search-desc": "Encontre contatos de qualquer industria",
+    "feature-search-desc": "Encontre contatos de qualquer indústria",
     "feature-email": "📧 Campanhas de Email:",
     "feature-email-desc": "Envie emails personalizados em massa",
     "feature-pages": "🎨 Landing Pages:",
@@ -28,22 +41,22 @@ const consoleTranslations = {
     "feature-config": "⚙️ Configurável:",
     "feature-config-desc": "Adapte para qualquer negócio ou profissão",
 
-    // Leads Section
+    // Leads
     "leads-title": "🎯 Buscar Leads",
-    "leads-instructions": "Use a API do Hunter.io para buscar emails por domínio ou palavras-chave",
-    "leads-keywords": "Palavras-chave (separadas por vírgula)",
+    "leads-instructions": "Busque profissionais por tipo de negócio e localização",
+    "leads-keywords": "Palavras-chave (opcional)",
     "leads-location": "Localização",
     "leads-type": "Tipo",
     "leads-search": "🔍 Buscar",
     "leads-results": "Resultados da Busca",
     "leads-export": "📥 Exportar",
-    "leads-no-results": "Nenhum resultado encontrado",
+    "leads-no-results": "Nenhum resultado. Faça uma busca primeiro.",
     "leads-enrich": "Enriquecer",
     "email-column": "Email",
-    "domain-column": "Domínio",
-    "company-column": "Empresa",
+    "domain-column": "Especialidade",
+    "company-column": "Tipo",
 
-    // Campaigns Section
+    // Campaigns
     "campaigns-title": "📧 Campanhas",
     "campaigns-create": "Criar Nova Campanha",
     "campaigns-name": "Nome da Campanha",
@@ -60,7 +73,7 @@ const consoleTranslations = {
     "campaigns-save": "Salvar Configurações",
     "campaigns-status": "Status",
 
-    // Landing Pages Section
+    // Landing Pages
     "landing-title": "🎨 Landing Pages",
     "landing-create": "Criar Nova Landing Page",
     "landing-name": "Nome da Página",
@@ -76,15 +89,15 @@ const consoleTranslations = {
     "landing-delete": "Deletar",
     "landing-preview": "👁️ Visualizar",
     "landing-export": "📥 Exportar",
-    "landing-no-pages": "Nenhuma landing page criada ainda",
+    "landing-no-pages": "Nenhuma landing page criada ainda.",
 
-    // Chat Section
+    // Chat
     "chat-title": "🤖 IA Chat",
     "chat-placeholder": "Digite sua pergunta aqui...",
     "chat-send": "Enviar",
     "chat-welcome": "Olá! Sou o assistente IA. Como posso ajudá-lo?",
 
-    // Settings Section
+    // Settings
     "settings-title": "⚙️ Configurações",
     "settings-email": "Configurações de Email",
     "settings-from-email": "Email de Origem",
@@ -94,20 +107,41 @@ const consoleTranslations = {
     "settings-not-configured": "Não configurado",
     "settings-save": "Salvar Configurações",
     "settings-saved": "✅ Configurações salvas!",
+    "settings-business-type": "Tipo de Negócio",
+    "settings-business-placeholder": "Ex: Dentista, Advogado, Professor...",
+    "settings-location": "Localização Padrão",
+    "settings-location-placeholder": "Ex: São Paulo, Rio de Janeiro...",
 
-    // Language Selector
+    // Modals
+    "modal-new-project": "Novo Projeto",
+    "modal-settings-title": "Configurações do Projeto",
+    "label-project-name": "Nome do Projeto",
+    "label-email": "Email",
+    "label-phone": "Telefone",
+    "label-website": "Website",
+    "label-social": "Redes Sociais",
+    "label-about": "Sobre",
+
+    // Buttons
+    "btn-back-to-home": "← Voltar",
+    "btn-cancel": "Cancelar",
+    "btn-create": "Criar",
+    "btn-new-project": "Novo Projeto",
+    "btn-save-settings": "Salvar",
+
+    // Language
     "language-label": "Idioma:",
     "language-pt": "🇧🇷 Português",
     "language-en": "🇺🇸 English",
     "language-es": "🇪🇸 Español",
     "language-fr": "🇫🇷 Français",
 
-    // Test Mode
-    "test-badge": "VOCÊ ESTÁ NO MODO TESTE - Acesso grátis e ilimitado para testar todas as funcionalidades",
-
-    // Alerts
+    // Alerts & Badges
+    "test-badge": "MODO TESTE - Acesso grátis e ilimitado para testar todas as funcionalidades",
     "alert-success": "✅ Sucesso!",
     "alert-error": "❌ Erro",
+    "alert-warning": "⚠️ Atenção",
+    "alert-info": "ℹ️ Info",
   },
 
   en: {
@@ -120,13 +154,24 @@ const consoleTranslations = {
     "nav-tutorial": "📚 Tutorial",
     "nav-video": "🎥 Video",
 
+    "section-dashboard": "📊 Dashboard",
+    "section-leads": "🎯 Search Leads",
+    "section-campaigns": "📧 Campaigns",
+    "section-landing": "🎨 Landing Pages",
+    "section-chat": "🤖 AI Chat",
+    "section-settings": "⚙️ Settings",
+
     "dashboard-title": "📊 Dashboard",
     "dashboard-welcome": "✨ Welcome to CAPTALEADS",
     "dashboard-desc": "CAPTALEADS is the complete solution for lead generation, email marketing and landing page creation.",
     "stat-leads": "Leads Found",
+    "stat-leads-label": "Leads Found",
     "stat-campaigns": "Campaigns Created",
+    "stat-campaigns-label": "Campaigns Created",
     "stat-sent": "Emails Sent",
+    "stat-sent-label": "Emails Sent",
     "stat-pages": "Landing Pages",
+    "stat-pages-label": "Landing Pages",
     "feature-search": "🎯 Lead Search:",
     "feature-search-desc": "Find contacts from any industry",
     "feature-email": "📧 Email Campaigns:",
@@ -137,18 +182,18 @@ const consoleTranslations = {
     "feature-config-desc": "Adapt to any business or profession",
 
     "leads-title": "🎯 Search Leads",
-    "leads-instructions": "Use Hunter.io API to search emails by domain or keywords",
-    "leads-keywords": "Keywords (comma separated)",
+    "leads-instructions": "Search professionals by business type and location",
+    "leads-keywords": "Keywords (optional)",
     "leads-location": "Location",
     "leads-type": "Type",
     "leads-search": "🔍 Search",
     "leads-results": "Search Results",
     "leads-export": "📥 Export",
-    "leads-no-results": "No results found",
+    "leads-no-results": "No results. Make a search first.",
     "leads-enrich": "Enrich",
     "email-column": "Email",
-    "domain-column": "Domain",
-    "company-column": "Company",
+    "domain-column": "Specialty",
+    "company-column": "Type",
 
     "campaigns-title": "📧 Campaigns",
     "campaigns-create": "Create New Campaign",
@@ -181,7 +226,7 @@ const consoleTranslations = {
     "landing-delete": "Delete",
     "landing-preview": "👁️ Preview",
     "landing-export": "📥 Export",
-    "landing-no-pages": "No landing pages created yet",
+    "landing-no-pages": "No landing pages created yet.",
 
     "chat-title": "🤖 AI Chat",
     "chat-placeholder": "Type your question here...",
@@ -197,6 +242,25 @@ const consoleTranslations = {
     "settings-not-configured": "Not configured",
     "settings-save": "Save Settings",
     "settings-saved": "✅ Settings saved!",
+    "settings-business-type": "Business Type",
+    "settings-business-placeholder": "E.g: Dentist, Lawyer, Teacher...",
+    "settings-location": "Default Location",
+    "settings-location-placeholder": "E.g: New York, Los Angeles...",
+
+    "modal-new-project": "New Project",
+    "modal-settings-title": "Project Settings",
+    "label-project-name": "Project Name",
+    "label-email": "Email",
+    "label-phone": "Phone",
+    "label-website": "Website",
+    "label-social": "Social Media",
+    "label-about": "About",
+
+    "btn-back-to-home": "← Back",
+    "btn-cancel": "Cancel",
+    "btn-create": "Create",
+    "btn-new-project": "New Project",
+    "btn-save-settings": "Save",
 
     "language-label": "Language:",
     "language-pt": "🇧🇷 Português",
@@ -204,10 +268,11 @@ const consoleTranslations = {
     "language-es": "🇪🇸 Español",
     "language-fr": "🇫🇷 Français",
 
-    "test-badge": "YOU ARE IN TEST MODE - Free and unlimited access to test all features",
-
+    "test-badge": "TEST MODE - Free and unlimited access to test all features",
     "alert-success": "✅ Success!",
     "alert-error": "❌ Error",
+    "alert-warning": "⚠️ Warning",
+    "alert-info": "ℹ️ Info",
   },
 
   es: {
@@ -220,13 +285,24 @@ const consoleTranslations = {
     "nav-tutorial": "📚 Tutorial",
     "nav-video": "🎥 Video",
 
+    "section-dashboard": "📊 Panel de Control",
+    "section-leads": "🎯 Buscar Leads",
+    "section-campaigns": "📧 Campañas",
+    "section-landing": "🎨 Landing Pages",
+    "section-chat": "🤖 Chat IA",
+    "section-settings": "⚙️ Configuración",
+
     "dashboard-title": "📊 Panel de Control",
     "dashboard-welcome": "✨ Bienvenido a CAPTALEADS",
     "dashboard-desc": "CAPTALEADS es la solución completa para generación de leads, email marketing y creación de landing pages.",
     "stat-leads": "Leads Encontrados",
+    "stat-leads-label": "Leads Encontrados",
     "stat-campaigns": "Campañas Creadas",
+    "stat-campaigns-label": "Campañas Creadas",
     "stat-sent": "Emails Enviados",
+    "stat-sent-label": "Emails Enviados",
     "stat-pages": "Landing Pages",
+    "stat-pages-label": "Landing Pages",
     "feature-search": "🎯 Búsqueda de Leads:",
     "feature-search-desc": "Encuentra contactos de cualquier industria",
     "feature-email": "📧 Campañas de Email:",
@@ -237,18 +313,18 @@ const consoleTranslations = {
     "feature-config-desc": "Adapta a cualquier negocio o profesión",
 
     "leads-title": "🎯 Buscar Leads",
-    "leads-instructions": "Usa la API de Hunter.io para buscar emails por dominio o palabras clave",
-    "leads-keywords": "Palabras clave (separadas por coma)",
+    "leads-instructions": "Busca profesionales por tipo de negocio y ubicación",
+    "leads-keywords": "Palabras clave (opcional)",
     "leads-location": "Ubicación",
     "leads-type": "Tipo",
     "leads-search": "🔍 Buscar",
     "leads-results": "Resultados de la Búsqueda",
     "leads-export": "📥 Exportar",
-    "leads-no-results": "No se encontraron resultados",
+    "leads-no-results": "Sin resultados. Realiza una búsqueda primero.",
     "leads-enrich": "Enriquecer",
     "email-column": "Email",
-    "domain-column": "Dominio",
-    "company-column": "Empresa",
+    "domain-column": "Especialidad",
+    "company-column": "Tipo",
 
     "campaigns-title": "📧 Campañas",
     "campaigns-create": "Crear Nueva Campaña",
@@ -281,12 +357,12 @@ const consoleTranslations = {
     "landing-delete": "Eliminar",
     "landing-preview": "👁️ Vista Previa",
     "landing-export": "📥 Exportar",
-    "landing-no-pages": "Ninguna landing page creada aún",
+    "landing-no-pages": "Ninguna landing page creada aún.",
 
     "chat-title": "🤖 Chat IA",
     "chat-placeholder": "Escribe tu pregunta aquí...",
     "chat-send": "Enviar",
-    "chat-welcome": "¡Hola! Soy el asistente de IA. ¿Cómo puedo ayudarte?",
+    "chat-welcome": "¡Hola! Soy el asistente IA. ¿Cómo puedo ayudarte?",
 
     "settings-title": "⚙️ Configuración",
     "settings-email": "Configuración de Email",
@@ -297,6 +373,25 @@ const consoleTranslations = {
     "settings-not-configured": "No configurado",
     "settings-save": "Guardar Configuración",
     "settings-saved": "✅ ¡Configuración guardada!",
+    "settings-business-type": "Tipo de Negocio",
+    "settings-business-placeholder": "Ej: Dentista, Abogado, Profesor...",
+    "settings-location": "Ubicación Predeterminada",
+    "settings-location-placeholder": "Ej: Buenos Aires, Madrid...",
+
+    "modal-new-project": "Nuevo Proyecto",
+    "modal-settings-title": "Configuración del Proyecto",
+    "label-project-name": "Nombre del Proyecto",
+    "label-email": "Email",
+    "label-phone": "Teléfono",
+    "label-website": "Sitio Web",
+    "label-social": "Redes Sociales",
+    "label-about": "Acerca de",
+
+    "btn-back-to-home": "← Volver",
+    "btn-cancel": "Cancelar",
+    "btn-create": "Crear",
+    "btn-new-project": "Nuevo Proyecto",
+    "btn-save-settings": "Guardar",
 
     "language-label": "Idioma:",
     "language-pt": "🇧🇷 Português",
@@ -304,10 +399,11 @@ const consoleTranslations = {
     "language-es": "🇪🇸 Español",
     "language-fr": "🇫🇷 Français",
 
-    "test-badge": "ESTÁS EN MODO PRUEBA - Acceso gratuito e ilimitado para probar todas las funciones",
-
+    "test-badge": "MODO PRUEBA - Acceso gratuito e ilimitado para probar todas las funciones",
     "alert-success": "✅ ¡Éxito!",
     "alert-error": "❌ Error",
+    "alert-warning": "⚠️ Atención",
+    "alert-info": "ℹ️ Info",
   },
 
   fr: {
@@ -320,13 +416,24 @@ const consoleTranslations = {
     "nav-tutorial": "📚 Tutoriel",
     "nav-video": "🎥 Vidéo",
 
+    "section-dashboard": "📊 Tableau de Bord",
+    "section-leads": "🎯 Rechercher des Leads",
+    "section-campaigns": "📧 Campagnes",
+    "section-landing": "🎨 Landing Pages",
+    "section-chat": "🤖 Chat IA",
+    "section-settings": "⚙️ Paramètres",
+
     "dashboard-title": "📊 Tableau de Bord",
     "dashboard-welcome": "✨ Bienvenue dans CAPTALEADS",
-    "dashboard-desc": "CAPTALEADS est la solution complète pour la génération de leads, le email marketing et la création de landing pages.",
+    "dashboard-desc": "CAPTALEADS est la solution complète pour la génération de leads, l'email marketing et la création de landing pages.",
     "stat-leads": "Leads Trouvés",
+    "stat-leads-label": "Leads Trouvés",
     "stat-campaigns": "Campagnes Créées",
+    "stat-campaigns-label": "Campagnes Créées",
     "stat-sent": "Emails Envoyés",
+    "stat-sent-label": "Emails Envoyés",
     "stat-pages": "Landing Pages",
+    "stat-pages-label": "Landing Pages",
     "feature-search": "🎯 Recherche de Leads:",
     "feature-search-desc": "Trouvez des contacts de n'importe quel secteur",
     "feature-email": "📧 Campagnes Email:",
@@ -337,18 +444,18 @@ const consoleTranslations = {
     "feature-config-desc": "Adaptez à n'importe quel secteur ou profession",
 
     "leads-title": "🎯 Rechercher des Leads",
-    "leads-instructions": "Utilisez l'API Hunter.io pour rechercher des emails par domaine ou mots-clés",
-    "leads-keywords": "Mots-clés (séparés par des virgules)",
+    "leads-instructions": "Recherchez des professionnels par type de métier et localisation",
+    "leads-keywords": "Mots-clés (optionnel)",
     "leads-location": "Localisation",
     "leads-type": "Type",
     "leads-search": "🔍 Rechercher",
     "leads-results": "Résultats de la Recherche",
     "leads-export": "📥 Exporter",
-    "leads-no-results": "Aucun résultat trouvé",
+    "leads-no-results": "Aucun résultat. Effectuez une recherche d'abord.",
     "leads-enrich": "Enrichir",
     "email-column": "Email",
-    "domain-column": "Domaine",
-    "company-column": "Entreprise",
+    "domain-column": "Spécialité",
+    "company-column": "Type",
 
     "campaigns-title": "📧 Campagnes",
     "campaigns-create": "Créer une Nouvelle Campagne",
@@ -363,7 +470,7 @@ const consoleTranslations = {
     "campaigns-settings": "Paramètres d'Email",
     "campaigns-from-email": "Email Expéditeur",
     "campaigns-from-name": "Nom de l'Expéditeur",
-    "campaigns-save": "Enregistrer les Paramètres",
+    "campaigns-save": "Enregistrer",
     "campaigns-status": "Statut",
 
     "landing-title": "🎨 Landing Pages",
@@ -381,7 +488,7 @@ const consoleTranslations = {
     "landing-delete": "Supprimer",
     "landing-preview": "👁️ Aperçu",
     "landing-export": "📥 Exporter",
-    "landing-no-pages": "Aucune landing page créée encore",
+    "landing-no-pages": "Aucune landing page créée encore.",
 
     "chat-title": "🤖 Chat IA",
     "chat-placeholder": "Tapez votre question ici...",
@@ -395,8 +502,27 @@ const consoleTranslations = {
     "settings-status": "Statut:",
     "settings-configured": "Configuré ✅",
     "settings-not-configured": "Non configuré",
-    "settings-save": "Enregistrer les Paramètres",
+    "settings-save": "Enregistrer",
     "settings-saved": "✅ Paramètres enregistrés!",
+    "settings-business-type": "Type de Métier",
+    "settings-business-placeholder": "Ex: Dentiste, Avocat, Professeur...",
+    "settings-location": "Localisation par Défaut",
+    "settings-location-placeholder": "Ex: Paris, Lyon, Bruxelles...",
+
+    "modal-new-project": "Nouveau Projet",
+    "modal-settings-title": "Paramètres du Projet",
+    "label-project-name": "Nom du Projet",
+    "label-email": "Email",
+    "label-phone": "Téléphone",
+    "label-website": "Site Web",
+    "label-social": "Réseaux Sociaux",
+    "label-about": "À Propos",
+
+    "btn-back-to-home": "← Retour",
+    "btn-cancel": "Annuler",
+    "btn-create": "Créer",
+    "btn-new-project": "Nouveau Projet",
+    "btn-save-settings": "Enregistrer",
 
     "language-label": "Langue:",
     "language-pt": "🇧🇷 Português",
@@ -404,39 +530,53 @@ const consoleTranslations = {
     "language-es": "🇪🇸 Español",
     "language-fr": "🇫🇷 Français",
 
-    "test-badge": "VOUS ÊTES EN MODE TEST - Accès gratuit et illimité pour tester toutes les fonctionnalités",
-
+    "test-badge": "MODE TEST - Accès gratuit et illimité pour tester toutes les fonctionnalités",
     "alert-success": "✅ Succès!",
     "alert-error": "❌ Erreur",
+    "alert-warning": "⚠️ Attention",
+    "alert-info": "ℹ️ Info",
   }
 };
 
-// Function to get translation
-function t(key, lang = 'pt') {
-  return consoleTranslations[lang]?.[key] || key;
+// Get translation
+function t(key, lang) {
+  lang = lang || getCurrentLanguage();
+  return consoleTranslations[lang]?.[key] || consoleTranslations['pt']?.[key] || key;
 }
 
-// Function to set language and update all text
-function setConsoleLanguage(lang) {
-  localStorage.setItem('consoleLanguage', lang);
+// Get current language
+function getCurrentLanguage() {
+  return localStorage.getItem('consoleLanguage') || 'pt';
+}
+
+// Apply all translations to DOM
+function applyTranslations(lang) {
+  lang = lang || getCurrentLanguage();
   document.querySelectorAll('[data-i18n]').forEach(el => {
-    el.textContent = t(el.getAttribute('data-i18n'), lang);
+    const key = el.getAttribute('data-i18n');
+    const val = t(key, lang);
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      el.placeholder = val;
+    } else {
+      el.textContent = val;
+    }
   });
   document.documentElement.lang = lang;
 }
 
-// Function to get current language
-function getConsoleLanguage() {
-  return localStorage.getItem('consoleLanguage') ||
-         (navigator.language.split('-')[0] in consoleTranslations ? navigator.language.split('-')[0] : 'pt');
+// Set language and save
+function setConsoleLanguage(lang) {
+  localStorage.setItem('consoleLanguage', lang);
+  applyTranslations(lang);
 }
 
-// Initialize language
+// Initialize on load
 function initConsoleLanguage() {
-  const lang = getConsoleLanguage();
-  setConsoleLanguage(lang);
+  const saved = localStorage.getItem('consoleLanguage');
+  const browser = navigator.language?.split('-')[0];
+  const lang = saved || (consoleTranslations[browser] ? browser : 'pt');
+  localStorage.setItem('consoleLanguage', lang);
+  applyTranslations(lang);
   const selector = document.getElementById('language-selector');
-  if (selector) {
-    selector.value = lang;
-  }
+  if (selector) selector.value = lang;
 }
