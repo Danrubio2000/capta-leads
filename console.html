@@ -2032,7 +2032,7 @@
 
     if (isTestMode) {
       document.getElementById('test-mode-alert').style.display = 'block';
-      await autoSaveData('test_mode', 'true');
+      autoSaveData('test_mode', 'true').catch(err => console.warn('Test mode save failed:', err));
     }
 
     // ═══════════════════════════════════════════════════════════════
