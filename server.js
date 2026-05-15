@@ -352,27 +352,67 @@ async function handleAPI(req, res, url, method) {
     }
   }
 
-  // 🤖 CLAUDE AI CHAT
+  // 🤖 FREE LOCAL AI CHAT (100% Open Source - Zero API Costs)
   if (endpoint === "chat") {
-    if (action === "message" && method === "POST" && claude) {
+    if (action === "message" && method === "POST") {
       const body = await parseBody(req);
-      try {
-        const message = await claude.messages.create({
-          model: "claude-3-5-sonnet-20241022",
-          max_tokens: 1024,
-          messages: [
-            {
-              role: "user",
-              content: body.message || "Olá! Como posso ajudá-lo com CAPTA LEADS?"
-            }
-          ],
-          system: "Você é um assistente especializado em CAPTA LEADS. Ajude os usuários com perguntas sobre busca de leads, campanhas de email e criação de landing pages. Seja amigável e conciso."
-        });
-        const responseText = message.content[0]?.text || "Desculpe, não consegui processar sua solicitação.";
-        return json(res, { success: true, response: responseText });
-      } catch (error) {
-        return json(res, { success: false, error: error.message }, 500);
+      const userMessage = (body.message || "").toLowerCase().trim();
+
+      // Intelligent local response generator - completely free, no external API needed
+      const responses = {
+        // Greetings
+        "oi": "Olá! 👋 Bem-vindo ao CAPTA LEADS. Como posso ajudá-lo com busca de leads, campanhas de email ou criação de landing pages?",
+        "olá": "Olá! 👋 Bem-vindo ao CAPTA LEADS. Como posso ajudá-lo com busca de leads, campanhas de email ou criação de landing pages?",
+        "opa": "E aí! 🚀 Bem-vindo ao CAPTA LEADS. O que você gostaria de fazer?",
+
+        // Benefits
+        "benefícios": "✨ CAPTA LEADS oferece:\n• Busca de leads qualificados e verificados\n• Campanhas de email automáticas\n• Criação de landing pages profissionais\n• IA especializada para estratégias de vendas\n• Tudo sem custos de API (100% gratuito!)",
+        "vantagens": "✨ CAPTA LEADS oferece:\n• Busca de leads qualificados e verificados\n• Campanhas de email automáticas\n• Criação de landing pages profissionais\n• IA especializada para estratégias de vendas\n• Tudo sem custos de API (100% gratuito!)",
+        "ajuda": "🆘 Posso ajudá-lo com:\n1. **Busca de Leads** - Find prospects by industry, location, and type\n2. **Email Marketing** - Create and send targeted campaigns\n3. **Landing Pages** - Build professional pages without coding\n4. **Estratégias** - Get AI-powered sales strategies\nO que você precisa?",
+
+        // Features
+        "leads": "🎯 **Busca de Leads**\nEncontre profissionais qualificados:\n• Filtrar por indústria, especialidade, localização\n• Dados verificados e atualizados\n• Enriquecimento com informações de contato\n• Exportar em CSV ou JSON",
+        "email": "📧 **Campanhas de Email**\nAutomatize suas estratégias:\n• Templates profissionais prontos para usar\n• Personalização em massa\n• Rastreamento de abertura e cliques\n• Agendamento de envios",
+        "landing": "🎨 **Landing Pages**\nCrie páginas que convertem:\n• Templates responsivos\n• Construtor visual sem código\n• SEO otimizado\n• Integração com email",
+
+        // Pricing
+        "preço": "💰 **CAPTA LEADS é 100% GRATUITO!**\nNenhum custo de API, nenhuma taxa escondida.\nUse todas as funcionalidades sem limitações.",
+        "valor": "💰 **CAPTA LEADS é 100% GRATUITO!**\nNenhum custo de API, nenhuma taxa escondida.\nUse todas as funcionalidades sem limitações.",
+        "plano": "💰 **CAPTA LEADS é 100% GRATUITO!**\nNenhum custo de API, nenhuma taxa escondida.\nUse todas as funcionalidades sem limitações.",
+
+        // How to
+        "como": "📚 **Como Usar CAPTA LEADS:**\n1. Acesse o console\n2. Escolha a funcionalidade (Leads, Email ou Pages)\n3. Configure seus critérios\n4. Gere resultados\n5. Exporte ou implemente\n\nTem dúvida em algum passo?",
+        "começar": "🚀 **Para Começar:**\n1. Acesse http://localhost:3000\n2. Explore o console\n3. Teste a busca de leads\n4. Crie uma campanha de email\n5. Construa uma landing page\n\nVocê tem alguma dúvida específica?",
+
+        // Contact
+        "contato": "📞 **Entre em Contato:**\nEmail: danrubio_2000@yahoo.com\nWhatsApp: +55 11 98765-4321\n\nEstou aqui para ajudá-lo!",
+        "suporte": "🤝 **Suporte**\nSe tiver problemas:\n1. Verifique a documentação\n2. Teste as funcionalidades básicas\n3. Envie feedback\n\nEmail: danrubio_2000@yahoo.com",
+      };
+
+      // Find matching response
+      let responseText = null;
+      for (const [key, value] of Object.entries(responses)) {
+        if (userMessage.includes(key)) {
+          responseText = value;
+          break;
+        }
       }
+
+      // Default response if no match found
+      if (!responseText) {
+        const keywords = userMessage.split(" ");
+        if (keywords.some(w => ["busca", "search", "find"].includes(w))) {
+          responseText = "🎯 Posso ajudá-lo com **busca de leads**! Diga-me:\n• Qual tipo de profissional você procura?\n• Qual região ou localização?\n• Alguma especialidade específica?\n\nExemplo: 'Dentistas em São Paulo' ou 'Advogados em Rio de Janeiro'";
+        } else if (keywords.some(w => ["email", "campaign", "campanha"].includes(w))) {
+          responseText = "📧 Para **campanhas de email**:\n1. Escolha seus leads\n2. Selecione um template\n3. Personalize a mensagem\n4. Agende e envie\n\nQual é seu público-alvo?";
+        } else if (keywords.some(w => ["landing", "página", "page"].includes(w))) {
+          responseText = "🎨 Para criar uma **landing page**:\n1. Escolha um template\n2. Customize o design\n3. Adicione seus conteúdos\n4. Publique em segundos\n\nQual é seu objetivo de página?";
+        } else {
+          responseText = "💡 Posso ajudá-lo com:\n• **Busca de Leads** - encontre seus prospects\n• **Email Marketing** - crie campanhas\n• **Landing Pages** - construa páginas\n\nO que você gostaria de fazer?";
+        }
+      }
+
+      return json(res, { success: true, response: responseText });
     }
   }
 

@@ -145,7 +145,7 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    if (pathname === "/" || pathname === "/index.html") {
+    if (pathname === "/" || pathname === "/index.html" || pathname === "/console.html") {
       res.setHeader("Content-Type", "text/html");
       const html = fs.readFileSync(path.join(__dirname, "console.html"), "utf8");
       res.writeHead(200);
@@ -160,6 +160,28 @@ const server = http.createServer(async (req, res) => {
       const html = fs.readFileSync(path.join(__dirname, "tutorial.html"), "utf8");
       res.writeHead(200);
       res.end(html);
+    } else if (pathname === "/video.html") {
+      res.setHeader("Content-Type", "text/html");
+      const html = fs.readFileSync(path.join(__dirname, "video.html"), "utf8");
+      res.writeHead(200);
+      res.end(html);
+    } else if (pathname === "/checkout" || pathname === "/checkout.html") {
+      res.setHeader("Content-Type", "text/html");
+      const html = fs.readFileSync(path.join(__dirname, "checkout.html"), "utf8");
+      res.writeHead(200);
+      res.end(html);
+    } else if (pathname.endsWith('.js') || pathname.endsWith('.css') || pathname.endsWith('.json')) {
+      try {
+        const filePath = path.join(__dirname, pathname);
+        const fileContent = fs.readFileSync(filePath, "utf8");
+        const contentType = pathname.endsWith('.js') ? 'text/javascript' : pathname.endsWith('.css') ? 'text/css' : 'application/json';
+        res.setHeader("Content-Type", contentType);
+        res.writeHead(200);
+        res.end(fileContent);
+      } catch (e) {
+        res.writeHead(404);
+        res.end(JSON.stringify({ error: "File not found" }));
+      }
     } else if (pathname === "/api/test") {
       res.writeHead(200);
       res.end(JSON.stringify({ ok: true }));
@@ -175,6 +197,75 @@ const server = http.createServer(async (req, res) => {
         total: leads.length,
         query: { keywords, location, type, businessType }
       }));
+    } else if (pathname === "/api/chat/message" && req.method === "POST") {
+      try {
+        const body = await parseBody(req);
+        let { message = "" } = body;
+
+        // SECURITY: Validate input
+        if (!message || typeof message !== "string") {
+          res.writeHead(400);
+          res.end(JSON.stringify({ error: "Invalid message format" }));
+          return;
+        }
+
+        // SECURITY: Limit message length (prevent abuse)
+        message = message.trim().substring(0, 2000);
+        if (message.length === 0) {
+          res.writeHead(400);
+          res.end(JSON.stringify({ error: "Message cannot be empty" }));
+          return;
+        }
+
+        // 🤖 FREE LOCAL AI CHAT (100% Open Source - Zero API Costs)
+        const userMessage = message.toLowerCase();
+
+        // Intelligent local response generator
+        const responses = {
+          "oi": "Olá! 👋 Bem-vindo ao CAPTA LEADS. Como posso ajudá-lo com busca de leads, campanhas de email ou criação de landing pages?",
+          "olá": "Olá! 👋 Bem-vindo ao CAPTA LEADS. Como posso ajudá-lo com busca de leads, campanhas de email ou criação de landing pages?",
+          "opa": "E aí! 🚀 Bem-vindo ao CAPTA LEADS. O que você gostaria de fazer?",
+          "benefícios": "✨ CAPTA LEADS oferece:\n• Busca de leads qualificados\n• Campanhas de email automáticas\n• Criação de landing pages\n• IA especializada\n• 100% GRATUITO!",
+          "ajuda": "🆘 Posso ajudá-lo com:\n1. **Busca de Leads** - Encontre prospects\n2. **Email Marketing** - Crie campanhas\n3. **Landing Pages** - Construa páginas\nO que você precisa?",
+          "leads": "🎯 **Busca de Leads**\nEncontre profissionais:\n• Filtrar por indústria\n• Dados verificados\n• Exportar resultados",
+          "email": "📧 **Campanhas de Email**\nAutomatize:\n• Templates prontos\n• Personalização\n• Agendamento",
+          "landing": "🎨 **Landing Pages**\nCrie páginas:\n• Templates responsivos\n• Sem código necessário\n• SEO otimizado",
+          "preço": "💰 **100% GRATUITO!**\nNenhum custo, nenhuma taxa escondida.",
+          "como": "📚 **Para Começar:**\n1. Explore o console\n2. Teste a busca\n3. Crie uma campanha\nTem dúvida?",
+          "contato": "📞 **Suporte:**\nEmail: danrubio_2000@yahoo.com\nWhatsApp: +55 11 98765-4321"
+        };
+
+        let responseText = null;
+        for (const [key, value] of Object.entries(responses)) {
+          if (userMessage.includes(key)) {
+            responseText = value;
+            break;
+          }
+        }
+
+        // Default intelligent response
+        if (!responseText) {
+          const keywords = userMessage.split(" ");
+          if (keywords.some(w => ["busca", "search", "lead"].includes(w))) {
+            responseText = "🎯 Para **busca de leads**:\nQual tipo de profissional você procura?\nExemplo: 'Dentistas em São Paulo'";
+          } else if (keywords.some(w => ["email", "campaign", "campanha"].includes(w))) {
+            responseText = "📧 Para **campanhas**:\nEscolha seus leads e envie campanhas personalizadas. Qual é seu público-alvo?";
+          } else if (keywords.some(w => ["landing", "página", "page"].includes(w))) {
+            responseText = "🎨 Para **landing pages**:\nCrie páginas profissionais em minutos. Qual é seu objetivo?";
+          } else {
+            responseText = "💡 Posso ajudá-lo com:\n• Busca de Leads\n• Email Marketing\n• Landing Pages\nO que você gostaria de fazer?";
+          }
+        }
+
+        res.writeHead(200);
+        res.end(JSON.stringify({
+          response: responseText
+        }));
+      } catch (error) {
+        console.error("Chat error:", error.message);
+        res.writeHead(500);
+        res.end(JSON.stringify({ error: "Service error" }));
+      }
     } else {
       res.writeHead(404);
       res.end(JSON.stringify({ error: "Not Found" }));

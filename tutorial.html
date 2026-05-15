@@ -151,27 +151,36 @@
 </head>
 <body>
   <header>
-    <h1>📚 Tutorial Completo - CAPTA LEADS</h1>
-    <p>Guia passo a passo para dominar a plataforma</p>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+      <div></div>
+      <select id="language-selector" style="padding: 8px 12px; border-radius: 5px; border: 2px solid white; background: transparent; color: white; font-weight: bold; cursor: pointer; font-size: 0.9em;">
+        <option value="pt" style="color: #333;">🇵🇹 Português</option>
+        <option value="en" style="color: #333;">🇬🇧 English</option>
+        <option value="es" style="color: #333;">🇪🇸 Español</option>
+        <option value="fr" style="color: #333;">🇫🇷 Français</option>
+      </select>
+    </div>
+    <h1 data-i18n="tutorial-title">📚 Tutorial Completo - CAPTA LEADS</h1>
+    <p data-i18n="tutorial-subtitle">Guia passo a passo para dominar a plataforma</p>
   </header>
 
   <div class="container">
     <div class="toc">
-      <h2>📋 Sumário</h2>
+      <h2 data-i18n="toc-heading">📋 Sumário</h2>
       <ul>
-        <li>✓ <a href="#intro">Introdução</a></li>
-        <li>✓ <a href="#setup">Setup Inicial</a></li>
-        <li>✓ <a href="#leads">Como Buscar Leads</a></li>
-        <li>✓ <a href="#campaigns">Criar Campanhas de Email</a></li>
-        <li>✓ <a href="#landing">Criar Landing Pages</a></li>
-        <li>✓ <a href="#advanced">Recursos Avançados</a></li>
-        <li>✓ <a href="#faq">Perguntas Frequentes</a></li>
+        <li>✓ <a href="#intro" data-i18n="toc-intro">Introdução</a></li>
+        <li>✓ <a href="#setup" data-i18n="toc-setup">Setup Inicial</a></li>
+        <li>✓ <a href="#leads" data-i18n="toc-leads">Como Buscar Leads</a></li>
+        <li>✓ <a href="#campaigns" data-i18n="toc-campaigns">Criar Campanhas de Email</a></li>
+        <li>✓ <a href="#landing" data-i18n="toc-landing">Criar Landing Pages</a></li>
+        <li>✓ <a href="#advanced" data-i18n="toc-advanced">Recursos Avançados</a></li>
+        <li>✓ <a href="#faq" data-i18n="toc-faq">Perguntas Frequentes</a></li>
       </ul>
     </div>
 
     <section id="intro">
-      <h2>🎯 Introdução</h2>
-      <p>Bem-vindo ao <strong>CAPTA LEADS</strong>! Esta é uma solução all-in-one para:</p>
+      <h2 data-i18n="intro-heading">🎯 Introdução</h2>
+      <p data-i18n="intro-welcome">Bem-vindo ao <strong>CAPTA LEADS</strong>! Esta é uma solução all-in-one para:</p>
       <ul style="margin-left: 20px;">
         <li>Buscar leads qualificados</li>
         <li>Enviar campanhas de email em massa</li>
@@ -191,9 +200,9 @@
     </section>
 
     <section id="setup">
-      <h2>⚙️ Setup Inicial (5 minutos)</h2>
+      <h2 data-i18n="setup-heading">⚙️ Setup Inicial (5 minutos)</h2>
 
-      <h3>Passo 1: Acessar o Console</h3>
+      <h3 data-i18n="setup-step1">Passo 1: Acessar o Console</h3>
       <div class="step">
         <strong>Abra:</strong> <code>http://localhost:3000</code><br>
         Você deve ver um dashboard bonito com 4 seções principais.
@@ -223,10 +232,10 @@
     </section>
 
     <section id="leads">
-      <h2>🎯 Como Buscar Leads (10 minutos)</h2>
+      <h2 data-i18n="leads-heading">🎯 Como Buscar Leads (10 minutos)</h2>
 
-      <h3>Entender a Busca de Leads</h3>
-      <p>O CAPTA LEADS busca leads em múltiplas fontes:</p>
+      <h3 data-i18n="leads-understand">Entender a Busca de Leads</h3>
+      <p data-i18n="leads-sources">O CAPTA LEADS busca leads em múltiplas fontes:</p>
       <ul style="margin-left: 20px;">
         <li><strong>Hunter.io:</strong> Emails corporativos</li>
         <li><strong>Clearbit:</strong> Dados corporativos</li>
@@ -283,9 +292,9 @@
     </section>
 
     <section id="campaigns">
-      <h2>📧 Criar Campanhas de Email (10 minutos)</h2>
+      <h2 data-i18n="campaigns-heading">📧 Criar Campanhas de Email (10 minutos)</h2>
 
-      <h3>Passo 1: Navegar para Campanhas</h3>
+      <h3 data-i18n="campaigns-step1">Passo 1: Navegar para Campanhas</h3>
       <div class="step">
         Clique em: <strong>📧 Campanhas</strong>
       </div>
@@ -344,10 +353,10 @@
     </section>
 
     <section id="landing">
-      <h2>🎨 Criar Landing Pages (10 minutos)</h2>
+      <h2 data-i18n="landing-heading">🎨 Criar Landing Pages (10 minutos)</h2>
 
-      <h3>Por que Landing Pages?</h3>
-      <p>Uma landing page profissional aumenta muito a chance de conseguir financiamento. Mostra seriedade e profissionalismo.</p>
+      <h3 data-i18n="landing-why">Por que Landing Pages?</h3>
+      <p data-i18n="landing-why-text">Uma landing page profissional aumenta muito a chance de conseguir financiamento. Mostra seriedade e profissionalismo.</p>
 
       <h3>Passo 1: Navegar para Landing Pages</h3>
       <div class="step">
@@ -401,9 +410,9 @@
     </section>
 
     <section id="advanced">
-      <h2>🚀 Recursos Avançados</h2>
+      <h2 data-i18n="advanced-heading">🚀 Recursos Avançados</h2>
 
-      <h3>Automação de Follow-up</h3>
+      <h3 data-i18n="advanced-automation">Automação de Follow-up</h3>
       <div class="step">
         <strong>Crie múltiplas campanhas:</strong><br>
         - Email 1: Apresentação (dia 1)<br>
@@ -429,7 +438,7 @@
     </section>
 
     <section id="faq">
-      <h2>❓ Perguntas Frequentes</h2>
+      <h2 data-i18n="faq-heading">❓ Perguntas Frequentes</h2>
 
       <h3>P: Posso enviar emails sem configurar Resend?</h3>
       <div class="step">
@@ -470,9 +479,10 @@
   </div>
 
   <footer>
-    <p><strong>CAPTA LEADS - Tutorial Completo</strong></p>
-    <p>Desenvolvido com ❤️ para pequenos negócios</p>
+    <p data-i18n="footer-title"><strong>CAPTA LEADS - Tutorial Completo</strong></p>
+    <p data-i18n="footer-subtitle">Desenvolvido com ❤️ para pequenos negócios</p>
   </footer>
   <script src="chat-widget.js"></script>
+  <script src="translations-pages.js"></script>
 </body>
 </html>

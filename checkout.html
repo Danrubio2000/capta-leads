@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAPTALEADS - Planos e Preços</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      color: white;
+      margin-bottom: 60px;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.2em;
+      opacity: 0.9;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .plan {
+      background: white;
+      border-radius: 10px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .plan:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .plan.featured {
+      border: 3px solid #667eea;
+      position: relative;
+      top: -10px;
+    }
+
+    .plan .badge {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.8em;
+      margin-bottom: 15px;
+    }
+
+    .plan h2 {
+      font-size: 1.5em;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .plan .price {
+      font-size: 2.5em;
+      color: #667eea;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .plan .price small {
+      font-size: 0.4em;
+      color: #999;
+    }
+
+    .plan ul {
+      list-style: none;
+      margin: 30px 0;
+      text-align: left;
+    }
+
+    .plan li {
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+      color: #666;
+    }
+
+    .plan li:last-child {
+      border-bottom: none;
+    }
+
+    .plan li:before {
+      content: "✓ ";
+      color: #667eea;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .plan button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+      transition: background 0.3s;
+    }
+
+    .plan button:hover {
+      background: #764ba2;
+    }
+
+    .plan.free button {
+      background: #27ae60;
+    }
+
+    .plan.free button:hover {
+      background: #229954;
+    }
+
+    .features {
+      background: white;
+      border-radius: 10px;
+      padding: 40px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    .features h3 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .feature {
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 5px;
+    }
+
+    .feature h4 {
+      color: #667eea;
+      margin-bottom: 10px;
+    }
+
+    .feature p {
+      color: #666;
+      font-size: 0.9em;
+    }
+
+    footer {
+      text-align: center;
+      color: white;
+      margin-top: 60px;
+      padding: 20px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+    }
+
+    .modal-content h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+
+    .modal-content button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+      font-size: 1em;
+    }
+
+    .modal-content button:hover {
+      background: #764ba2;
+    }
+
+    .close {
+      float: right;
+      font-size: 2em;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .close:hover {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🚀 CAPTALEADS</h1>
+      <p>Escolha o plano perfeito para sua empresa</p>
+    </header>
+
+    <div class="pricing-grid">
+      <!-- Free Plan -->
+      <div class="plan free">
+        <div class="badge">PARA PARCEIROS</div>
+        <h2>Gratuito</h2>
+        <div class="price">R$ 0<small>/mês</small></div>
+        <ul>
+          <li>Acesso ilimitado ao console</li>
+          <li>Busca de leads sem limite</li>
+          <li>Campanhas de email ilimitadas</li>
+          <li>Landing pages ilimitadas</li>
+          <li>IA Chat integrada</li>
+          <li>Suporte por email</li>
+          <li>Atualizações incluídas</li>
+        </ul>
+        <button onclick="selectPlan('free')">Começar Grátis</button>
+      </div>
+
+      <!-- Professional Plan -->
+      <div class="plan featured">
+        <div class="badge">MAIS POPULAR</div>
+        <h2>Profissional</h2>
+        <div class="price">R$ 99<small>/mês</small></div>
+        <ul>
+          <li>Tudo do plano Gratuito</li>
+          <li>Relatórios avançados</li>
+          <li>Exportação de dados</li>
+          <li>Integrações API</li>
+          <li>Suporte prioritário</li>
+          <li>Múltiplos usuários</li>
+          <li>Análises detalhadas</li>
+        </ul>
+        <button onclick="openCheckout('professional', 9900)">Começar Agora</button>
+      </div>
+
+      <!-- Enterprise Plan -->
+      <div class="plan">
+        <div class="badge">PERSONALIZÁVEL</div>
+        <h2>Enterprise</h2>
+        <div class="price">Sob Consulta</div>
+        <ul>
+          <li>Tudo do plano Profissional</li>
+          <li>Dedicado customizações</li>
+          <li>Integração com seu CRM</li>
+          <li>Webhooks e automações</li>
+          <li>SLA garantido</li>
+          <li>Treinamento dedicado</li>
+          <li>Suporte 24/7</li>
+        </ul>
+        <button onclick="contactSales()">Falar com Vendas</button>
+      </div>
+    </div>
+
+    <div class="features">
+      <h3>🎯 Recursos Inclusos em Todos os Planos</h3>
+      <div class="features-grid">
+        <div class="feature">
+          <h4>🎯 Busca de Leads</h4>
+          <p>Encontre contatos qualificados em qualquer segmento</p>
+        </div>
+        <div class="feature">
+          <h4>📧 Campanhas de Email</h4>
+          <p>Envie campanhas personalizadas em massa</p>
+        </div>
+        <div class="feature">
+          <h4>🎨 Landing Pages</h4>
+          <p>Crie páginas de vendas sem código</p>
+        </div>
+        <div class="feature">
+          <h4>🤖 IA Chat</h4>
+          <p>Assistente IA para estratégias de vendas</p>
+        </div>
+        <div class="feature">
+          <h4>📊 Dashboard</h4>
+          <p>Visualize métricas em tempo real</p>
+        </div>
+        <div class="feature">
+          <h4>🔐 Segurança</h4>
+          <p>Criptografia e proteção de dados</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div id="checkoutModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeCheckout()">&times;</span>
+      <h2 id="planTitle">Plano Profissional</h2>
+      <p id="planPrice">R$ 99,00/mês</p>
+
+      <input type="email" id="email" placeholder="Seu email" required>
+      <input type="text" id="name" placeholder="Seu nome completo" required>
+
+      <button onclick="processPayment()">Prosseguir para Pagamento</button>
+      <p style="text-align: center; margin-top: 15px; color: #999; font-size: 0.9em;">
+        Você será redirecionado para Stripe para completar o pagamento de forma segura
+      </p>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 CAPTALEADS. Todos os direitos reservados.</p>
+    <p>Email: danrubio_2000@yahoo.com | WhatsApp: +55 11 98765-4321</p>
+  </footer>
+
+  <script>
+    let selectedPlan = null;
+    let selectedPrice = null;
+
+    function selectPlan(plan) {
+      if (plan === 'free') {
+        // Redireciona para acesso gratuito
+        window.location.href = '/?mode=demo&access=free&email=' + prompt('Digite seu email:');
+      }
+    }
+
+    function openCheckout(plan, price) {
+      selectedPlan = plan;
+      selectedPrice = price;
+
+      const titles = {
+        'professional': 'Plano Profissional',
+        'enterprise': 'Plano Enterprise'
+      };
+
+      const prices = {
+        'professional': 'R$ 99,00/mês',
+        'enterprise': 'Sob consulta'
+      };
+
+      document.getElementById('planTitle').textContent = titles[plan];
+      document.getElementById('planPrice').textContent = prices[plan];
+      document.getElementById('checkoutModal').classList.add('active');
+    }
+
+    function closeCheckout() {
+      document.getElementById('checkoutModal').classList.remove('active');
+      selectedPlan = null;
+      selectedPrice = null;
+    }
+
+    function processPayment() {
+      const email = document.getElementById('email').value;
+      const name = document.getElementById('name').value;
+
+      if (!email || !name) {
+        alert('Por favor, preencha todos os campos');
+        return;
+      }
+
+      // Salva os dados e redireciona para Stripe
+      localStorage.setItem('checkout_plan', selectedPlan);
+      localStorage.setItem('checkout_email', email);
+      localStorage.setItem('checkout_name', name);
+      localStorage.setItem('checkout_price', selectedPrice);
+
+      // Redireciona para página de pagamento
+      window.location.href = '/payment?plan=' + selectedPlan + '&email=' + encodeURIComponent(email);
+    }
+
+    function contactSales() {
+      window.location.href = 'mailto:danrubio_2000@yahoo.com?subject=Interesse%20no%20Plano%20Enterprise%20-%20CAPTALEADS';
+    }
+
+    // Fechar modal ao clicar fora
+    document.getElementById('checkoutModal').onclick = function(event) {
+      if (event.target === this) {
+        closeCheckout();
+      }
+    }
+  </script>
+</body>
+</html>

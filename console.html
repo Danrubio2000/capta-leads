@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- CAPTA LEADS - v2.0 Live Deployment -->
+  <!-- CAPTALEADS - v2.0 Live Deployment -->
   <!-- Updated: 2026-05-14 20:30 - Projects Card Visible -->
-  <title>CAPTA LEADS - Lead Generation & Email Marketing</title>
+  <title>CAPTALEADS - Lead Generation & Email Marketing</title>
   <style>
     * {
       margin: 0;
@@ -482,8 +482,8 @@
   <!-- MAIN HOME SCREEN / Console Principal -->
   <div id="home-screen" class="splash-overlay" style="display: flex;">
     <div class="splash-content">
-      <h1>🚀 CAPTA LEADS</h1>
-      <p style="font-size: 1.3em; margin-bottom: 30px;">Bem-vindo! Gerencie seus projetos de leads com inteligência artificial</p>
+      <h1>🚀 CAPTALEADS</h1>
+      <p style="font-size: 1.3em; margin-bottom: 30px;">Bem-vindo! Gerencie seus projetos de seus futuros clientes com CAPTALEADS</p>
       <div class="splash-buttons">
         <button class="splash-btn" id="home-new-project">
           <span>➕</span>
@@ -504,7 +504,7 @@
   <!-- Header -->
   <header>
     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 15px;">
-      <h1 id="current-project-name">🚀 CAPTA LEADS</h1>
+      <h1 id="current-project-name">🚀 CAPTALEADS</h1>
       <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
         <div style="display: flex; align-items: center; gap: 8px;">
           <button id="back-to-home-btn" style="background: rgba(255,255,255,0.3); border: 1px solid white; color: white; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-family: 'Times New Roman', Times, serif; font-size: 0.95em; transition: all 0.3s; display: none;" data-i18n="btn-back-to-home">📁 Meus Projetos</button>
@@ -576,9 +576,9 @@
       </div>
 
       <div class="card">
-        <h3>✨ Bem-vindo ao CAPTA LEADS</h3>
+        <h3>✨ Bem-vindo ao CAPTALEADS</h3>
         <p>
-          CAPTA LEADS é a solução completa para geração de leads, email marketing e criação de landing pages.
+          CAPTALEADS é a solução completa para geração de leads, email marketing e criação de landing pages.
         </p>
         <ul style="margin-left: 20px; margin-top: 10px;">
           <li>🎯 <strong>Busca de Leads:</strong> Encontre contatos de qualquer industria</li>
@@ -739,7 +739,7 @@
 
       <div class="card">
         <h3>💬 Chat com Claude AI</h3>
-        <p style="margin-bottom: 15px;">Faça perguntas sobre CAPTA LEADS, leads, campanhas de email, landing pages e muito mais!</p>
+        <p style="margin-bottom: 15px;">Faça perguntas sobre CAPTALEADS, leads, campanhas de email, landing pages e muito mais!</p>
 
         <div id="chat-messages" style="
           border: 1px solid #ddd;
@@ -816,7 +816,7 @@
 
       <div class="settings-group">
         <h4>ℹ️ Informações do Sistema</h4>
-        <p><strong>Versão:</strong> CAPTA LEADS v2.0</p>
+        <p><strong>Versão:</strong> CAPTALEADS v2.0</p>
         <p><strong>Status:</strong> <span class="badge success">Operacional ✅</span></p>
         <p id="system-info" style="margin-top: 10px;"></p>
       </div>
@@ -1378,6 +1378,13 @@
 
     let searchResults = [];
 
+    // Initialize: Keep search results EMPTY - no pre-loaded data
+    function initializeSearchResults() {
+      const container = document.getElementById("search-results");
+      container.innerHTML = ""; // Always starts clean
+    }
+    initializeSearchResults();
+
     document.getElementById("search-leads-form")?.addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -1825,7 +1832,7 @@
         "landing": "🎨 Landing Pages",
         "chat": "🤖 IA Chat",
         "settings": "⚙️ Configurações",
-        "welcome": "✨ Bem-vindo ao CAPTA LEADS",
+        "welcome": "✨ Bem-vindo! Gerencie seus projetos de seus futuros clientes",
         "found": "Leads Encontrados",
         "created": "Campanhas Criadas",
         "sent": "Emails Enviados",
@@ -1862,7 +1869,7 @@
         "landing": "🎨 Landing Pages",
         "chat": "🤖 AI Chat",
         "settings": "⚙️ Settings",
-        "welcome": "✨ Welcome to CAPTA LEADS",
+        "welcome": "✨ Welcome! Manage your projects with your future customers",
         "found": "Leads Found",
         "created": "Campaigns Created",
         "sent": "Emails Sent",
@@ -1899,7 +1906,7 @@
         "landing": "🎨 Landing Pages",
         "chat": "🤖 Chat IA",
         "settings": "⚙️ Configuración",
-        "welcome": "✨ Bienvenido a CAPTA LEADS",
+        "welcome": "✨ ¡Bienvenido! Gestiona tus proyectos con tus futuros clientes",
         "found": "Leads Encontrados",
         "created": "Campañas Creadas",
         "sent": "Correos Enviados",
@@ -1936,7 +1943,7 @@
         "landing": "🎨 Landing Pages",
         "chat": "🤖 Chat IA",
         "settings": "⚙️ Paramètres",
-        "welcome": "✨ Bienvenue à CAPTA LEADS",
+        "welcome": "✨ Bienvenue! Gérez vos projets avec vos futurs clients",
         "found": "Leads Trouvés",
         "created": "Campagnes Créées",
         "sent": "Courriels Envoyés",

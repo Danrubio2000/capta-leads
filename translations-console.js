@@ -13,8 +13,8 @@ const consoleTranslations = {
 
     // Dashboard Section
     "dashboard-title": "📊 Dashboard",
-    "dashboard-welcome": "✨ Bem-vindo ao CAPTA LEADS",
-    "dashboard-desc": "CAPTA LEADS é a solução completa para geração de leads, email marketing e criação de landing pages.",
+    "dashboard-welcome": "✨ Bem-vindo ao CAPTALEADS",
+    "dashboard-desc": "CAPTALEADS é a solução completa para geração de leads, email marketing e criação de landing pages.",
     "stat-leads": "Leads Encontrados",
     "stat-campaigns": "Campanhas Criadas",
     "stat-sent": "Emails Enviados",
@@ -121,8 +121,8 @@ const consoleTranslations = {
     "nav-video": "🎥 Video",
 
     "dashboard-title": "📊 Dashboard",
-    "dashboard-welcome": "✨ Welcome to CAPTA LEADS",
-    "dashboard-desc": "CAPTA LEADS is the complete solution for lead generation, email marketing and landing page creation.",
+    "dashboard-welcome": "✨ Welcome to CAPTALEADS",
+    "dashboard-desc": "CAPTALEADS is the complete solution for lead generation, email marketing and landing page creation.",
     "stat-leads": "Leads Found",
     "stat-campaigns": "Campaigns Created",
     "stat-sent": "Emails Sent",
@@ -221,8 +221,8 @@ const consoleTranslations = {
     "nav-video": "🎥 Video",
 
     "dashboard-title": "📊 Panel de Control",
-    "dashboard-welcome": "✨ Bienvenido a CAPTA LEADS",
-    "dashboard-desc": "CAPTA LEADS es la solución completa para generación de leads, email marketing y creación de landing pages.",
+    "dashboard-welcome": "✨ Bienvenido a CAPTALEADS",
+    "dashboard-desc": "CAPTALEADS es la solución completa para generación de leads, email marketing y creación de landing pages.",
     "stat-leads": "Leads Encontrados",
     "stat-campaigns": "Campañas Creadas",
     "stat-sent": "Emails Enviados",
@@ -321,8 +321,8 @@ const consoleTranslations = {
     "nav-video": "🎥 Vidéo",
 
     "dashboard-title": "📊 Tableau de Bord",
-    "dashboard-welcome": "✨ Bienvenue dans CAPTA LEADS",
-    "dashboard-desc": "CAPTA LEADS est la solution complète pour la génération de leads, le email marketing et la création de landing pages.",
+    "dashboard-welcome": "✨ Bienvenue dans CAPTALEADS",
+    "dashboard-desc": "CAPTALEADS est la solution complète pour la génération de leads, le email marketing et la création de landing pages.",
     "stat-leads": "Leads Trouvés",
     "stat-campaigns": "Campagnes Créées",
     "stat-sent": "Emails Envoyés",
