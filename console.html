@@ -762,7 +762,7 @@
       <form id="project-settings-form">
         <div style="margin-bottom: 20px;">
           <label style="font-weight: bold; display: block; margin-bottom: 8px;" data-i18n="label-project-name">📝 Nome do Projeto</label>
-          <input type="text" id="settings-project-name" placeholder="Nome" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif;">
+          <input type="text" id="settings-project-name" data-i18n-ph="ph-project-name-modal" placeholder="Nome" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif;">
         </div>
 
         <div style="margin-bottom: 20px;">
@@ -772,26 +772,26 @@
 
         <div style="margin-bottom: 20px;">
           <label style="font-weight: bold; display: block; margin-bottom: 8px;" data-i18n="label-website">🌐 Website</label>
-          <input type="url" id="settings-website" placeholder="https://seusite.com" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif;">
+          <input type="url" id="settings-website" data-i18n-ph="ph-website" placeholder="https://seusite.com" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif;">
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
           <div>
             <label style="font-weight: bold; display: block; margin-bottom: 8px;" data-i18n="label-email">📧 Email</label>
-            <input type="email" id="settings-email" placeholder="contato@empresa.com" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif;">
+            <input type="email" id="settings-email" data-i18n-ph="ph-email-contact" placeholder="contato@empresa.com" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif;">
           </div>
           <div>
             <label style="font-weight: bold; display: block; margin-bottom: 8px;" data-i18n="label-phone">📱 Telefone</label>
-            <input type="tel" id="settings-phone" placeholder="+55 11 99999-9999" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif;">
+            <input type="tel" id="settings-phone" data-i18n-ph="ph-phone" placeholder="+55 11 99999-9999" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif;">
           </div>
         </div>
 
         <div style="margin-bottom: 20px;">
           <label style="font-weight: bold; display: block; margin-bottom: 8px;" data-i18n="label-social">🌐 Redes Sociais</label>
-          <input type="url" id="settings-instagram" placeholder="Instagram (URL)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 8px; font-family: 'Times New Roman', Times, serif;">
-          <input type="url" id="settings-facebook" placeholder="Facebook (URL)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 8px; font-family: 'Times New Roman', Times, serif;">
-          <input type="url" id="settings-linkedin" placeholder="LinkedIn (URL)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 8px; font-family: 'Times New Roman', Times, serif;">
-          <input type="url" id="settings-youtube" placeholder="YouTube (URL)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif;">
+          <input type="url" id="settings-instagram" data-i18n-ph="ph-instagram" placeholder="Instagram (URL)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 8px; font-family: 'Times New Roman', Times, serif;">
+          <input type="url" id="settings-facebook" data-i18n-ph="ph-facebook" placeholder="Facebook (URL)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 8px; font-family: 'Times New Roman', Times, serif;">
+          <input type="url" id="settings-linkedin" data-i18n-ph="ph-linkedin" placeholder="LinkedIn (URL)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 8px; font-family: 'Times New Roman', Times, serif;">
+          <input type="url" id="settings-youtube" data-i18n-ph="ph-youtube" placeholder="YouTube (URL)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif;">
         </div>
 
         <div style="margin-bottom: 20px;">
@@ -1850,7 +1850,15 @@
         "btn-remove": "🗑️ Remover",
         "btn-csv": "📥 Baixar CSV",
         "btn-json": "📥 Baixar JSON",
-        "btn-clear-leads": "🗑️ Limpar"
+        "btn-clear-leads": "🗑️ Limpar",
+        "ph-project-name-modal": "Nome",
+        "ph-website": "https://seusite.com",
+        "ph-email-contact": "contato@empresa.com",
+        "ph-phone": "+55 11 99999-9999",
+        "ph-instagram": "Instagram (URL)",
+        "ph-facebook": "Facebook (URL)",
+        "ph-linkedin": "LinkedIn (URL)",
+        "ph-youtube": "YouTube (URL)"
       },
       en: {
         "dashboard": "Dashboard",
@@ -1960,7 +1968,15 @@
         "btn-remove": "🗑️ Remove",
         "btn-csv": "📥 Download CSV",
         "btn-json": "📥 Download JSON",
-        "btn-clear-leads": "🗑️ Clear"
+        "btn-clear-leads": "🗑️ Clear",
+        "ph-project-name-modal": "Name",
+        "ph-website": "https://yoursite.com",
+        "ph-email-contact": "contact@company.com",
+        "ph-phone": "+1 (555) 123-4567",
+        "ph-instagram": "Instagram (URL)",
+        "ph-facebook": "Facebook (URL)",
+        "ph-linkedin": "LinkedIn (URL)",
+        "ph-youtube": "YouTube (URL)"
       },
       es: {
         "dashboard": "Panel de Control",
@@ -2070,7 +2086,15 @@
         "btn-remove": "🗑️ Eliminar",
         "btn-csv": "📥 Descargar CSV",
         "btn-json": "📥 Descargar JSON",
-        "btn-clear-leads": "🗑️ Limpiar"
+        "btn-clear-leads": "🗑️ Limpiar",
+        "ph-project-name-modal": "Nombre",
+        "ph-website": "https://tusitio.com",
+        "ph-email-contact": "contacto@empresa.com",
+        "ph-phone": "+34 612 345 678",
+        "ph-instagram": "Instagram (URL)",
+        "ph-facebook": "Facebook (URL)",
+        "ph-linkedin": "LinkedIn (URL)",
+        "ph-youtube": "YouTube (URL)"
       },
       fr: {
         "dashboard": "Tableau de Bord",
@@ -2180,7 +2204,15 @@
         "btn-remove": "🗑️ Supprimer",
         "btn-csv": "📥 Télécharger CSV",
         "btn-json": "📥 Télécharger JSON",
-        "btn-clear-leads": "🗑️ Effacer"
+        "btn-clear-leads": "🗑️ Effacer",
+        "ph-project-name-modal": "Nom",
+        "ph-website": "https://votresite.com",
+        "ph-email-contact": "contact@entreprise.com",
+        "ph-phone": "+33 1 23 45 67 89",
+        "ph-instagram": "Instagram (URL)",
+        "ph-facebook": "Facebook (URL)",
+        "ph-linkedin": "LinkedIn (URL)",
+        "ph-youtube": "YouTube (URL)"
       }
     };
 
