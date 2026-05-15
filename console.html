@@ -543,17 +543,17 @@
       <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; border-left: 4px solid #667eea; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 15px;">
           <div>
-            <h3 style="color: #667eea; margin-bottom: 8px; font-weight: bold;">📁 Projeto Ativo</h3>
+            <h3 style="color: #667eea; margin-bottom: 8px; font-weight: bold;" data-i18n="card-active-project">📁 Projeto Ativo</h3>
             <p id="current-project-display" style="font-size: 1.1em; font-weight: bold; color: #333;">Carregando...</p>
           </div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-            <button onclick="openNewProjectModal()" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s;">➕ Novo Projeto</button>
+            <button onclick="openNewProjectModal()" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s;" data-i18n="btn-new-project-full">➕ Novo Projeto</button>
             <select id="project-selector-dashboard" style="padding: 10px 15px; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; font-family: 'Times New Roman', Times, serif; font-size: 1em;">
-              <option value="">📁 Trocar Projeto</option>
+              <option value="" data-i18n-opt="opt-switch-project">📁 Trocar Projeto</option>
             </select>
           </div>
         </div>
-        <button onclick="openProjectSettingsModal()" style="padding: 8px 15px; background: rgba(102, 126, 234, 0.1); color: #667eea; border: 1px solid #667eea; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s; width: 100%;">⚙️ Configurar Projeto (Informações, Redes Sociais, etc)</button>
+        <button onclick="openProjectSettingsModal()" style="padding: 8px 15px; background: rgba(102, 126, 234, 0.1); color: #667eea; border: 1px solid #667eea; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s; width: 100%;" data-i18n="btn-configure-project">⚙️ Configurar Projeto (Informações, Redes Sociais, etc)</button>
       </div>
 
       <div class="stats">
@@ -576,15 +576,13 @@
       </div>
 
       <div class="card">
-        <h3>✨ Bem-vindo ao CAPTALEADS</h3>
-        <p>
-          CAPTALEADS é a solução completa para geração de leads, email marketing e criação de landing pages.
-        </p>
+        <h3 data-i18n="welcome-title">✨ Bem-vindo ao CAPTALEADS</h3>
+        <p data-i18n="welcome-desc">CAPTALEADS é a solução completa para geração de leads, email marketing e criação de landing pages.</p>
         <ul style="margin-left: 20px; margin-top: 10px;">
-          <li>🎯 <strong>Busca de Leads:</strong> Encontre contatos de qualquer industria</li>
-          <li>📧 <strong>Campanhas de Email:</strong> Envie emails personalizados em massa</li>
-          <li>🎨 <strong>Landing Pages:</strong> Crie páginas de vendas sem código</li>
-          <li>⚙️ <strong>Configurável:</strong> Adapte para qualquer negócio ou profissão</li>
+          <li data-i18n="welcome-li-1">🎯 <strong>Busca de Leads:</strong> Encontre contatos de qualquer industria</li>
+          <li data-i18n="welcome-li-2">📧 <strong>Campanhas de Email:</strong> Envie emails personalizados em massa</li>
+          <li data-i18n="welcome-li-3">🎨 <strong>Landing Pages:</strong> Crie páginas de vendas sem código</li>
+          <li data-i18n="welcome-li-4">⚙️ <strong>Configurável:</strong> Adapte para qualquer negócio ou profissão</li>
         </ul>
       </div>
     </section>
@@ -594,50 +592,37 @@
       <h2 data-i18n="section-leads">🎯 Buscar Leads</h2>
 
       <div class="card">
-        <h3>🔍 Busca de Leads</h3>
+        <h3 data-i18n="card-search-title">🔍 Busca de Leads</h3>
         <form id="search-leads-form">
-          <input
-            type="text"
-            id="search-keywords"
-            placeholder="Digite palavras-chave (ex: fundação documentário)"
-            required
-          >
-          <input
-            type="text"
-            id="search-location"
-            placeholder="Localização (ex: Internacional, USA, Brasil)"
-            value="Internacional"
-          >
+          <input type="text" id="search-keywords" data-i18n-ph="ph-keywords" placeholder="Digite palavras-chave (ex: ortodontia, marketing)" required>
+          <input type="text" id="search-location" data-i18n-ph="ph-location" placeholder="Localização (ex: São Paulo, Brasil)" value="São Paulo">
           <select id="search-type">
-            <option value="business">Negócio</option>
-            <option value="foundation">Fundação</option>
-            <option value="ngo">ONG</option>
-            <option value="any">Qualquer</option>
+            <option value="business" data-i18n-opt="opt-business">Negócio</option>
+            <option value="foundation" data-i18n-opt="opt-foundation">Fundação</option>
+            <option value="ngo" data-i18n-opt="opt-ngo">ONG</option>
+            <option value="any" data-i18n-opt="opt-any">Qualquer</option>
           </select>
-          <button type="submit">🔍 Buscar Leads</button>
+          <button type="submit" data-i18n="btn-search-leads">🔍 Buscar Leads</button>
         </form>
       </div>
 
       <div id="search-results" style="margin-top: 20px;"></div>
 
       <div class="card" style="margin-top: 20px;">
-        <h3>📥 Importar Leads</h3>
+        <h3 data-i18n="card-import-title">📥 Importar Leads</h3>
         <form id="import-leads-form">
-          <textarea
-            id="import-leads-data"
-            placeholder="Cole dados aqui (JSON ou um lead por linha)&#10;Formato esperado: nome,email,empresa"
-          ></textarea>
-          <button type="submit">📥 Importar</button>
+          <textarea id="import-leads-data" data-i18n-ph="ph-import" placeholder="Cole dados aqui (JSON ou um lead por linha)&#10;Formato esperado: nome,email,empresa"></textarea>
+          <button type="submit" data-i18n="btn-import">📥 Importar</button>
         </form>
       </div>
 
       <div class="card" style="margin-top: 20px;">
-        <h3>📊 Leads Encontrados</h3>
+        <h3 data-i18n="card-found-title">📊 Leads Encontrados</h3>
         <div id="leads-list"></div>
         <div class="btn-group" style="margin-top: 15px;">
-          <button onclick="exportLeads('csv')">📥 Baixar CSV</button>
-          <button onclick="exportLeads('json')" class="secondary">📥 Baixar JSON</button>
-          <button onclick="clearLeads()" class="secondary">🗑️ Limpar</button>
+          <button onclick="exportLeads('csv')" data-i18n="btn-csv">📥 Baixar CSV</button>
+          <button onclick="exportLeads('json')" class="secondary" data-i18n="btn-json">📥 Baixar JSON</button>
+          <button onclick="clearLeads()" class="secondary" data-i18n="btn-clear-leads">🗑️ Limpar</button>
         </div>
       </div>
     </section>
@@ -647,45 +632,26 @@
       <h2 data-i18n="section-campaigns">📧 Campanhas de Email</h2>
 
       <div class="card">
-        <h3>📝 Nova Campanha</h3>
+        <h3 data-i18n="card-new-campaign">📝 Nova Campanha</h3>
         <form id="create-campaign-form">
-          <input type="text" id="campaign-subject" placeholder="Assunto do email" required>
-          <textarea
-            id="campaign-body"
-            placeholder="Corpo do email&#10;Use {nome}, {empresa}, {email} para personalizações"
-            required
-          ></textarea>
-          <input
-            type="email"
-            id="campaign-from-email"
-            placeholder="Email de origem"
-            required
-          >
-          <input
-            type="text"
-            id="campaign-from-name"
-            placeholder="Nome de origem"
-            required
-          >
-          <button type="submit">✉️ Criar Campanha</button>
+          <input type="text" id="campaign-subject" data-i18n-ph="ph-campaign-subject" placeholder="Assunto do email" required>
+          <textarea id="campaign-body" data-i18n-ph="ph-campaign-body" placeholder="Corpo do email&#10;Use {nome}, {empresa}, {email} para personalizações" required></textarea>
+          <input type="email" id="campaign-from-email" data-i18n-ph="ph-from-email" placeholder="Email de origem" required>
+          <input type="text" id="campaign-from-name" data-i18n-ph="ph-from-name" placeholder="Nome de origem" required>
+          <button type="submit" data-i18n="btn-create-campaign">✉️ Criar Campanha</button>
         </form>
       </div>
 
       <div class="card" style="margin-top: 20px;">
-        <h3>📋 Campanhas Ativas</h3>
+        <h3 data-i18n="card-active-campaigns">📋 Campanhas Ativas</h3>
         <div id="campaigns-list"></div>
       </div>
 
       <div class="card" style="margin-top: 20px;">
-        <h3>🧪 Testar Email</h3>
+        <h3 data-i18n="card-test-email-title">🧪 Testar Email</h3>
         <form id="test-email-form">
-          <input
-            type="email"
-            id="test-email-address"
-            placeholder="Seu email para teste"
-            required
-          >
-          <button type="submit">🧪 Enviar Email de Teste</button>
+          <input type="email" id="test-email-address" data-i18n-ph="ph-test-email" placeholder="Seu email para teste" required>
+          <button type="submit" data-i18n="btn-send-test">🧪 Enviar Email de Teste</button>
         </form>
       </div>
     </section>
@@ -695,40 +661,27 @@
       <h2 data-i18n="section-landing">🎨 Criador de Landing Pages</h2>
 
       <div class="card">
-        <h3>➕ Criar Nova Landing Page</h3>
+        <h3 data-i18n="card-create-landing">➕ Criar Nova Landing Page</h3>
         <form id="create-page-form">
-          <input
-            type="text"
-            id="page-title"
-            placeholder="Título da página"
-            required
-          >
+          <input type="text" id="page-title" data-i18n-ph="ph-page-title" placeholder="Título da página" required>
           <select id="page-industry" required>
-            <option value="generic">Genérico</option>
-            <option value="cinema">Cinema & Audiovisual</option>
-            <option value="arte">Arte & Cultura</option>
-            <option value="healthcare">Saúde & Medicina</option>
-            <option value="tech">Tecnologia</option>
-            <option value="ecommerce">E-commerce & Varejo</option>
-            <option value="realestate">Imóveis</option>
-            <option value="education">Educação</option>
+            <option value="generic" data-i18n-opt="ind-generic">Genérico</option>
+            <option value="cinema" data-i18n-opt="ind-cinema">Cinema & Audiovisual</option>
+            <option value="arte" data-i18n-opt="ind-arte">Arte & Cultura</option>
+            <option value="healthcare" data-i18n-opt="ind-healthcare">Saúde & Medicina</option>
+            <option value="tech" data-i18n-opt="ind-tech">Tecnologia</option>
+            <option value="ecommerce" data-i18n-opt="ind-ecommerce">E-commerce & Varejo</option>
+            <option value="realestate" data-i18n-opt="ind-realestate">Imóveis</option>
+            <option value="education" data-i18n-opt="ind-education">Educação</option>
           </select>
-          <input
-            type="text"
-            id="page-seo-title"
-            placeholder="SEO Title (opcional)"
-          >
-          <input
-            type="text"
-            id="page-seo-description"
-            placeholder="SEO Description (opcional)"
-          >
-          <button type="submit">🚀 Criar Landing Page</button>
+          <input type="text" id="page-seo-title" data-i18n-ph="ph-seo-title" placeholder="SEO Title (opcional)">
+          <input type="text" id="page-seo-description" data-i18n-ph="ph-seo-desc" placeholder="SEO Description (opcional)">
+          <button type="submit" data-i18n="btn-create-landing">🚀 Criar Landing Page</button>
         </form>
       </div>
 
       <div class="card" style="margin-top: 20px;">
-        <h3>📄 Minhas Landing Pages</h3>
+        <h3 data-i18n="card-my-pages">📄 Minhas Landing Pages</h3>
         <div id="pages-list"></div>
       </div>
     </section>
@@ -738,35 +691,14 @@
       <h2 data-i18n="section-chat">🤖 Assistente IA</h2>
 
       <div class="card">
-        <h3>💬 Chat com Claude AI</h3>
-        <p style="margin-bottom: 15px;">Faça perguntas sobre CAPTALEADS, leads, campanhas de email, landing pages e muito mais!</p>
+        <h3 data-i18n="card-chat-title">💬 Chat com IA</h3>
+        <p style="margin-bottom: 15px;" data-i18n="chat-desc">Faça perguntas sobre CAPTALEADS, leads, campanhas de email, landing pages e muito mais!</p>
 
-        <div id="chat-messages" style="
-          border: 1px solid #ddd;
-          border-radius: 6px;
-          padding: 15px;
-          height: 400px;
-          overflow-y: auto;
-          background: #f9f9f9;
-          margin-bottom: 15px;
-        "></div>
+        <div id="chat-messages" style="border: 1px solid #ddd; border-radius: 6px; padding: 15px; height: 400px; overflow-y: auto; background: #f9f9f9; margin-bottom: 15px;"></div>
 
         <div style="display: flex; gap: 10px;">
-          <input
-            type="text"
-            id="chat-input"
-            placeholder="Digite sua pergunta..."
-            style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"
-          >
-          <button onclick="sendMessage()" style="
-            padding: 10px 20px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-          ">Enviar</button>
+          <input type="text" id="chat-input" data-i18n-ph="ph-chat-input" placeholder="Digite sua pergunta..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+          <button onclick="sendMessage()" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;" data-i18n="btn-send-chat">Enviar</button>
         </div>
       </div>
     </section>
@@ -776,46 +708,28 @@
       <h2 data-i18n="section-settings">⚙️ Configurações</h2>
 
       <div class="settings-group">
-        <h4>📧 Email (Resend)</h4>
-        <p style="margin-bottom: 15px;">Configure seu serviço de email para enviar campanhas de verdade.</p>
+        <h4 data-i18n="settings-email-title">📧 Email (Resend)</h4>
+        <p style="margin-bottom: 15px;" data-i18n="settings-email-desc">Configure seu serviço de email para enviar campanhas de verdade.</p>
         <form id="email-settings-form">
-          <input
-            type="email"
-            id="settings-from-email"
-            placeholder="Email de origem"
-            required
-          >
-          <input
-            type="text"
-            id="settings-from-name"
-            placeholder="Nome de origem (ex: CAPTA Leads)"
-            required
-          >
-          <button type="submit">💾 Salvar Configurações de Email</button>
+          <input type="email" id="settings-from-email" data-i18n-ph="ph-settings-from-email" placeholder="Email de origem" required>
+          <input type="text" id="settings-from-name" data-i18n-ph="ph-settings-from-name" placeholder="Nome de origem (ex: CAPTA Leads)" required>
+          <button type="submit" data-i18n="btn-save-email">💾 Salvar Configurações de Email</button>
         </form>
         <div id="email-status" style="margin-top: 10px;"></div>
       </div>
 
       <div class="settings-group">
-        <h4>🔑 API Keys (Opcional mas Recomendado)</h4>
-        <p style="margin-bottom: 15px;">Adicione suas chaves para melhorar a qualidade da busca de leads.</p>
+        <h4 data-i18n="settings-api-title">🔑 API Keys (Opcional mas Recomendado)</h4>
+        <p style="margin-bottom: 15px;" data-i18n="settings-api-desc">Adicione suas chaves para melhorar a qualidade da busca de leads.</p>
         <form id="api-keys-form">
-          <input
-            type="password"
-            id="settings-hunter-key"
-            placeholder="Hunter.io API Key (opcional)"
-          >
-          <input
-            type="password"
-            id="settings-clearbit-key"
-            placeholder="Clearbit API Key (opcional)"
-          >
-          <button type="submit">🔐 Salvar API Keys</button>
+          <input type="password" id="settings-hunter-key" data-i18n-ph="ph-hunter-key" placeholder="Hunter.io API Key (opcional)">
+          <input type="password" id="settings-clearbit-key" data-i18n-ph="ph-clearbit-key" placeholder="Clearbit API Key (opcional)">
+          <button type="submit" data-i18n="btn-save-api">🔐 Salvar API Keys</button>
         </form>
       </div>
 
       <div class="settings-group">
-        <h4>ℹ️ Informações do Sistema</h4>
+        <h4 data-i18n="settings-system-title">ℹ️ Informações do Sistema</h4>
         <p><strong>Versão:</strong> CAPTALEADS v2.0</p>
         <p><strong>Status:</strong> <span class="badge success">Operacional ✅</span></p>
         <p id="system-info" style="margin-top: 10px;"></p>
@@ -831,8 +745,8 @@
     <div style="background: white; padding: 30px; border-radius: 8px; max-width: 400px; width: 90%;">
       <h3 style="margin-bottom: 20px; font-weight: bold;" data-i18n="modal-new-project">📁 Criar Novo Projeto</h3>
       <form id="new-project-form">
-        <input type="text" id="project-name" placeholder="Nome do projeto" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px; font-family: 'Times New Roman', Times, serif;">
-        <textarea id="project-description" placeholder="Descrição (opcional)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px; font-family: 'Times New Roman', Times, serif; min-height: 80px;"></textarea>
+        <input type="text" id="project-name" data-i18n-ph="ph-project-name" placeholder="Nome do projeto" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px; font-family: 'Times New Roman', Times, serif;">
+        <textarea id="project-description" data-i18n-ph="ph-project-desc" placeholder="Descrição (opcional)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px; font-family: 'Times New Roman', Times, serif; min-height: 80px;"></textarea>
         <div style="display: flex; gap: 10px; justify-content: flex-end;">
           <button type="button" onclick="closeNewProjectModal()" style="padding: 10px 20px; background: #999; color: white; border: none; border-radius: 5px; cursor: pointer;" data-i18n="btn-cancel">Cancelar</button>
           <button type="submit" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;" data-i18n="btn-create">Criar Projeto</button>
@@ -852,8 +766,8 @@
         </div>
 
         <div style="margin-bottom: 20px;">
-          <label style="font-weight: bold; display: block; margin-bottom: 8px;">💼 Tipo de Profissional ou Negócio</label>
-          <input type="text" id="settings-business-type" placeholder="Ex: Dentista, Advogado, Encanador, Professor de Yoga, etc" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif;">
+          <label style="font-weight: bold; display: block; margin-bottom: 8px;" data-i18n="label-business-type">💼 Tipo de Profissional ou Negócio</label>
+          <input type="text" id="settings-business-type" data-i18n-ph="ph-business-type-input" placeholder="Ex: Dentista, Advogado, Encanador, Professor de Yoga, etc" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif;">
         </div>
 
         <div style="margin-bottom: 20px;">
@@ -882,7 +796,7 @@
 
         <div style="margin-bottom: 20px;">
           <label style="font-weight: bold; display: block; margin-bottom: 8px;" data-i18n="label-about">📝 Sobre o Projeto</label>
-          <textarea id="settings-about" placeholder="Descrição completa do seu projeto/empresa..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif; min-height: 100px;"></textarea>
+          <textarea id="settings-about" data-i18n-ph="ph-about" placeholder="Descrição completa do seu projeto/empresa..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-family: 'Times New Roman', Times, serif; min-height: 100px;"></textarea>
         </div>
 
         <div style="display: flex; gap: 10px; justify-content: flex-end;">
@@ -1864,7 +1778,7 @@
         "label-social": "📱 Redes Sociais",
         "label-about": "📝 Sobre o Projeto",
         "btn-save-settings": "💾 Salvar Configurações",
-        "ph-keywords": "Digite palavras-chave (ex: ortopedia, marketing)",
+        "ph-keywords": "Digite palavras-chave (ex: ortodontia, marketing)",
         "ph-location": "Localização (ex: São Paulo, Brasil)",
         "ph-import": "Cole dados aqui (JSON ou um lead por linha)\nFormato esperado: nome,email,empresa",
         "btn-search-leads": "🔍 Buscar Leads",
@@ -1873,6 +1787,63 @@
         "opt-foundation": "Fundação",
         "opt-ngo": "ONG",
         "opt-any": "Qualquer",
+        "card-active-project": "📁 Projeto Ativo",
+        "btn-new-project-full": "➕ Novo Projeto",
+        "opt-switch-project": "📁 Trocar Projeto",
+        "btn-configure-project": "⚙️ Configurar Projeto",
+        "welcome-title": "✨ Bem-vindo ao CAPTALEADS",
+        "welcome-desc": "CAPTALEADS é a solução completa para geração de leads, email marketing e criação de landing pages.",
+        "welcome-li-1": "🎯 <strong>Busca de Leads:</strong> Encontre contatos de qualquer industria",
+        "welcome-li-2": "📧 <strong>Campanhas de Email:</strong> Envie emails personalizados em massa",
+        "welcome-li-3": "🎨 <strong>Landing Pages:</strong> Crie páginas de vendas sem código",
+        "welcome-li-4": "⚙️ <strong>Configurável:</strong> Adapte para qualquer negócio ou profissão",
+        "card-search-title": "🔍 Busca de Leads",
+        "card-import-title": "📥 Importar Leads",
+        "card-found-title": "📊 Leads Encontrados",
+        "btn-import": "📥 Importar",
+        "card-new-campaign": "📝 Nova Campanha",
+        "btn-create-campaign": "✉️ Criar Campanha",
+        "card-active-campaigns": "📋 Campanhas Ativas",
+        "card-test-email-title": "🧪 Testar Email",
+        "btn-send-test": "🧪 Enviar Email de Teste",
+        "card-create-landing": "➕ Criar Nova Landing Page",
+        "btn-create-landing": "🚀 Criar Landing Page",
+        "card-my-pages": "📄 Minhas Landing Pages",
+        "card-chat-title": "💬 Chat com IA",
+        "chat-desc": "Faça perguntas sobre CAPTALEADS, leads, campanhas de email, landing pages e muito mais!",
+        "btn-send-chat": "Enviar",
+        "settings-email-title": "📧 Email (Resend)",
+        "settings-email-desc": "Configure seu serviço de email para enviar campanhas de verdade.",
+        "btn-save-email": "💾 Salvar Configurações de Email",
+        "settings-api-title": "🔑 API Keys (Opcional mas Recomendado)",
+        "settings-api-desc": "Adicione suas chaves para melhorar a qualidade da busca de leads.",
+        "btn-save-api": "🔐 Salvar API Keys",
+        "settings-system-title": "ℹ️ Informações do Sistema",
+        "ph-campaign-subject": "Assunto do email",
+        "ph-campaign-body": "Corpo do email\nUse {nome}, {empresa}, {email} para personalizações",
+        "ph-from-email": "Email de origem",
+        "ph-from-name": "Nome de origem",
+        "ph-test-email": "Seu email para teste",
+        "ph-chat-input": "Digite sua pergunta...",
+        "ph-settings-from-email": "Email de origem",
+        "ph-settings-from-name": "Nome de origem (ex: CAPTA Leads)",
+        "ph-hunter-key": "Hunter.io API Key (opcional)",
+        "ph-clearbit-key": "Clearbit API Key (opcional)",
+        "ph-project-name": "Nome do projeto",
+        "ph-project-desc": "Descrição (opcional)",
+        "ph-business-type-input": "Ex: Dentista, Advogado, Encanador, Professor de Yoga, etc",
+        "ph-about": "Descrição completa do seu projeto/empresa...",
+        "ph-page-title": "Título da página",
+        "ph-seo-title": "SEO Title (opcional)",
+        "ph-seo-desc": "SEO Description (opcional)",
+        "ind-generic": "Genérico",
+        "ind-cinema": "Cinema & Audiovisual",
+        "ind-arte": "Arte & Cultura",
+        "ind-healthcare": "Saúde & Medicina",
+        "ind-tech": "Tecnologia",
+        "ind-ecommerce": "E-commerce & Varejo",
+        "ind-realestate": "Imóveis",
+        "ind-education": "Educação",
         "th-name": "Nome",
         "th-email": "Email",
         "th-action": "Ação",
@@ -1918,7 +1889,7 @@
         "label-about": "📝 About the Project",
         "btn-save-settings": "💾 Save Settings",
         "ph-keywords": "Enter keywords (e.g. orthodontics, marketing)",
-        "ph-location": "Location (e.g. New York, USA)",
+        "ph-location": "Location (e.g. São Paulo, Brazil)",
         "ph-import": "Paste data here (JSON or one lead per line)\nExpected format: name,email,company",
         "btn-search-leads": "🔍 Search Leads",
         "btn-import-leads": "📥 Import",
@@ -1926,6 +1897,63 @@
         "opt-foundation": "Foundation",
         "opt-ngo": "NGO",
         "opt-any": "Any",
+        "card-active-project": "📁 Active Project",
+        "btn-new-project-full": "➕ New Project",
+        "opt-switch-project": "📁 Switch Project",
+        "btn-configure-project": "⚙️ Configure Project",
+        "welcome-title": "✨ Welcome to CAPTALEADS",
+        "welcome-desc": "CAPTALEADS is the complete solution for lead generation, email marketing and landing page creation.",
+        "welcome-li-1": "🎯 <strong>Lead Search:</strong> Find contacts from any industry",
+        "welcome-li-2": "📧 <strong>Email Campaigns:</strong> Send personalized emails at scale",
+        "welcome-li-3": "🎨 <strong>Landing Pages:</strong> Create sales pages without code",
+        "welcome-li-4": "⚙️ <strong>Configurable:</strong> Adapt to any business or profession",
+        "card-search-title": "🔍 Lead Search",
+        "card-import-title": "📥 Import Leads",
+        "card-found-title": "📊 Leads Found",
+        "btn-import": "📥 Import",
+        "card-new-campaign": "📝 New Campaign",
+        "btn-create-campaign": "✉️ Create Campaign",
+        "card-active-campaigns": "📋 Active Campaigns",
+        "card-test-email-title": "🧪 Test Email",
+        "btn-send-test": "🧪 Send Test Email",
+        "card-create-landing": "➕ Create New Landing Page",
+        "btn-create-landing": "🚀 Create Landing Page",
+        "card-my-pages": "📄 My Landing Pages",
+        "card-chat-title": "💬 Chat with AI",
+        "chat-desc": "Ask questions about CAPTALEADS, leads, email campaigns, landing pages and much more!",
+        "btn-send-chat": "Send",
+        "settings-email-title": "📧 Email (Resend)",
+        "settings-email-desc": "Configure your email service to send real campaigns.",
+        "btn-save-email": "💾 Save Email Settings",
+        "settings-api-title": "🔑 API Keys (Optional but Recommended)",
+        "settings-api-desc": "Add your keys to improve lead search quality.",
+        "btn-save-api": "🔐 Save API Keys",
+        "settings-system-title": "ℹ️ System Information",
+        "ph-campaign-subject": "Email subject",
+        "ph-campaign-body": "Email body\nUse {name}, {company}, {email} for personalization",
+        "ph-from-email": "From email",
+        "ph-from-name": "From name",
+        "ph-test-email": "Your email for testing",
+        "ph-chat-input": "Type your question...",
+        "ph-settings-from-email": "From email",
+        "ph-settings-from-name": "From name (e.g. CAPTA Leads)",
+        "ph-hunter-key": "Hunter.io API Key (optional)",
+        "ph-clearbit-key": "Clearbit API Key (optional)",
+        "ph-project-name": "Project name",
+        "ph-project-desc": "Description (optional)",
+        "ph-business-type-input": "E.g. Dentist, Lawyer, Plumber, Yoga Teacher, etc",
+        "ph-about": "Full description of your project/company...",
+        "ph-page-title": "Page title",
+        "ph-seo-title": "SEO Title (optional)",
+        "ph-seo-desc": "SEO Description (optional)",
+        "ind-generic": "Generic",
+        "ind-cinema": "Cinema & Audiovisual",
+        "ind-arte": "Art & Culture",
+        "ind-healthcare": "Health & Medicine",
+        "ind-tech": "Technology",
+        "ind-ecommerce": "E-commerce & Retail",
+        "ind-realestate": "Real Estate",
+        "ind-education": "Education",
         "th-name": "Name",
         "th-email": "Email",
         "th-action": "Action",
@@ -1979,6 +2007,63 @@
         "opt-foundation": "Fundación",
         "opt-ngo": "ONG",
         "opt-any": "Cualquiera",
+        "card-active-project": "📁 Proyecto Activo",
+        "btn-new-project-full": "➕ Nuevo Proyecto",
+        "opt-switch-project": "📁 Cambiar Proyecto",
+        "btn-configure-project": "⚙️ Configurar Proyecto",
+        "welcome-title": "✨ Bienvenido a CAPTALEADS",
+        "welcome-desc": "CAPTALEADS es la solución completa para generación de leads, email marketing y creación de landing pages.",
+        "welcome-li-1": "🎯 <strong>Búsqueda de Leads:</strong> Encuentra contactos de cualquier industria",
+        "welcome-li-2": "📧 <strong>Campañas de Email:</strong> Envía emails personalizados en masa",
+        "welcome-li-3": "🎨 <strong>Landing Pages:</strong> Crea páginas de ventas sin código",
+        "welcome-li-4": "⚙️ <strong>Configurable:</strong> Adapta para cualquier negocio o profesión",
+        "card-search-title": "🔍 Búsqueda de Leads",
+        "card-import-title": "📥 Importar Leads",
+        "card-found-title": "📊 Leads Encontrados",
+        "btn-import": "📥 Importar",
+        "card-new-campaign": "📝 Nueva Campaña",
+        "btn-create-campaign": "✉️ Crear Campaña",
+        "card-active-campaigns": "📋 Campañas Activas",
+        "card-test-email-title": "🧪 Probar Email",
+        "btn-send-test": "🧪 Enviar Email de Prueba",
+        "card-create-landing": "➕ Crear Nueva Landing Page",
+        "btn-create-landing": "🚀 Crear Landing Page",
+        "card-my-pages": "📄 Mis Landing Pages",
+        "card-chat-title": "💬 Chat con IA",
+        "chat-desc": "¡Haz preguntas sobre CAPTALEADS, leads, campañas de email, landing pages y mucho más!",
+        "btn-send-chat": "Enviar",
+        "settings-email-title": "📧 Email (Resend)",
+        "settings-email-desc": "Configura tu servicio de email para enviar campañas reales.",
+        "btn-save-email": "💾 Guardar Configuración de Email",
+        "settings-api-title": "🔑 API Keys (Opcional pero Recomendado)",
+        "settings-api-desc": "Agrega tus claves para mejorar la calidad de búsqueda de leads.",
+        "btn-save-api": "🔐 Guardar API Keys",
+        "settings-system-title": "ℹ️ Información del Sistema",
+        "ph-campaign-subject": "Asunto del email",
+        "ph-campaign-body": "Cuerpo del email\nUsa {nombre}, {empresa}, {email} para personalizar",
+        "ph-from-email": "Email de origen",
+        "ph-from-name": "Nombre de origen",
+        "ph-test-email": "Tu email para prueba",
+        "ph-chat-input": "Escribe tu pregunta...",
+        "ph-settings-from-email": "Email de origen",
+        "ph-settings-from-name": "Nombre de origen (ej: CAPTA Leads)",
+        "ph-hunter-key": "Hunter.io API Key (opcional)",
+        "ph-clearbit-key": "Clearbit API Key (opcional)",
+        "ph-project-name": "Nombre del proyecto",
+        "ph-project-desc": "Descripción (opcional)",
+        "ph-business-type-input": "Ej: Dentista, Abogado, Plomero, Profesor de Yoga, etc",
+        "ph-about": "Descripción completa de tu proyecto/empresa...",
+        "ph-page-title": "Título de la página",
+        "ph-seo-title": "SEO Title (opcional)",
+        "ph-seo-desc": "SEO Description (opcional)",
+        "ind-generic": "Genérico",
+        "ind-cinema": "Cine & Audiovisual",
+        "ind-arte": "Arte & Cultura",
+        "ind-healthcare": "Salud & Medicina",
+        "ind-tech": "Tecnología",
+        "ind-ecommerce": "E-commerce & Venta",
+        "ind-realestate": "Inmobiliaria",
+        "ind-education": "Educación",
         "th-name": "Nombre",
         "th-email": "Email",
         "th-action": "Acción",
@@ -2032,6 +2117,63 @@
         "opt-foundation": "Fondation",
         "opt-ngo": "ONG",
         "opt-any": "Tout",
+        "card-active-project": "📁 Projet Actif",
+        "btn-new-project-full": "➕ Nouveau Projet",
+        "opt-switch-project": "📁 Changer de Projet",
+        "btn-configure-project": "⚙️ Configurer le Projet",
+        "welcome-title": "✨ Bienvenue à CAPTALEADS",
+        "welcome-desc": "CAPTALEADS est la solution complète pour la génération de leads, l'email marketing et la création de landing pages.",
+        "welcome-li-1": "🎯 <strong>Recherche de Leads:</strong> Trouvez des contacts de n'importe quelle industrie",
+        "welcome-li-2": "📧 <strong>Campagnes Email:</strong> Envoyez des emails personnalisés à grande échelle",
+        "welcome-li-3": "🎨 <strong>Landing Pages:</strong> Créez des pages de vente sans code",
+        "welcome-li-4": "⚙️ <strong>Configurable:</strong> Adaptez à n'importe quel métier ou profession",
+        "card-search-title": "🔍 Recherche de Leads",
+        "card-import-title": "📥 Importer des Leads",
+        "card-found-title": "📊 Leads Trouvés",
+        "btn-import": "📥 Importer",
+        "card-new-campaign": "📝 Nouvelle Campagne",
+        "btn-create-campaign": "✉️ Créer une Campagne",
+        "card-active-campaigns": "📋 Campagnes Actives",
+        "card-test-email-title": "🧪 Tester l'Email",
+        "btn-send-test": "🧪 Envoyer un Email de Test",
+        "card-create-landing": "➕ Créer une Nouvelle Landing Page",
+        "btn-create-landing": "🚀 Créer une Landing Page",
+        "card-my-pages": "📄 Mes Landing Pages",
+        "card-chat-title": "💬 Chat avec l'IA",
+        "chat-desc": "Posez des questions sur CAPTALEADS, les leads, les campagnes email, les landing pages et bien plus!",
+        "btn-send-chat": "Envoyer",
+        "settings-email-title": "📧 Email (Resend)",
+        "settings-email-desc": "Configurez votre service d'email pour envoyer de vraies campagnes.",
+        "btn-save-email": "💾 Enregistrer Config Email",
+        "settings-api-title": "🔑 API Keys (Optionnel mais Recommandé)",
+        "settings-api-desc": "Ajoutez vos clés pour améliorer la qualité de recherche de leads.",
+        "btn-save-api": "🔐 Enregistrer les API Keys",
+        "settings-system-title": "ℹ️ Informations Système",
+        "ph-campaign-subject": "Objet de l'email",
+        "ph-campaign-body": "Corps de l'email\nUtilisez {nom}, {entreprise}, {email} pour la personnalisation",
+        "ph-from-email": "Email d'expéditeur",
+        "ph-from-name": "Nom d'expéditeur",
+        "ph-test-email": "Votre email pour le test",
+        "ph-chat-input": "Tapez votre question...",
+        "ph-settings-from-email": "Email d'expéditeur",
+        "ph-settings-from-name": "Nom d'expéditeur (ex: CAPTA Leads)",
+        "ph-hunter-key": "Hunter.io API Key (optionnel)",
+        "ph-clearbit-key": "Clearbit API Key (optionnel)",
+        "ph-project-name": "Nom du projet",
+        "ph-project-desc": "Description (optionnel)",
+        "ph-business-type-input": "Ex: Dentiste, Avocat, Plombier, Prof de Yoga, etc",
+        "ph-about": "Description complète de votre projet/entreprise...",
+        "ph-page-title": "Titre de la page",
+        "ph-seo-title": "SEO Title (optionnel)",
+        "ph-seo-desc": "SEO Description (optionnel)",
+        "ind-generic": "Générique",
+        "ind-cinema": "Cinéma & Audiovisuel",
+        "ind-arte": "Art & Culture",
+        "ind-healthcare": "Santé & Médecine",
+        "ind-tech": "Technologie",
+        "ind-ecommerce": "E-commerce & Commerce",
+        "ind-realestate": "Immobilier",
+        "ind-education": "Éducation",
         "th-name": "Nom",
         "th-email": "Email",
         "th-action": "Action",
@@ -2082,26 +2224,38 @@
       const testAlert = document.getElementById('test-mode-alert');
       if (testAlert) testAlert.textContent = translations[lang]["test-mode"];
 
-      // Update labels
+      // Update all data-i18n elements (text/HTML content)
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (translations[lang][key]) el.textContent = translations[lang][key];
+        if (translations[lang][key]) el.innerHTML = translations[lang][key];
       });
 
-      // Update search form placeholders
-      const t = translations[lang];
-      const kwEl = document.getElementById('search-keywords');
-      if (kwEl && t['ph-keywords']) kwEl.placeholder = t['ph-keywords'];
-      const locEl = document.getElementById('search-location');
-      if (locEl && t['ph-location']) locEl.placeholder = t['ph-location'];
-      const importEl = document.getElementById('import-leads-data');
-      if (importEl && t['ph-import']) importEl.placeholder = t['ph-import'];
+      // Update all data-i18n-ph elements (placeholders)
+      document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+        const key = el.getAttribute('data-i18n-ph');
+        if (translations[lang][key]) el.placeholder = translations[lang][key];
+      });
 
-      // Update search type select options
-      const searchType = document.getElementById('search-type');
-      if (searchType && t['opt-business']) {
-        const vals = { business: t['opt-business'], foundation: t['opt-foundation'], ngo: t['opt-ngo'], any: t['opt-any'] };
-        Array.from(searchType.options).forEach(opt => { if (vals[opt.value]) opt.text = vals[opt.value]; });
+      // Update all data-i18n-opt elements (select options)
+      document.querySelectorAll('[data-i18n-opt]').forEach(el => {
+        const key = el.getAttribute('data-i18n-opt');
+        if (translations[lang][key]) el.text = translations[lang][key];
+      });
+
+      // Update industry select options by ID
+      const industrySelect = document.getElementById('page-industry');
+      if (industrySelect) {
+        const opts = {
+          generic: translations[lang]['ind-generic'],
+          cinema: translations[lang]['ind-cinema'],
+          arte: translations[lang]['ind-arte'],
+          healthcare: translations[lang]['ind-healthcare'],
+          tech: translations[lang]['ind-tech'],
+          ecommerce: translations[lang]['ind-ecommerce'],
+          realestate: translations[lang]['ind-realestate'],
+          education: translations[lang]['ind-education']
+        };
+        Array.from(industrySelect.options).forEach(opt => { if (opts[opt.value]) opt.text = opts[opt.value]; });
       }
     }
 
