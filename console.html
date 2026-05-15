@@ -1019,9 +1019,20 @@
 
     function selectProject(projectId) {
       if (!projectId) return;
+
+      // Validate project exists
+      const projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
+      const projectExists = projects.find(p => p.id === projectId);
+
+      if (!projectExists) {
+        showAlert('❌ Projeto não encontrado!', 'error');
+        return;
+      }
+
       currentProject = projectId;
       localStorage.setItem('capta_active_project', projectId);
       updateProjectSelector();
+      loadProjectSettings();
       refreshLeadsList();
       refreshCampaignsList();
       refreshPagesList();
@@ -1202,13 +1213,21 @@
         showAlert(`✅ ${result.leads.length} leads encontrados!`, "success");
       } catch (error) {
         console.error(error);
+        showAlert("❌ Erro ao buscar leads. Tente novamente.", "error");
       }
     });
 
     function renderSearchResults() {
       const container = document.getElementById("search-results");
       if (searchResults.length === 0) {
-        container.innerHTML = "<p>Nenhum resultado. Faça uma busca primeiro.</p>";
+        const lang = getCurrentLanguage();
+        const messages = {
+          pt: "Nenhum resultado. Faça uma busca primeiro.",
+          en: "No results. Make a search first.",
+          es: "Sin resultados. Realiza una búsqueda primero.",
+          fr: "Aucun résultat. Effectuez une recherche d'abord."
+        };
+        container.innerHTML = `<p>${messages[lang] || messages.pt}</p>`;
         return;
       }
 
@@ -1229,11 +1248,11 @@
               .map(
                 (lead) => `
               <tr>
-                <td>${lead.nome}</td>
+                <td>${lead.name}</td>
                 <td>${lead.email}</td>
                 <td><a href="${lead.website}" target="_blank">Ir</a></td>
                 <td><span class="badge success">${lead.score}</span></td>
-                <td><button onclick="addToLeads('${lead.email}', '${lead.nome}')">➕ Adicionar</button></td>
+                <td><button onclick="addToLeads('${lead.email}', '${lead.name}')">➕ Adicionar</button></td>
               </tr>`
               )
               .join("")}
@@ -1245,7 +1264,7 @@
     function addToLeads(email, name) {
       let leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
       if (!leads.find((l) => l.email === email)) {
-        leads.push({ email, nome: name });
+        leads.push({ email, name });
         localStorage.setItem(getProjectKey("my_leads"), JSON.stringify(leads));
         showAlert(`✅ ${name} adicionado à lista!`, "success");
         refreshLeadsList();
@@ -1259,7 +1278,14 @@
       const container = document.getElementById("leads-list");
 
       if (leads.length === 0) {
-        container.innerHTML = "<p>Nenhum lead adicionado ainda.</p>";
+        const lang = getCurrentLanguage();
+        const messages = {
+          pt: "Nenhum lead adicionado ainda.",
+          en: "No leads added yet.",
+          es: "Sin leads añadidos aún.",
+          fr: "Aucun lead ajouté pour l'instant."
+        };
+        container.innerHTML = `<p>${messages[lang] || messages.pt}</p>`;
         return;
       }
 
@@ -1343,6 +1369,7 @@
         refreshCampaignsList();
       } catch (error) {
         console.error(error);
+        showAlert("❌ Erro ao criar campanha.", "error");
       }
     });
 
@@ -1352,7 +1379,14 @@
         const container = document.getElementById("campaigns-list");
 
         if (!result.campaigns || result.campaigns.length === 0) {
-          container.innerHTML = "<p>Nenhuma campanha criada ainda.</p>";
+          const lang = getCurrentLanguage();
+          const messages = {
+            pt: "Nenhuma campanha criada ainda.",
+            en: "No campaigns created yet.",
+            es: "Sin campañas creadas aún.",
+            fr: "Aucune campagne créée pour l'instant."
+          };
+          container.innerHTML = `<p>${messages[lang] || messages.pt}</p>`;
           return;
         }
 
@@ -1387,6 +1421,7 @@
         document.getElementById("stat-campaigns").textContent = result.campaigns.length;
       } catch (error) {
         console.error(error);
+        showAlert("❌ Erro ao carregar campanhas.", "error");
       }
     }
 
@@ -1406,6 +1441,7 @@
         refreshCampaignsList();
       } catch (error) {
         console.error(error);
+        showAlert("❌ Erro ao enviar emails.", "error");
       }
     }
 
@@ -1422,6 +1458,7 @@
         }
       } catch (error) {
         console.error(error);
+        showAlert("❌ Erro ao testar email.", "error");
       }
     });
 
@@ -1446,6 +1483,7 @@
         refreshPagesList();
       } catch (error) {
         console.error(error);
+        showAlert("❌ Erro ao criar landing page.", "error");
       }
     });
 
@@ -1455,7 +1493,14 @@
         const container = document.getElementById("pages-list");
 
         if (!result.pages || result.pages.length === 0) {
-          container.innerHTML = "<p>Nenhuma landing page criada ainda.</p>";
+          const lang = getCurrentLanguage();
+          const messages = {
+            pt: "Nenhuma landing page criada ainda.",
+            en: "No landing pages created yet.",
+            es: "Sin landing pages creadas aún.",
+            fr: "Aucune landing page créée pour l'instant."
+          };
+          container.innerHTML = `<p>${messages[lang] || messages.pt}</p>`;
           return;
         }
 
@@ -1492,6 +1537,7 @@
         document.getElementById("stat-pages").textContent = result.pages.length;
       } catch (error) {
         console.error(error);
+        showAlert("❌ Erro ao carregar landing pages.", "error");
       }
     }
 
