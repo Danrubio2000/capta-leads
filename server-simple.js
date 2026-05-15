@@ -6,10 +6,10 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// COMPREHENSIVE LEAD DATABASE - 500+ Realistic Results
-// Generated from public data sources + realistic combinations
+// COMPREHENSIVE LEAD DATABASE - Dynamic Professional Leads Generator
+// Generates realistic leads based on configured business type
 
-function generateDentistLeads(city = "Astória") {
+function generateProfessionalLeads(businessType = "Dentista", city = "Astória") {
   const firstNames = [
     "Dr. Carlos", "Dra. Maria", "Dr. João", "Dra. Ana", "Dr. Roberto",
     "Dra. Paula", "Dr. Fernando", "Dra. Juliana", "Dr. Ricardo", "Dra. Beatriz",
@@ -30,11 +30,23 @@ function generateDentistLeads(city = "Astória") {
     "Moura", "Lemos", "Viana", "Campos", "Assis", "Rego", "Abreu"
   ];
 
-  const specialties = [
-    "Ortodontia", "Implantologia", "Endodontia", "Periodontia",
-    "Estética", "Protética", "Clareamento", "Cirurgia Oral",
-    "Geral", "Infantil", "Preventiva", "Reabilitação Oral"
-  ];
+  // Specialties mapping by business type
+  const specialtiesMap = {
+    "Dentista": ["Ortodontia", "Implantologia", "Endodontia", "Periodontia", "Estética", "Protética", "Clareamento", "Cirurgia Oral", "Geral", "Infantil", "Preventiva", "Reabilitação Oral"],
+    "Advogado": ["Direito Civil", "Direito Penal", "Direito Trabalhista", "Direito Comercial", "Direito Ambiental", "Direito Administrativo", "Direito Tributário", "Direito Imobiliário"],
+    "Encanador": ["Hidráulica", "Reparo de Tubulações", "Instalação de Pias", "Conserto de Vazamentos", "Desobstrução", "Instalação de Chuveiros", "Reparo de Canos", "Manutenção Preventiva"],
+    "Professor": ["Matemática", "Português", "Inglês", "História", "Geografia", "Ciências", "Educação Física", "Artes", "Música"],
+    "Professor de Yoga": ["Hatha Yoga", "Vinyasa", "Ashtanga", "Kundalini", "Yin Yoga", "Yoga Terapêutico", "Yoga para Iniciantes", "Meditação"],
+    "Contador": ["Contabilidade Geral", "Imposto de Renda", "Contabilidade Fiscal", "Auditoria", "Consultoria Tributária", "Contabilidade Gerencial"],
+    "Psicólogo": ["Psicologia Clínica", "Terapia Comportamental", "Psicanálise", "Terapia Familiar", "Psicologia Organizacional", "Avaliação Psicológica"],
+    "Médico": ["Clínico Geral", "Cardiologia", "Dermatologia", "Ortopedia", "Neurologia", "Oftalmologia", "Pneumologia", "Gastroenterologia"],
+    "Encanador": ["Instalação", "Manutenção", "Reparo", "Conserto", "Desobstrução"],
+    "Consultor": ["Gestão Empresarial", "Estratégia", "Marketing", "Recursos Humanos", "Operações", "Financeiro"]
+  };
+
+  const specialties = specialtiesMap[businessType] || ["Geral", "Consultoria", "Assessoria"];
+  const emailDomain = ["com.br", "net.br", "services.com", "pro.com", "email.com"][Math.floor(Math.random() * 5)];
+  const streets = ["Ditmars Blvd", "Steinway St", "30th Ave", "Broadway", "21st Ave", "Rua Principal", "Avenida Central", "Rua de Comércio"];
 
   const leads = [];
 
@@ -44,18 +56,20 @@ function generateDentistLeads(city = "Astória") {
     const specialty = specialties[Math.floor(Math.random() * specialties.length)];
 
     const baseScore = 65 + Math.floor(Math.random() * 30);
-    const emailDomain = ["dental.com", "dentistry.com", "smile.com", "dent.com", "clinica.com.br"][Math.floor(Math.random() * 5)];
-    const phone = `(718) ${Math.floor(Math.random() * 9000) + 1000}-${Math.floor(Math.random() * 9000) + 1000}`;
+    const phone = `(${Math.floor(Math.random() * 85) + 11}) ${Math.floor(Math.random() * 90000) + 10000}-${Math.floor(Math.random() * 9000) + 1000}`;
+    const firstNameClean = firstName.toLowerCase().replace("dr. ", "").replace("dra. ", "");
+    const businessTypeSlug = businessType.toLowerCase().replace(/\s+/g, "-");
 
     leads.push({
       name: `${firstName} ${lastName}`,
-      email: `${firstName.toLowerCase().replace("dr. ", "").replace("dra. ", "")}.${lastName.toLowerCase()}@${emailDomain}`,
-      website: `https://${firstName.toLowerCase().replace(/\s/g, "")}-${lastName.toLowerCase()}-dental.com`,
+      email: `${firstNameClean}.${lastName.toLowerCase()}@${businessTypeSlug}.${emailDomain}`,
+      website: `https://${firstNameClean}-${lastName.toLowerCase()}-${businessTypeSlug}.com.br`,
       score: baseScore,
       phone: phone,
       specialty: specialty,
+      businessType: businessType,
       location: city,
-      address: `${Math.floor(Math.random() * 9000) + 1000} ${["Ditmars Blvd", "Steinway St", "30th Ave", "Broadway", "21st Ave"][Math.floor(Math.random() * 5)]}, ${city}, NY`,
+      address: `${Math.floor(Math.random() * 9000) + 1000} ${streets[Math.floor(Math.random() * streets.length)]}, ${city}`,
       verified: Math.random() > 0.3,
       foundDate: new Date(Date.now() - Math.random() * 180 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
     });
@@ -64,39 +78,36 @@ function generateDentistLeads(city = "Astória") {
   return leads;
 }
 
-// Generate comprehensive databases
-const dentistLeads = {
-  "astória": generateDentistLeads("Astória"),
-  "queens": generateDentistLeads("Queens"),
-  "nova york": generateDentistLeads("Nova York"),
-  "brooklyn": generateDentistLeads("Brooklyn"),
-  "manhattan": generateDentistLeads("Manhattan")
-};
+// Cache for generated leads by business type and location
+const leadsCache = {};
 
-function getMockLeads(keywords, location) {
-  const searchKey = keywords.toLowerCase();
+function getCachedLeads(businessType, location) {
+  const cacheKey = `${businessType}_${location}`;
+  if (!leadsCache[cacheKey]) {
+    leadsCache[cacheKey] = generateProfessionalLeads(businessType, location);
+  }
+  return leadsCache[cacheKey];
+}
+
+function getMockLeads(businessType = "Dentista", location = "Astória") {
   const searchLocation = location.toLowerCase();
 
   // Map locations
   const locationMap = {
-    "astória": "astória",
-    "astoria": "astória",
-    "queens": "queens",
-    "nova york": "nova york",
-    "new york": "nova york",
-    "brooklyn": "brooklyn",
-    "manhattan": "manhattan"
+    "astória": "Astória",
+    "astoria": "Astória",
+    "queens": "Queens",
+    "nova york": "Nova York",
+    "new york": "Nova York",
+    "ny": "Nova York",
+    "brooklyn": "Brooklyn",
+    "manhattan": "Manhattan"
   };
 
-  const normalizedLocation = locationMap[searchLocation] || "astória";
+  const normalizedLocation = locationMap[searchLocation] || "Astória";
 
-  // Search by keyword and location
-  if (searchKey.includes("dentista") && dentistLeads[normalizedLocation]) {
-    return dentistLeads[normalizedLocation];
-  }
-
-  // Fallback to default location
-  return dentistLeads["astória"] || [];
+  // Return leads based on business type and location
+  return getCachedLeads(businessType, normalizedLocation);
 }
 
 function parseBody(req) {
@@ -154,15 +165,15 @@ const server = http.createServer(async (req, res) => {
       res.end(JSON.stringify({ ok: true }));
     } else if (pathname === "/api/leads/search" && req.method === "POST") {
       const body = await parseBody(req);
-      const { keywords = "", location = "Internacional", type = "all" } = body;
+      const { keywords = "", location = "Astória", type = "all", businessType = "Dentista" } = body;
 
-      const leads = getMockLeads(keywords, location);
+      const leads = getMockLeads(businessType, location);
 
       res.writeHead(200);
       res.end(JSON.stringify({
         leads,
         total: leads.length,
-        query: { keywords, location, type }
+        query: { keywords, location, type, businessType }
       }));
     } else {
       res.writeHead(404);
