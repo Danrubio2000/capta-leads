@@ -904,10 +904,143 @@
       : `${window.location.protocol}//${window.location.host}/api`;
 
     // ═══════════════════════════════════════════════════════════════
+    // INDEXEDDB - AUTO-SAVE LOCAL STORAGE
+    // ═══════════════════════════════════════════════════════════════
+
+    const DB_NAME = 'CAPTA_LEADS_DB';
+    const DB_VERSION = 1;
+    let db = null;
+
+    // Initialize IndexedDB
+    function initIndexedDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+          db = request.result;
+          resolve(db);
+        };
+
+        request.onupgradeneeded = (event) => {
+          const database = event.target.result;
+
+          // Create object stores if they don't exist
+          if (!database.objectStoreNames.contains('projects')) {
+            database.createObjectStore('projects', { keyPath: 'id' });
+          }
+          if (!database.objectStoreNames.contains('leads')) {
+            database.createObjectStore('leads', { keyPath: 'id' });
+          }
+          if (!database.objectStoreNames.contains('settings')) {
+            database.createObjectStore('settings', { keyPath: 'key' });
+          }
+          if (!database.objectStoreNames.contains('language')) {
+            database.createObjectStore('language', { keyPath: 'key' });
+          }
+        };
+      });
+    }
+
+    // Save to IndexedDB
+    async function saveToIndexedDB(storeName, key, data) {
+      if (!db) return;
+      try {
+        const transaction = db.transaction(storeName, 'readwrite');
+        const store = transaction.objectStore(storeName);
+
+        if (typeof data === 'object' && !data.id && !data.key) {
+          data = { ...data, id: key, key: key };
+        }
+
+        store.put(data);
+      } catch (error) {
+        console.error('IndexedDB save error:', error);
+      }
+    }
+
+    // Read from IndexedDB
+    async function readFromIndexedDB(storeName, key) {
+      if (!db) return null;
+      return new Promise((resolve) => {
+        try {
+          const transaction = db.transaction(storeName, 'readonly');
+          const store = transaction.objectStore(storeName);
+          const request = store.get(key);
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => resolve(null);
+        } catch (error) {
+          console.error('IndexedDB read error:', error);
+          resolve(null);
+        }
+      });
+    }
+
+    // Get all from IndexedDB
+    async function getAllFromIndexedDB(storeName) {
+      if (!db) return [];
+      return new Promise((resolve) => {
+        try {
+          const transaction = db.transaction(storeName, 'readonly');
+          const store = transaction.objectStore(storeName);
+          const request = store.getAll();
+          request.onsuccess = () => resolve(request.result || []);
+          request.onerror = () => resolve([]);
+        } catch (error) {
+          console.error('IndexedDB getAll error:', error);
+          resolve([]);
+        }
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
     // HOME SCREEN / CONSOLE PRINCIPAL
     // ═══════════════════════════════════════════════════════════════
 
     let projectSelected = false;
+
+    // ═══════════════════════════════════════════════════════════════
+    // AUTO-SAVE WRAPPER FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════
+
+    // Auto-save to both localStorage and IndexedDB
+    async function autoSaveData(key, value) {
+      // Save to localStorage for backward compatibility
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch (e) {
+        console.warn('localStorage save failed:', e);
+      }
+
+      // Save to IndexedDB
+      const storeName = key.includes('projects') ? 'projects' :
+                       key.includes('settings') ? 'settings' :
+                       key.includes('leads') ? 'leads' : 'language';
+
+      await saveToIndexedDB(storeName, key, value);
+    }
+
+    // Auto-load from IndexedDB with fallback to localStorage
+    async function autoLoadData(key) {
+      // Try IndexedDB first
+      const idbData = await readFromIndexedDB('projects', key) ||
+                      await readFromIndexedDB('settings', key) ||
+                      await readFromIndexedDB('leads', key) ||
+                      await readFromIndexedDB('language', key);
+
+      if (idbData) {
+        return idbData;
+      }
+
+      // Fallback to localStorage
+      try {
+        const lsData = localStorage.getItem(key);
+        return lsData ? JSON.parse(lsData) : null;
+      } catch (e) {
+        console.warn('localStorage read failed:', e);
+        return null;
+      }
+    }
 
     function showHomeScreen() {
       const home = document.getElementById('home-screen');
@@ -953,10 +1086,28 @@
     });
 
     document.getElementById('home-projects').addEventListener('click', () => {
+      console.log('\n🏠 Home Projects botão clicado');
       hideHomeScreen();
+      console.log('✅ Home screen escondido');
+
       setTimeout(() => {
+        console.log('⏱️ Timeout de 300ms executado');
         const dashboardBtn = document.querySelector('[data-section="dashboard"]');
-        if (dashboardBtn) dashboardBtn.click();
+        console.log(`🔍 Dashboard button encontrado: ${dashboardBtn ? 'SIM' : 'NÃO'}`);
+
+        if (dashboardBtn) {
+          console.log('🖱️ Simulando click no dashboard button...');
+          dashboardBtn.click();
+        } else {
+          console.error('❌ ERRO: Dashboard button não encontrado!');
+          console.log('Tentando alternativa...');
+          const allBtns = document.querySelectorAll('.nav-btn');
+          console.log(`Encontrados ${allBtns.length} nav buttons`);
+          if (allBtns.length > 0) {
+            console.log('Clicando no primeiro botão...');
+            allBtns[0].click();
+          }
+        }
       }, 300);
     });
 
@@ -975,7 +1126,7 @@
 
     let currentProject = null;
 
-    function initializeProjects() {
+    async function initializeProjects() {
       let projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
       let activeProject = localStorage.getItem('capta_active_project');
 
@@ -983,9 +1134,9 @@
         // Create default project
         const defaultProject = { id: 'default_' + Date.now(), name: '📊 Meu Primeiro Projeto', created: Date.now() };
         projects.push(defaultProject);
-        localStorage.setItem('capta_projects', JSON.stringify(projects));
+        await autoSaveData('capta_projects', projects);
         activeProject = defaultProject.id;
-        localStorage.setItem('capta_active_project', activeProject);
+        await autoSaveData('capta_active_project', activeProject);
       }
 
       currentProject = activeProject || projects[0].id;
@@ -1017,7 +1168,7 @@
       });
     }
 
-    function selectProject(projectId) {
+    async function selectProject(projectId) {
       if (!projectId) return;
 
       // Validate project exists
@@ -1030,7 +1181,7 @@
       }
 
       currentProject = projectId;
-      localStorage.setItem('capta_active_project', projectId);
+      await autoSaveData('capta_active_project', projectId);
       updateProjectSelector();
       loadProjectSettings();
       refreshLeadsList();
@@ -1071,7 +1222,7 @@
       document.getElementById('settings-about').value = settings.about || '';
     }
 
-    document.getElementById('project-settings-form')?.addEventListener('submit', (e) => {
+    document.getElementById('project-settings-form')?.addEventListener('submit', async (e) => {
       e.preventDefault();
       const settings = {
         name: document.getElementById('settings-project-name').value,
@@ -1085,7 +1236,7 @@
         youtube: document.getElementById('settings-youtube').value,
         about: document.getElementById('settings-about').value
       };
-      localStorage.setItem(getProjectKey('settings'), JSON.stringify(settings));
+      await autoSaveData(getProjectKey('settings'), settings);
       closeProjectSettingsModal();
       showAlert('✅ Configurações do projeto salvas!', 'success');
     });
@@ -1100,7 +1251,7 @@
 
     document.getElementById('new-project-btn')?.addEventListener('click', openNewProjectModal);
 
-    document.getElementById('new-project-form')?.addEventListener('submit', (e) => {
+    document.getElementById('new-project-form')?.addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = document.getElementById('project-name').value;
       const description = document.getElementById('project-description').value;
@@ -1114,10 +1265,10 @@
 
       let projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
       projects.push(newProject);
-      localStorage.setItem('capta_projects', JSON.stringify(projects));
+      await autoSaveData('capta_projects', projects);
 
       currentProject = newProject.id;
-      localStorage.setItem('capta_active_project', newProject.id);
+      await autoSaveData('capta_active_project', newProject.id);
 
       updateProjectSelector();
       closeNewProjectModal();
@@ -1162,24 +1313,64 @@
     // NAVIGATION
     // ═══════════════════════════════════════════════════════════════
 
-    document.querySelectorAll(".nav-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
+    console.log('🔍 Registrando event listeners para nav buttons...');
+    const navButtons = document.querySelectorAll(".nav-btn");
+    console.log(`Found ${navButtons.length} nav buttons`);
+
+    navButtons.forEach((btn, index) => {
+      console.log(`  ✅ Button ${index}: ${btn.textContent.trim()} [data-section="${btn.dataset.section}"]`);
+
+      btn.addEventListener("click", (e) => {
+        console.log(`\n🖱️ NAV BUTTON CLICADO: ${btn.textContent.trim()}`);
+        e.preventDefault();
+        e.stopPropagation();
+
         // Update active nav
         document.querySelectorAll(".nav-btn").forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
+        console.log('✅ Active class updated');
 
         // Update active section
         const sectionId = btn.dataset.section;
+        console.log(`📍 Section ID: ${sectionId}`);
+
+        if (!sectionId) {
+          console.error('❌ Botão sem data-section:', btn);
+          return;
+        }
+
+        const section = document.getElementById(sectionId);
+        console.log(`🔍 Procurando seção #${sectionId}:`, section ? '✅ ENCONTRADA' : '❌ NÃO ENCONTRADA');
+
+        if (!section) {
+          console.error(`❌ Seção ${sectionId} não encontrada no DOM`);
+          return;
+        }
+
         document.querySelectorAll("section").forEach((s) => s.classList.remove("active"));
-        document.getElementById(sectionId).classList.add("active");
+        section.classList.add("active");
+        console.log(`✅ Seção ${sectionId} ativada com sucesso!`);
 
         // Refresh data
-        if (sectionId === "leads") refreshLeadsList();
-        if (sectionId === "campaigns") refreshCampaignsList();
-        if (sectionId === "landing") refreshPagesList();
-        if (sectionId === "settings") refreshSettings();
+        if (sectionId === "leads") {
+          console.log('↻ Atualizando leads...');
+          refreshLeadsList();
+        }
+        if (sectionId === "campaigns") {
+          console.log('↻ Atualizando campanhas...');
+          if (typeof refreshCampaignsList === 'function') refreshCampaignsList();
+        }
+        if (sectionId === "landing") {
+          console.log('↻ Atualizando landing pages...');
+          if (typeof refreshPagesList === 'function') refreshPagesList();
+        }
+        if (sectionId === "settings") {
+          console.log('↻ Atualizando configurações...');
+          refreshSettings();
+        }
       });
     });
+    console.log('✅ Event listeners registrados com sucesso\n');
 
     // ═══════════════════════════════════════════════════════════════
     // LEADS HUNTING
@@ -1261,11 +1452,11 @@
       `;
     }
 
-    function addToLeads(email, name) {
+    async function addToLeads(email, name) {
       let leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
       if (!leads.find((l) => l.email === email)) {
         leads.push({ email, name });
-        localStorage.setItem(getProjectKey("my_leads"), JSON.stringify(leads));
+        await autoSaveData(getProjectKey("my_leads"), leads);
         showAlert(`✅ ${name} adicionado à lista!`, "success");
         refreshLeadsList();
       } else {
@@ -1313,10 +1504,10 @@
       document.getElementById("stat-leads").textContent = leads.length;
     }
 
-    function removeFromLeads(index) {
+    async function removeFromLeads(index) {
       let leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
       leads.splice(index, 1);
-      localStorage.setItem(getProjectKey("my_leads"), JSON.stringify(leads));
+      await autoSaveData(getProjectKey("my_leads"), leads);
       refreshLeadsList();
     }
 
@@ -1797,8 +1988,8 @@
       return langMap[langPrefix] || 'pt';
     }
 
-    function setLanguage(lang) {
-      localStorage.setItem('console_language', lang);
+    async function setLanguage(lang) {
+      await autoSaveData('console_language', lang);
       document.documentElement.lang = lang;
       document.getElementById('language-selector').value = lang;
 
@@ -1841,12 +2032,19 @@
 
     if (isTestMode) {
       document.getElementById('test-mode-alert').style.display = 'block';
-      localStorage.setItem('test_mode', 'true');
+      await autoSaveData('test_mode', 'true');
     }
 
     // ═══════════════════════════════════════════════════════════════
     // INITIALIZATION
     // ═══════════════════════════════════════════════════════════════
+
+    // Initialize IndexedDB for local auto-save
+    initIndexedDB().then(() => {
+      console.log('✅ IndexedDB initialized - Auto-save enabled');
+    }).catch((error) => {
+      console.warn('⚠️ IndexedDB not available, using localStorage:', error);
+    });
 
     initializeProjects();
     refreshLeadsList();
