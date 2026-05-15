@@ -544,7 +544,7 @@
         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 15px;">
           <div>
             <h3 style="color: #667eea; margin-bottom: 8px; font-weight: bold;">📁 Projeto Ativo</h3>
-            <p id="current-project-name" style="font-size: 1.1em; font-weight: bold; color: #333;">Carregando...</p>
+            <p id="current-project-display" style="font-size: 1.1em; font-weight: bold; color: #333;">Carregando...</p>
           </div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap;">
             <button onclick="openNewProjectModal()" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s;">➕ Novo Projeto</button>
@@ -1149,9 +1149,11 @@
       const projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
       const currentProjectObj = projects.find(p => p.id === currentProject);
 
-      // Update current project name
+      // Update current project name (header + dashboard display)
       if (currentProjectObj) {
         document.getElementById('current-project-name').textContent = currentProjectObj.name;
+        const displayEl = document.getElementById('current-project-display');
+        if (displayEl) displayEl.textContent = currentProjectObj.name;
       }
 
       // Update both selectors
@@ -1497,7 +1499,7 @@
               .map(
                 (lead, i) => `
               <tr>
-                <td>${lead.nome}</td>
+                <td>${lead.name || lead.nome || ""}</td>
                 <td>${lead.email}</td>
                 <td><button onclick="removeFromLeads(${i})">🗑️ Remover</button></td>
               </tr>`
@@ -1521,7 +1523,7 @@
     function exportLeads(format) {
       const leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
       if (format === "csv") {
-        const csv = ["Nome,Email", ...leads.map((l) => `${l.nome},${l.email}`)].join("\n");
+        const csv = ["Nome,Email", ...leads.map((l) => `${l.name || l.nome || ""},${l.email || ""}`)].join("\n");
         downloadFile(csv, "leads.csv", "text/csv");
       } else {
         downloadFile(JSON.stringify(leads, null, 2), "leads.json", "application/json");
@@ -1635,7 +1637,8 @@
           campaignId,
           leads
         });
-        showAlert(`✅ ${result.result.success} emails enviados!`, "success");
+        const sent = result?.sent ?? result?.result?.success ?? result?.success ?? "N/A";
+        showAlert(`✅ ${sent} emails enviados!`, "success");
         refreshCampaignsList();
       } catch (error) {
         console.error(error);
@@ -1860,7 +1863,23 @@
         "label-phone": "📱 Telefone",
         "label-social": "📱 Redes Sociais",
         "label-about": "📝 Sobre o Projeto",
-        "btn-save-settings": "💾 Salvar Configurações"
+        "btn-save-settings": "💾 Salvar Configurações",
+        "ph-keywords": "Digite palavras-chave (ex: ortopedia, marketing)",
+        "ph-location": "Localização (ex: São Paulo, Brasil)",
+        "ph-import": "Cole dados aqui (JSON ou um lead por linha)\nFormato esperado: nome,email,empresa",
+        "btn-search-leads": "🔍 Buscar Leads",
+        "btn-import-leads": "📥 Importar",
+        "opt-business": "Negócio",
+        "opt-foundation": "Fundação",
+        "opt-ngo": "ONG",
+        "opt-any": "Qualquer",
+        "th-name": "Nome",
+        "th-email": "Email",
+        "th-action": "Ação",
+        "btn-remove": "🗑️ Remover",
+        "btn-csv": "📥 Baixar CSV",
+        "btn-json": "📥 Baixar JSON",
+        "btn-clear-leads": "🗑️ Limpar"
       },
       en: {
         "dashboard": "Dashboard",
@@ -1897,7 +1916,23 @@
         "label-phone": "📱 Phone",
         "label-social": "📱 Social Media",
         "label-about": "📝 About the Project",
-        "btn-save-settings": "💾 Save Settings"
+        "btn-save-settings": "💾 Save Settings",
+        "ph-keywords": "Enter keywords (e.g. orthodontics, marketing)",
+        "ph-location": "Location (e.g. New York, USA)",
+        "ph-import": "Paste data here (JSON or one lead per line)\nExpected format: name,email,company",
+        "btn-search-leads": "🔍 Search Leads",
+        "btn-import-leads": "📥 Import",
+        "opt-business": "Business",
+        "opt-foundation": "Foundation",
+        "opt-ngo": "NGO",
+        "opt-any": "Any",
+        "th-name": "Name",
+        "th-email": "Email",
+        "th-action": "Action",
+        "btn-remove": "🗑️ Remove",
+        "btn-csv": "📥 Download CSV",
+        "btn-json": "📥 Download JSON",
+        "btn-clear-leads": "🗑️ Clear"
       },
       es: {
         "dashboard": "Panel de Control",
@@ -1934,7 +1969,23 @@
         "label-phone": "📱 Teléfono",
         "label-social": "📱 Redes Sociales",
         "label-about": "📝 Acerca del Proyecto",
-        "btn-save-settings": "💾 Guardar Configuración"
+        "btn-save-settings": "💾 Guardar Configuración",
+        "ph-keywords": "Ingrese palabras clave (ej: ortodoncia, marketing)",
+        "ph-location": "Ubicación (ej: Ciudad de México, México)",
+        "ph-import": "Pegue datos aquí (JSON o un lead por línea)\nFormato esperado: nombre,email,empresa",
+        "btn-search-leads": "🔍 Buscar Leads",
+        "btn-import-leads": "📥 Importar",
+        "opt-business": "Negocio",
+        "opt-foundation": "Fundación",
+        "opt-ngo": "ONG",
+        "opt-any": "Cualquiera",
+        "th-name": "Nombre",
+        "th-email": "Email",
+        "th-action": "Acción",
+        "btn-remove": "🗑️ Eliminar",
+        "btn-csv": "📥 Descargar CSV",
+        "btn-json": "📥 Descargar JSON",
+        "btn-clear-leads": "🗑️ Limpiar"
       },
       fr: {
         "dashboard": "Tableau de Bord",
@@ -1971,7 +2022,23 @@
         "label-phone": "📱 Téléphone",
         "label-social": "📱 Réseaux Sociaux",
         "label-about": "📝 À Propos du Projet",
-        "btn-save-settings": "💾 Enregistrer les Paramètres"
+        "btn-save-settings": "💾 Enregistrer les Paramètres",
+        "ph-keywords": "Entrez des mots-clés (ex: orthodontie, marketing)",
+        "ph-location": "Localisation (ex: Paris, France)",
+        "ph-import": "Collez les données ici (JSON ou un lead par ligne)\nFormat attendu: nom,email,entreprise",
+        "btn-search-leads": "🔍 Chercher des Leads",
+        "btn-import-leads": "📥 Importer",
+        "opt-business": "Entreprise",
+        "opt-foundation": "Fondation",
+        "opt-ngo": "ONG",
+        "opt-any": "Tout",
+        "th-name": "Nom",
+        "th-email": "Email",
+        "th-action": "Action",
+        "btn-remove": "🗑️ Supprimer",
+        "btn-csv": "📥 Télécharger CSV",
+        "btn-json": "📥 Télécharger JSON",
+        "btn-clear-leads": "🗑️ Effacer"
       }
     };
 
@@ -2020,6 +2087,22 @@
         const key = el.getAttribute('data-i18n');
         if (translations[lang][key]) el.textContent = translations[lang][key];
       });
+
+      // Update search form placeholders
+      const t = translations[lang];
+      const kwEl = document.getElementById('search-keywords');
+      if (kwEl && t['ph-keywords']) kwEl.placeholder = t['ph-keywords'];
+      const locEl = document.getElementById('search-location');
+      if (locEl && t['ph-location']) locEl.placeholder = t['ph-location'];
+      const importEl = document.getElementById('import-leads-data');
+      if (importEl && t['ph-import']) importEl.placeholder = t['ph-import'];
+
+      // Update search type select options
+      const searchType = document.getElementById('search-type');
+      if (searchType && t['opt-business']) {
+        const vals = { business: t['opt-business'], foundation: t['opt-foundation'], ngo: t['opt-ngo'], any: t['opt-any'] };
+        Array.from(searchType.options).forEach(opt => { if (vals[opt.value]) opt.text = vals[opt.value]; });
+      }
     }
 
     // Initialize language
