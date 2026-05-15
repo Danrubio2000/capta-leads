@@ -32,3 +32,4 @@ npm-debug.log*
 temp/
 tmp/
 .vercel
+.env*.local
