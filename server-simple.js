@@ -3,6 +3,8 @@ import http from "http";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { handleProjectAPI } from "./api-projects.js";
+import DataManager from "./data-manager.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -271,6 +273,13 @@ const server = http.createServer(async (req, res) => {
         res.writeHead(500);
         res.end(JSON.stringify({ error: "Service error" }));
       }
+    } else if (pathname.startsWith("/api/projects")) {
+      // Set teamKey from header
+      const teamKey = req.headers['x-team-key'] || 'default';
+      DataManager.setTeamKey(teamKey);
+
+      // Handle project API
+      await handleProjectAPI(req, res, url, req.method);
     } else {
       res.writeHead(404);
       res.end(JSON.stringify({ error: "Not Found" }));

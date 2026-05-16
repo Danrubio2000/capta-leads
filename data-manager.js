@@ -8,21 +8,35 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = path.join(__dirname, "data", "projects");
+const BASE_DATA_DIR = path.join(__dirname, "data", "teams");
 
-// Garantir que o diretório existe
-if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
+// Team key para isolamento de dados
+let currentTeamKey = "default";
+
+// Garantir que o diretório base existe
+if (!fs.existsSync(BASE_DATA_DIR)) {
+  fs.mkdirSync(BASE_DATA_DIR, { recursive: true });
 }
 
 class DataManager {
+  static setTeamKey(teamKey) {
+    currentTeamKey = teamKey || "default";
+  }
+
+  static getTeamDataDir() {
+    const teamDir = path.join(BASE_DATA_DIR, currentTeamKey, "projects");
+    if (!fs.existsSync(teamDir)) {
+      fs.mkdirSync(teamDir, { recursive: true });
+    }
+    return teamDir;
+  }
   /**
    * PROJETOS
    */
 
   createProject(projectName, config = {}) {
     const projectId = Date.now().toString();
-    const projectDir = path.join(DATA_DIR, projectId);
+    const projectDir = path.join(DataManager.getTeamDataDir(), projectId);
 
     if (!fs.existsSync(projectDir)) {
       fs.mkdirSync(projectDir, { recursive: true });
@@ -59,7 +73,7 @@ class DataManager {
 
   listProjects() {
     try {
-      const dirs = fs.readdirSync(DATA_DIR);
+      const dirs = fs.readdirSync(DataManager.getTeamDataDir());
       return dirs.map(dir => {
         try {
           return this.loadProjectData(dir, "project.json");
@@ -242,7 +256,7 @@ class DataManager {
 </body>
 </html>`;
 
-    const pagesDir = path.join(DATA_DIR, projectId, "pages");
+    const pagesDir = path.join(DataManager.getTeamDataDir(), projectId, "pages");
     if (!fs.existsSync(pagesDir)) {
       fs.mkdirSync(pagesDir, { recursive: true });
     }
@@ -337,7 +351,7 @@ class DataManager {
    */
 
   saveProjectData(projectId, filename, data) {
-    const projectDir = path.join(DATA_DIR, projectId);
+    const projectDir = path.join(DataManager.getTeamDataDir(), projectId);
     if (!fs.existsSync(projectDir)) {
       fs.mkdirSync(projectDir, { recursive: true });
     }
@@ -345,7 +359,7 @@ class DataManager {
   }
 
   loadProjectData(projectId, filename) {
-    const filepath = path.join(DATA_DIR, projectId, filename);
+    const filepath = path.join(DataManager.getTeamDataDir(), projectId, filename);
     if (!fs.existsSync(filepath)) {
       return [];
     }
