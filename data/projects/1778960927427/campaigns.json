@@ -1,0 +1,19 @@
+[
+  {
+    "id": "1778960927510",
+    "name": "Apresentação Chefs",
+    "subject": "Série Gastronômica",
+    "body": "",
+    "template": "introduction",
+    "leads": [],
+    "status": "draft",
+    "createdAt": "2026-05-16T19:48:47.510Z",
+    "scheduledAt": null,
+    "stats": {
+      "total_sent": 0,
+      "opens": 0,
+      "clicks": 0,
+      "conversions": 0
+    }
+  }
+]

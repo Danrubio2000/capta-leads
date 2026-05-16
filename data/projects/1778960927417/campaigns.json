@@ -1,0 +1,19 @@
+[
+  {
+    "id": "1778960927502",
+    "name": "Apresentação Fundações",
+    "subject": "Apoie o Documentário",
+    "body": "",
+    "template": "introduction",
+    "leads": [],
+    "status": "draft",
+    "createdAt": "2026-05-16T19:48:47.502Z",
+    "scheduledAt": null,
+    "stats": {
+      "total_sent": 0,
+      "opens": 0,
+      "clicks": 0,
+      "conversions": 0
+    }
+  }
+]

@@ -596,6 +596,10 @@ const server = http.createServer(async (req, res) => {
       return serveStatic(res, path.join(__dirname, "console-simple.html"), "text/html");
     }
 
+    if (url.pathname === "/console-projects.html") {
+      return serveStatic(res, path.join(__dirname, "console-projects.html"), "text/html");
+    }
+
     if (url.pathname === "/chat-widget.js") {
       return serveStatic(res, path.join(__dirname, "chat-widget.js"), "application/javascript");
     }
