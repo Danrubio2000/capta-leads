@@ -322,53 +322,160 @@ function useMyLocation() {
   }
 }
 
+// Detecção Global + Nomes por País
+function detectCountry(location) {
+  const locLower = location.toLowerCase();
+
+  // Brasil
+  if (locLower.match(/(brasil|br|são paulo|rio de janeiro|belo horizonte|brasília|salvador|fortaleza|recife|manaus)/)) {
+    return 'BR';
+  }
+  // USA
+  if (locLower.match(/(usa|eua|united states|ny|california|texas|florida|new york|chicago|houston|phoenix|philadelphia|astoria|los angeles|miami)/)) {
+    return 'US';
+  }
+  // Canada
+  if (locLower.match(/(canada|toronto|vancouver|montreal|calgary)/)) {
+    return 'CA';
+  }
+  // Mexico
+  if (locLower.match(/(méxico|mexico|cidade do méxico|monterrey)/)) {
+    return 'MX';
+  }
+  // Reino Unido
+  if (locLower.match(/(uk|united kingdom|inglaterra|london|manchester|birmingham)/)) {
+    return 'UK';
+  }
+  // França
+  if (locLower.match(/(france|frança|paris|lyon|marseille)/)) {
+    return 'FR';
+  }
+  // Alemanha
+  if (locLower.match(/(germany|alemanha|berlim|munich|frankfurt)/)) {
+    return 'DE';
+  }
+  // Espanha
+  if (locLower.match(/(españa|spain|espanha|madrid|barcelona|valência)/)) {
+    return 'ES';
+  }
+  // Itália
+  if (locLower.match(/(italy|itália|roma|milan|veneza|firenze)/)) {
+    return 'IT';
+  }
+  // Japão
+  if (locLower.match(/(japan|japão|tóquio|osaka|kyoto|yokohama)/)) {
+    return 'JP';
+  }
+  // Austrália
+  if (locLower.match(/(australia|austrália|sydney|melbourne|brisbane)/)) {
+    return 'AU';
+  }
+  // Índia
+  if (locLower.match(/(india|índia|delhi|mumbai|bangalore|hyderabad)/)) {
+    return 'IN';
+  }
+  // Singapura
+  if (locLower.match(/(singapore|singapura)/)) {
+    return 'SG';
+  }
+
+  return 'US'; // default
+}
+
 // Mock data + detecção inteligente de localização
 function generateLeads(keyword, location) {
-  const brNames = [
-    "Carlos Silva", "Maria Santos", "João Oliveira", "Ana Sousa", "Pedro Costa",
-    "Paula Mendes", "Lucas Gomes", "Juliana Martins", "Bruno Ferreira", "Fernanda Dias"
-  ];
+  const country = detectCountry(location);
 
-  const usNames = [
-    "James Smith", "John Johnson", "Michael Williams", "David Brown", "Robert Jones",
-    "Mary Garcia", "Patricia Miller", "Jennifer Davis", "Linda Rodriguez", "Barbara Martinez"
-  ];
+  const names = {
+    BR: [
+      "Carlos Silva", "Maria Santos", "João Oliveira", "Ana Sousa", "Pedro Costa",
+      "Paula Mendes", "Lucas Gomes", "Juliana Martins", "Bruno Ferreira", "Fernanda Dias",
+      "Ricardo Alves", "Beatriz Rocha", "André Rodrígues", "Carla Pereira", "Daniel Souza",
+      "Fabiana Cardoso", "Gustavo Barbosa", "Helena Campos", "Igor Mendes", "Iris Ribeiro",
+      "João Henrique", "Júlia Vieira", "Karine Marques", "Klaus Müller", "Laura Ferraz",
+      "Leonardo Goulart", "Mariana Nunes", "Marcelo Ramos", "Natalia Teixeira", "Nelson Vargas"
+    ],
+    US: [
+      "James Smith", "John Johnson", "Michael Williams", "David Brown", "Robert Jones",
+      "Mary Garcia", "Patricia Miller", "Jennifer Davis", "Linda Rodriguez", "Barbara Martinez",
+      "William Anderson", "Richard Taylor", "Joseph Thomas", "Charles Moore", "Christopher Jackson",
+      "Donald Martin", "Matthew Lee", "Mark White", "Donald Harris", "Steven Clark",
+      "Paul Lewis", "Andrew Walker", "Joshua Hall", "Kenneth Young", "Kevin King",
+      "Brian Wright", "George Lopez", "Edward Hill", "Ronald Scott", "Anthony Green"
+    ],
+    CA: [
+      "David Thompson", "Sarah Miller", "Michael Brown", "Emily Wilson", "James Johnson",
+      "Jessica Anderson", "Robert Taylor", "Amanda White", "Daniel Martin", "Sophie Young",
+      "Alexandre Dubois", "Marie Beaumont", "Jean-Pierre Léveillé", "Claude Gagnon", "Pierre Bouvier"
+    ],
+    MX: [
+      "Juan García", "María Rodriguez", "Carlos López", "Javier Hernández", "Francisco Sánchez",
+      "Guadalupe Martínez", "Miguel Angel Cruz", "Rosa Flores", "Antonio Ruiz", "Paula Domínguez"
+    ],
+    UK: [
+      "John Smith", "Elizabeth Thompson", "Michael Johnson", "Sarah Williams", "David Brown",
+      "Emily Jones", "James Miller", "Jessica Wilson", "Robert Taylor", "Victoria Anderson"
+    ],
+    FR: [
+      "Pierre Dubois", "Marie Martin", "Jean Dupont", "Sophie Bernard", "Jacques Petit",
+      "Françoise Leclerc", "Claude Muller", "Anne Richard", "Philippe Laurent", "Nicole Robins"
+    ],
+    DE: [
+      "Hans Mueller", "Maria Schmidt", "Klaus Weber", "Greta Hoffmann", "Karl Fischer",
+      "Helga Richter", "Rudolf Bauer", "Christa Krueger", "Otto Bachmeier", "Ursula Schneider"
+    ],
+    ES: [
+      "Juan García", "María López", "Carlos Rodríguez", "Javier Martínez", "Francisco Sánchez",
+      "Rosa Flores", "Miguel Angel Cruz", "Paula Domínguez", "Antonio Moreno", "Guadalupe Ruiz"
+    ],
+    IT: [
+      "Marco Rossi", "Giovanna Bianchi", "Luca Ferrari", "Isabella Russo", "Antonio Marino",
+      "Francesca Verdi", "Giuseppe Moretti", "Gabriella Rizzo", "Roberto Conti", "Alessandra Tosi"
+    ],
+    JP: [
+      "田中太郎", "佐藤花子", "山田次郎", "鈴木美咲", "高橋大輔",
+      "渡辺由美", "伊藤健一", "中村由紀", "松本恵子", "小林成一"
+    ],
+    AU: [
+      "John Smith", "Emma Thompson", "Michael Johnson", "Sarah Williams", "David Brown",
+      "Jessica Miller", "James Wilson", "Emily Anderson", "Robert Taylor", "Victoria Young"
+    ],
+    IN: [
+      "Raj Kumar", "Priya Singh", "Amit Patel", "Neha Sharma", "Vikram Gupta",
+      "Anjali Verma", "Rohan Mishra", "Deepika Nair", "Aravind Kumar", "Sneha Reddy"
+    ],
+    SG: [
+      "David Tan", "Sarah Ng", "Michael Lee", "Emily Wong", "James Lim",
+      "Jessica Chua", "Robert Koh", "Victoria Chong", "Kevin Ong", "Michelle Sng"
+    ]
+  };
 
-  const euNames = [
-    "Juan García", "Maria Rodriguez", "Pierre Dubois", "Anna Mueller", "Marco Rossi",
-    "Sophie Martin", "Hans Schmidt", "Giovanna Bianchi", "François Petit", "Isabella Ferrari"
-  ];
+  const tlds = {
+    BR: ".com.br", US: ".com", CA: ".ca", MX: ".com.mx", UK: ".co.uk",
+    FR: ".fr", DE: ".de", ES: ".es", IT: ".it", JP: ".jp",
+    AU: ".com.au", IN: ".in", SG: ".com.sg"
+  };
 
-  // Detecta região pela localização
-  let isBrazil = false, isUSA = false, isEurope = false;
+  const phoneFormats = {
+    BR: () => "(11) 9" + Math.floor(Math.random() * 90000) + "-" + Math.floor(Math.random() * 9000),
+    US: () => "+1 (" + (200 + Math.floor(Math.random() * 800)) + ") " + (200 + Math.floor(Math.random() * 800)) + "-" + String(Math.floor(Math.random() * 9999)).padStart(4, '0'),
+    CA: () => "+1 (" + (200 + Math.floor(Math.random() * 800)) + ") " + (200 + Math.floor(Math.random() * 800)) + "-" + String(Math.floor(Math.random() * 9999)).padStart(4, '0'),
+    MX: () => "+52 " + (200 + Math.floor(Math.random() * 800)) + " " + Math.floor(Math.random() * 99999),
+    UK: () => "+44 " + (1 + Math.floor(Math.random() * 800)) + " " + Math.floor(Math.random() * 9999999),
+    FR: () => "+33 " + Math.floor(Math.random() * 900) + " " + Math.floor(Math.random() * 999999),
+    DE: () => "+49 " + (1 + Math.floor(Math.random() * 800)) + " " + Math.floor(Math.random() * 9999999),
+    ES: () => "+34 " + Math.floor(Math.random() * 900) + " " + Math.floor(Math.random() * 999999),
+    IT: () => "+39 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 99999999),
+    JP: () => "+81 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999999),
+    AU: () => "+61 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999999),
+    IN: () => "+91 " + Math.floor(Math.random() * 90000) + " " + Math.floor(Math.random() * 9999),
+    SG: () => "+65 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999999)
+  };
 
-  const locLower = location.toLowerCase();
-  if (locLower.includes("brasil") || locLower.includes("são paulo") || locLower.includes("rio")) {
-    isBrazil = true;
-  } else if (locLower.includes("usa") || locLower.includes("ny") || locLower.includes("california") ||
-             locLower.includes("texas") || locLower.includes("astoria")) {
-    isUSA = true;
-  } else if (locLower.includes("españa") || locLower.includes("france") || locLower.includes("italy") ||
-             locLower.includes("germany") || locLower.includes("uk")) {
-    isEurope = true;
-  } else {
-    // Detecta por país/código
-    isUSA = true; // default para mundo todo é USA
-  }
-
-  let nameList = usNames;
-  let tld = ".com";
-  let companies = ["company", "solutions", "group", "services", "corp"];
-
-  if (isBrazil) {
-    nameList = brNames;
-    tld = ".com.br";
-    companies = ["empresa", "consultoria", "agência", "serviços"];
-  } else if (isEurope) {
-    nameList = euNames;
-    tld = locLower.includes("uk") ? ".co.uk" : ".eu";
-    companies = ["solutions", "group", "enterprise", "partners"];
-  }
+  const nameList = names[country] || names.US;
+  const tld = tlds[country] || ".com";
+  const phoneGen = phoneFormats[country] || phoneFormats.US;
+  const companies = ["company", "solutions", "group", "services", "corp", "labs", "digital", "tech"];
 
   const leads = [];
   const usedEmails = new Set();
@@ -382,8 +489,20 @@ function generateLeads(keyword, location) {
     let attempts = 0;
     do {
       const random = Math.floor(Math.random() * 99999);
-      const nameParts = name.toLowerCase().split(' ');
-      email = nameParts[0] + "." + nameParts[1] + random + "@gmail" + tld;
+      const nameParts = name.toLowerCase().replace(/[àáäâãèéëêìíîïòóôõöùúûüýÿñç]/g, c => ({
+        'à': 'a', 'á': 'a', 'ä': 'a', 'â': 'a', 'ã': 'a',
+        'è': 'e', 'é': 'e', 'ë': 'e', 'ê': 'e',
+        'ì': 'i', 'í': 'i', 'î': 'i', 'ï': 'i',
+        'ò': 'o', 'ó': 'o', 'ô': 'o', 'õ': 'o', 'ö': 'o',
+        'ù': 'u', 'ú': 'u', 'û': 'u', 'ü': 'u',
+        'ý': 'y', 'ÿ': 'y', 'ñ': 'n', 'ç': 'c'
+      }[c] || c)).split(/[\s\s]/)[0];
+
+      if (nameList === names.JP) {
+        email = "user" + random + "@gmail" + tld;
+      } else {
+        email = nameParts + random + "@gmail" + tld;
+      }
       attempts++;
     } while (usedEmails.has(email) && attempts < 5);
 
@@ -394,16 +513,8 @@ function generateLeads(keyword, location) {
     const num = Math.floor(Math.random() * 99999);
     const website = "https://" + company + num + tld;
 
-    // Telefone realista
-    let phone;
-    if (isBrazil) {
-      phone = "(11) 9" + Math.floor(Math.random() * 90000) + "-" + Math.floor(Math.random() * 9000);
-    } else if (isUSA) {
-      phone = "(" + (200 + Math.floor(Math.random() * 800)) + ") " +
-              (200 + Math.floor(Math.random() * 800)) + "-" + Math.floor(Math.random() * 9000);
-    } else {
-      phone = "+34 " + Math.floor(Math.random() * 900) + " " + Math.floor(Math.random() * 999999);
-    }
+    // Telefone realista por país
+    const phone = phoneGen();
 
     leads.push({
       name: name,
