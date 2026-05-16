@@ -1,562 +1,153 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CAPTA LEADS - All-in-One Lead Generation & Email Marketing</title>
+  <title>CAPTA LEADS - Adquira Agora</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Times New Roman', Times, serif; color: #333; background: white; }
 
-    header {
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 20px;
+      min-height: 100vh;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
-      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
     }
 
-    header h1 { font-size: 2.5em; margin-bottom: 10px; }
-    header p { font-size: 1.2em; opacity: 0.9; }
-
-    .header-left { flex: 1; }
-    .header-right { display: flex; align-items: center; gap: 15px; }
-
-    .language-selector {
-      background: rgba(255,255,255,0.2);
-      border: 1px solid white;
-      color: white;
-      padding: 8px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-family: 'Times New Roman', Times, serif;
-      font-size: 1em;
-    }
-
-    .language-selector:hover {
-      background: rgba(255,255,255,0.3);
-    }
-
-    .language-selector option {
-      background: #333;
-      color: white;
-    }
-
-    .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
-
-    .hero {
-      text-align: center;
-      padding: 60px 20px;
+    .container {
       background: white;
-      border-radius: 10px;
-      margin-bottom: 40px;
-      border: 1px solid #eee;
-    }
-
-    .hero h2 { font-size: 2em; margin-bottom: 20px; color: #667eea; font-weight: bold; }
-    .hero p { font-size: 1.1em; margin-bottom: 30px; color: #666; line-height: 1.6; }
-
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      margin-bottom: 40px;
-    }
-
-    .feature {
-      background: white;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      border-left: 4px solid #667eea;
-    }
-
-    .feature h3 { margin-bottom: 15px; color: #667eea; font-weight: bold; }
-    .feature p { color: #666; line-height: 1.6; }
-
-    .video-section {
-      text-align: center;
-      padding: 60px 20px;
-      background: white;
-      border-radius: 10px;
-      margin: 40px 0;
-      border: 2px solid #667eea;
-    }
-
-    .video-section h3 { font-size: 1.8em; margin-bottom: 20px; color: #667eea; font-weight: bold; }
-    .video-section p { font-size: 1.1em; color: #666; margin-bottom: 25px; line-height: 1.6; }
-
-    .video-button {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 15px 50px;
-      font-size: 1.1em;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-family: 'Times New Roman', Times, serif;
-    }
-
-    .video-button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
-    }
-
-    .pricing {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 50px;
-      border-radius: 10px;
-      text-align: center;
-      margin: 40px 0;
-    }
-
-    .pricing h2 { font-size: 2.5em; margin-bottom: 20px; font-weight: bold; }
-    .price { font-size: 4em; font-weight: bold; margin: 20px 0; }
-    .price-label { font-size: 1.2em; opacity: 0.9; }
-
-    .cta-button {
-      background: white;
-      color: #667eea;
-      padding: 15px 40px;
-      font-size: 1.1em;
-      font-weight: bold;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s;
-      margin-top: 20px;
-      font-family: 'Times New Roman', Times, serif;
-    }
-
-    .cta-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-
-    .comparison {
-      margin: 40px 0;
-      overflow-x: auto;
-    }
-
-    table {
+      border-radius: 20px;
+      padding: 60px 40px;
+      max-width: 500px;
       width: 100%;
-      border-collapse: collapse;
-      background: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
 
-    table th {
-      background: #667eea;
-      color: white;
-      padding: 15px;
+    h1 {
+      font-size: 2.5em;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .tagline {
+      font-size: 1.1em;
+      color: #666;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .description {
+      background: #f0f0f0;
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 30px;
       text-align: left;
+      font-size: 1em;
+      color: #555;
+      line-height: 1.8;
+    }
+
+    .description strong {
+      color: #667eea;
+    }
+
+    .price-box {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+    }
+
+    .price-box .label {
+      font-size: 1em;
+      opacity: 0.9;
+      margin-bottom: 10px;
+    }
+
+    .price-box .price {
+      font-size: 3.5em;
       font-weight: bold;
+      margin-bottom: 5px;
     }
 
-    table td {
-      padding: 15px;
-      border-bottom: 1px solid #eee;
+    .price-box .period {
+      font-size: 1.1em;
+      opacity: 0.95;
     }
 
-    table tr:hover { background: #f9f9f9; }
+    .btn-pay {
+      display: block;
+      width: 100%;
+      background: #009B3A;
+      color: white;
+      text-decoration: none;
+      border: none;
+      padding: 18px;
+      border-radius: 10px;
+      font-size: 1.2em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 15px;
+    }
 
-    .checkmark { color: #27AE60; font-weight: bold; }
-    .cross { color: #E74C3C; }
+    .btn-pay:hover {
+      background: #007A2E;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 155, 58, 0.3);
+    }
+
+    .security {
+      color: #999;
+      font-size: 0.9em;
+    }
 
     footer {
-      background: #333;
-      color: white;
       text-align: center;
-      padding: 30px;
+      color: rgba(255,255,255,0.7);
       margin-top: 40px;
+      font-size: 0.85em;
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="header-left">
-      <h1>🚀 CAPTA LEADS</h1>
-      <p data-i18n="header-subtitle">All-in-One Lead Generation, Email Marketing & Landing Page Builder</p>
-    </div>
-    <div class="header-right">
-      <select class="language-selector" id="language-selector" onchange="changeLanguage()">
-        <option value="pt">🇧🇷 Português</option>
-        <option value="en">🇺🇸 English</option>
-        <option value="es">🇪🇸 Español</option>
-        <option value="fr">🇫🇷 Français</option>
-      </select>
-    </div>
-  </header>
 
   <div class="container">
-    <div class="hero">
-      <h2 data-i18n="hero-title">Encontre Leads, Envie Campanhas, Crie Landing Pages</h2>
-      <p data-i18n="hero-subtitle">Tudo em um único agente. Configurável para qualquer profissão ou negócio. Com assistente IA integrado.</p>
+    <h1>🚀 CAPTA LEADS</h1>
+    <p class="tagline">Plataforma All-in-One para Geração de Leads, Email Marketing e Landing Pages</p>
+
+    <div class="description">
+      <strong>O que você recebe:</strong><br>
+      ✓ Busca ilimitada de leads em qualquer segmento<br>
+      ✓ Envio de campanhas de email em massa<br>
+      ✓ Criador de landing pages sem código<br>
+      ✓ Assistente IA integrado<br>
+      ✓ Dashboard com analytics completo<br>
+      <strong>Acesso vitalício — use quantas vezes quiser</strong>
     </div>
 
-    <div class="features">
-      <div class="feature">
-        <h3>🎯 <span data-i18n="feature1-title">Busca de Leads</span></h3>
-        <p data-i18n="feature1-desc">Encontre contatos qualificados em múltiplas fontes. Filtre por keyword, localização e tipo.</p>
-      </div>
-      <div class="feature">
-        <h3>📧 <span data-i18n="feature2-title">Email Marketing</span></h3>
-        <p data-i18n="feature2-desc">Crie e envie campanhas em massa com personalização automática. Rastreie abertos e cliques.</p>
-      </div>
-      <div class="feature">
-        <h3>🎨 <span data-i18n="feature3-title">Landing Pages</span></h3>
-        <p data-i18n="feature3-desc">Construtor visual de landing pages. Sem código. Responsivo. Otimizado para conversão.</p>
-      </div>
-      <div class="feature">
-        <h3>🤖 <span data-i18n="feature4-title">IA Integrada</span></h3>
-        <p data-i18n="feature4-desc">Assistente Claude IA para sugestões de copy, análise de leads e otimização de campanhas.</p>
-      </div>
-      <div class="feature">
-        <h3>⚙️ <span data-i18n="feature5-title">Configurável</span></h3>
-        <p data-i18n="feature5-desc">Adapte para qualquer indústria. 8 templates pré-configurados. Totalmente customizável.</p>
-      </div>
-      <div class="feature">
-        <h3>📊 <span data-i18n="feature6-title">Dashboard</span></h3>
-        <p data-i18n="feature6-desc">Stats em tempo real. Visualize leads encontrados, campanhas enviadas, conversões.</p>
-      </div>
+    <div class="price-box">
+      <div class="label">Preço Único — Pagamento Única Vez</div>
+      <div class="price">R$ 80</div>
+      <div class="period">Acesso vitalício</div>
     </div>
 
-    <div class="video-section">
-      <h3>🎥 <span data-i18n="video-title">Veja Como Funciona</span></h3>
-      <p data-i18n="video-desc">Assista a demonstração completa de como usar CAPTA LEADS para gerar leads, enviar campanhas e criar landing pages em minutos.</p>
-      <button class="video-button" onclick="window.open('video.html', '_blank')" data-i18n="video-button">▶️ Assistir Demonstração</button>
-    </div>
+    <a href="https://mpago.la/1ijEWTN" target="_blank" rel="noopener noreferrer" class="btn-pay">
+      💳 Pagar com Mercado Pago
+    </a>
 
-    <div class="comparison">
-      <h3 style="text-align: center; margin-bottom: 20px; font-weight: bold;" data-i18n="comparison-title">Como CAPTA LEADS se compara</h3>
-      <table>
-        <tr>
-          <th data-i18n="table-feature">Funcionalidade</th>
-          <th data-i18n="table-company1">CAPTA LEADS</th>
-          <th data-i18n="table-company2">Mailchimp</th>
-          <th data-i18n="table-company3">HubSpot</th>
-          <th data-i18n="table-company4">Unbounce</th>
-        </tr>
-        <tr>
-          <td><strong data-i18n="table-row1">Lead Generation</strong></td>
-          <td class="checkmark">✓</td>
-          <td class="cross">✗</td>
-          <td class="checkmark">✓</td>
-          <td class="cross">✗</td>
-        </tr>
-        <tr>
-          <td><strong data-i18n="table-row2">Email Marketing</strong></td>
-          <td class="checkmark">✓</td>
-          <td class="checkmark">✓</td>
-          <td class="checkmark">✓</td>
-          <td class="cross">✗</td>
-        </tr>
-        <tr>
-          <td><strong data-i18n="table-row3">Landing Pages</strong></td>
-          <td class="checkmark">✓</td>
-          <td class="checkmark">✓</td>
-          <td class="checkmark">✓</td>
-          <td class="checkmark">✓</td>
-        </tr>
-        <tr>
-          <td><strong data-i18n="table-row4">IA Integrada</strong></td>
-          <td class="checkmark">✓</td>
-          <td class="cross">✗</td>
-          <td class="checkmark">✓</td>
-          <td class="cross">✗</td>
-        </tr>
-        <tr>
-          <td><strong data-i18n="table-row5">Preço</strong></td>
-          <td data-i18n="price-capta" class="checkmark">R$80/mês</td>
-          <td data-i18n="price-mailchimp">$20+/mês</td>
-          <td data-i18n="price-hubspot">$50+/mês</td>
-          <td data-i18n="price-unbounce">$49+/mês</td>
-        </tr>
-      </table>
-    </div>
-
-    <div class="pricing">
-      <div id="test-badge" style="display:none; background: #fff3cd; border: 2px solid #ffc107; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: bold; color: #856404;">
-        ⚠️ <span data-i18n="test-badge">MODO TESTE - ACESSO GRÁTIS ILIMITADO</span>
-      </div>
-      <h2 data-i18n="pricing-title">Comece Hoje Mesmo</h2>
-      <div class="price-label" data-i18n="pricing-label">Plano Único</div>
-      <div id="price-display" class="price" data-i18n="pricing-price">R$80</div>
-      <p id="price-period" style="font-size: 1.2em; margin-bottom: 20px;" data-i18n="pricing-period">Pagamento Único</p>
-      <p data-i18n="pricing-feature1">✓ Busca ilimitada de leads em múltiplas fontes</p>
-      <p data-i18n="pricing-feature2">✓ Campanhas de email em massa com personalização</p>
-      <p data-i18n="pricing-feature3">✓ Landing page builder sem código</p>
-      <p data-i18n="pricing-feature4">✓ Assistente IA Claude integrado</p>
-      <p data-i18n="pricing-feature5">✓ Dashboard com analytics completo</p>
-      <div style="display: flex; gap: 15px; margin-top: 30px; justify-content: center; flex-wrap: wrap;">
-        <a href="https://mpago.la/1ijEWTN" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
-          <button class="cta-button" style="background: #009B3A; cursor: pointer; width: 300px;" onmouseover="this.style.background='#007A2E'" onmouseout="this.style.background='#009B3A'" data-i18n="btn-payment">💳 Pagar Agora</button>
-        </a>
-      </div>
-    </div>
+    <p class="security">🔒 Pagamento 100% seguro — Mercado Pago</p>
   </div>
 
   <footer>
-    <p><strong>CAPTA LEADS v2.0</strong> | <span data-i18n="footer-desc">All-in-One Lead Generation Platform</span></p>
-    <p data-i18n="footer-contact">Email: danrubio_2000@yahoo.com | Site: https://artver.com.br</p>
+    <p>© 2026 CAPTA LEADS · danrubio_2000@yahoo.com</p>
   </footer>
 
-  <script>
-    // Translation dictionary
-    const translations = {
-      pt: {
-        "header-subtitle": "Geração de Leads, Email Marketing e Construtor de Landing Pages Tudo-em-Um",
-        "hero-title": "Encontre Leads, Envie Campanhas, Crie Landing Pages",
-        "hero-subtitle": "Tudo em um único agente. Configurável para qualquer profissão ou negócio. Com assistente IA integrado.",
-        "feature1-title": "Busca de Leads",
-        "feature1-desc": "Encontre contatos qualificados em múltiplas fontes. Filtre por keyword, localização e tipo.",
-        "feature2-title": "Email Marketing",
-        "feature2-desc": "Crie e envie campanhas em massa com personalização automática. Rastreie abertos e cliques.",
-        "feature3-title": "Landing Pages",
-        "feature3-desc": "Construtor visual de landing pages. Sem código. Responsivo. Otimizado para conversão.",
-        "feature4-title": "IA Integrada",
-        "feature4-desc": "Assistente Claude IA para sugestões de copy, análise de leads e otimização de campanhas.",
-        "feature5-title": "Configurável",
-        "feature5-desc": "Adapte para qualquer indústria. 8 templates pré-configurados. Totalmente customizável.",
-        "feature6-title": "Dashboard",
-        "feature6-desc": "Stats em tempo real. Visualize leads encontrados, campanhas enviadas, conversões.",
-        "video-title": "Veja Como Funciona",
-        "video-desc": "Assista a demonstração completa de como usar CAPTA LEADS para gerar leads, enviar campanhas e criar landing pages em minutos.",
-        "video-button": "▶️ Assistir Demonstração",
-        "comparison-title": "Como CAPTA LEADS se compara",
-        "table-feature": "Funcionalidade",
-        "table-row1": "Geração de Leads",
-        "table-row2": "Email Marketing",
-        "table-row3": "Landing Pages",
-        "table-row4": "IA Integrada",
-        "table-row5": "Preço",
-        "table-company1": "CAPTA LEADS",
-        "table-company2": "Mailchimp",
-        "table-company3": "HubSpot",
-        "table-company4": "Unbounce",
-        "price-capta": "R$80,00 - Pagamento Único",
-        "price-mailchimp": "$20+/mês",
-        "price-hubspot": "$50+/mês",
-        "price-unbounce": "$49+/mês",
-        "test-badge": "MODO TESTE - ACESSO GRÁTIS ILIMITADO",
-        "pricing-title": "Comece Hoje Mesmo",
-        "pricing-label": "Plano Único",
-        "pricing-price": "R$80,00",
-        "pricing-period": "Pagamento Único — Acesso Vitalício",
-        "pricing-feature1": "✓ Busca ilimitada de leads em múltiplas fontes",
-        "pricing-feature2": "✓ Campanhas de email em massa com personalização",
-        "pricing-feature3": "✓ Landing page builder sem código",
-        "pricing-feature4": "✓ Assistente IA Claude integrado",
-        "pricing-feature5": "✓ Dashboard com analytics completo",
-        "cta-button": "🚀 Abrir Console Agora",
-        "btn-payment": "💳 Pagar Agora",
-        "footer-desc": "Plataforma de Geração de Leads Tudo-em-Um",
-        "footer-contact": "Email: danrubio_2000@yahoo.com | Site: https://artver.com.br"
-      },
-      en: {
-        "header-subtitle": "All-in-One Lead Generation, Email Marketing & Landing Page Builder",
-        "hero-title": "Find Leads, Send Campaigns, Create Landing Pages",
-        "hero-subtitle": "Everything in one agent. Configurable for any profession or business. With integrated AI assistant.",
-        "feature1-title": "Lead Generation",
-        "feature1-desc": "Find qualified contacts from multiple sources. Filter by keyword, location, and type.",
-        "feature2-title": "Email Marketing",
-        "feature2-desc": "Create and send mass campaigns with automatic personalization. Track opens and clicks.",
-        "feature3-title": "Landing Pages",
-        "feature3-desc": "Visual landing page builder. No code required. Responsive. Optimized for conversion.",
-        "feature4-title": "Integrated AI",
-        "feature4-desc": "Claude AI assistant for copy suggestions, lead analysis, and campaign optimization.",
-        "feature5-title": "Configurable",
-        "feature5-desc": "Adapt to any industry. 8 pre-configured templates. Fully customizable.",
-        "feature6-title": "Dashboard",
-        "feature6-desc": "Real-time stats. View leads found, campaigns sent, conversions.",
-        "video-title": "See How It Works",
-        "video-desc": "Watch a complete demonstration of how to use CAPTA LEADS to generate leads, send campaigns, and create landing pages in minutes.",
-        "video-button": "▶️ Watch Demo",
-        "comparison-title": "How CAPTA LEADS Compares",
-        "table-feature": "Feature",
-        "table-row1": "Lead Generation",
-        "table-row2": "Email Marketing",
-        "table-row3": "Landing Pages",
-        "table-row4": "Integrated AI",
-        "table-row5": "Price",
-        "table-company1": "CAPTA LEADS",
-        "table-company2": "Mailchimp",
-        "table-company3": "HubSpot",
-        "table-company4": "Unbounce",
-        "price-capta": "$15.99 - One-time",
-        "price-mailchimp": "$20+/month",
-        "price-hubspot": "$50+/month",
-        "price-unbounce": "$49+/month",
-        "test-badge": "TEST MODE - UNLIMITED FREE ACCESS",
-        "pricing-title": "Get Started Today",
-        "pricing-label": "Single Plan",
-        "pricing-price": "$15.99",
-        "pricing-period": "One-time Payment — Lifetime Access",
-        "pricing-feature1": "✓ Unlimited lead search from multiple sources",
-        "pricing-feature2": "✓ Mass email campaigns with automatic personalization",
-        "pricing-feature3": "✓ No-code landing page builder",
-        "pricing-feature4": "✓ Integrated Claude AI Assistant",
-        "pricing-feature5": "✓ Complete analytics dashboard",
-        "cta-button": "🚀 Open Console Now",
-        "btn-payment": "💳 Pay Now",
-        "footer-desc": "All-in-One Lead Generation Platform",
-        "footer-contact": "Email: danrubio_2000@yahoo.com | Website: https://artver.com.br"
-      },
-      es: {
-        "header-subtitle": "Generación de Leads, Email Marketing y Constructor de Landing Pages Todo-en-Uno",
-        "hero-title": "Encuentre Leads, Envíe Campañas, Cree Landing Pages",
-        "hero-subtitle": "Todo en un único agente. Configurable para cualquier profesión o negocio. Con asistente de IA integrado.",
-        "feature1-title": "Generación de Leads",
-        "feature1-desc": "Encuentre contactos calificados de múltiples fuentes. Filtre por palabra clave, ubicación y tipo.",
-        "feature2-title": "Email Marketing",
-        "feature2-desc": "Cree y envíe campañas masivas con personalización automática. Siga aperturas y clics.",
-        "feature3-title": "Landing Pages",
-        "feature3-desc": "Constructor visual de landing pages. Sin código. Responsivo. Optimizado para conversión.",
-        "feature4-title": "IA Integrada",
-        "feature4-desc": "Asistente de IA Claude para sugerencias de copywriting, análisis de leads y optimización de campañas.",
-        "feature5-title": "Configurable",
-        "feature5-desc": "Adapte a cualquier industria. 8 plantillas preconfiguradas. Totalmente personalizable.",
-        "feature6-title": "Dashboard",
-        "feature6-desc": "Estadísticas en tiempo real. Vea leads encontrados, campañas enviadas, conversiones.",
-        "video-title": "Vea Cómo Funciona",
-        "video-desc": "Vea una demostración completa de cómo usar CAPTA LEADS para generar leads, enviar campañas y crear landing pages en minutos.",
-        "video-button": "▶️ Ver Demostración",
-        "comparison-title": "Cómo se Compara CAPTA LEADS",
-        "table-feature": "Características",
-        "table-row1": "Generación de Leads",
-        "table-row2": "Email Marketing",
-        "table-row3": "Landing Pages",
-        "table-row4": "IA Integrada",
-        "table-row5": "Precio",
-        "table-company1": "CAPTA LEADS",
-        "table-company2": "Mailchimp",
-        "table-company3": "HubSpot",
-        "table-company4": "Unbounce",
-        "price-capta": "€13,99 - Pago Único",
-        "price-mailchimp": "$20+/mes",
-        "price-hubspot": "$50+/mes",
-        "price-unbounce": "$49+/mes",
-        "test-badge": "MODO PRUEBA - ACCESO GRATIS ILIMITADO",
-        "pricing-title": "Comience Hoy",
-        "pricing-label": "Plan Único",
-        "pricing-price": "€13,99",
-        "pricing-period": "Pago Único — Acceso Vitalicio",
-        "pricing-feature1": "✓ Búsqueda ilimitada de leads de múltiples fuentes",
-        "pricing-feature2": "✓ Campañas de correo masivo con personalización automática",
-        "pricing-feature3": "✓ Constructor de landing pages sin código",
-        "pricing-feature4": "✓ Asistente de IA Claude integrado",
-        "pricing-feature5": "✓ Dashboard completo de análisis",
-        "cta-button": "🚀 Abrir Consola Ahora",
-        "btn-payment": "💳 Pagar Ahora",
-        "footer-desc": "Plataforma Todo-en-Uno de Generación de Leads",
-        "footer-contact": "Email: danrubio_2000@yahoo.com | Sitio: https://artver.com.br"
-      },
-      fr: {
-        "header-subtitle": "Générateur de Leads, Email Marketing et Constructeur de Landing Pages Tout-en-Un",
-        "hero-title": "Trouvez des Leads, Envoyez des Campagnes, Créez des Landing Pages",
-        "hero-subtitle": "Tout dans un seul agent. Configurable pour toute profession ou entreprise. Avec assistant IA intégré.",
-        "feature1-title": "Génération de Leads",
-        "feature1-desc": "Trouvez des contacts qualifiés de plusieurs sources. Filtrez par mot-clé, localisation et type.",
-        "feature2-title": "Email Marketing",
-        "feature2-desc": "Créez et envoyez des campagnes en masse avec personnalisation automatique. Suivez les ouvertures et les clics.",
-        "feature3-title": "Landing Pages",
-        "feature3-desc": "Constructeur visuel de landing pages. Sans code. Responsive. Optimisé pour la conversion.",
-        "feature4-title": "IA Intégrée",
-        "feature4-desc": "Assistant IA Claude pour les suggestions de copywriting, l'analyse des leads et l'optimisation des campagnes.",
-        "feature5-title": "Configurable",
-        "feature5-desc": "Adaptez à n'importe quel secteur. 8 modèles préconfigurés. Entièrement personnalisable.",
-        "feature6-title": "Tableau de Bord",
-        "feature6-desc": "Statistiques en temps réel. Visualisez les leads trouvés, les campagnes envoyées, les conversions.",
-        "video-title": "Voyez Comment Cela Fonctionne",
-        "video-desc": "Regardez une démonstration complète de la façon d'utiliser CAPTA LEADS pour générer des leads, envoyer des campagnes et créer des landing pages en quelques minutes.",
-        "video-button": "▶️ Regarder la Démo",
-        "comparison-title": "Comment CAPTA LEADS se Compare",
-        "table-feature": "Caractéristique",
-        "table-row1": "Génération de Leads",
-        "table-row2": "Email Marketing",
-        "table-row3": "Landing Pages",
-        "table-row4": "IA Intégrée",
-        "table-row5": "Prix",
-        "table-company1": "CAPTA LEADS",
-        "table-company2": "Mailchimp",
-        "table-company3": "HubSpot",
-        "table-company4": "Unbounce",
-        "price-capta": "€13,99 - Paiement Unique",
-        "price-mailchimp": "$20+/mois",
-        "price-hubspot": "$50+/mois",
-        "price-unbounce": "$49+/mois",
-        "test-badge": "MODE TEST - ACCÈS GRATUIT ILLIMITÉ",
-        "pricing-title": "Commencez Aujourd'hui",
-        "pricing-label": "Plan Unique",
-        "pricing-price": "€13,99",
-        "pricing-period": "Paiement Unique — Accès Illimité",
-        "pricing-feature1": "✓ Recherche illimitée de leads de plusieurs sources",
-        "pricing-feature2": "✓ Campagnes par email en masse avec personnalisation automatique",
-        "pricing-feature3": "✓ Constructeur de landing pages sans code",
-        "pricing-feature4": "✓ Assistant IA Claude intégré",
-        "pricing-feature5": "✓ Tableau de bord d'analyse complet",
-        "cta-button": "🚀 Ouvrir la Console Maintenant",
-        "btn-payment": "💳 Payer Maintenant",
-        "footer-desc": "Plateforme Tout-en-Un de Génération de Leads",
-        "footer-contact": "Email: danrubio_2000@yahoo.com | Site: https://artver.com.br"
-      }
-    };
-
-    // Load language from localStorage or detect browser language
-    function initLanguage() {
-      let lang = localStorage.getItem('preferredLanguage');
-
-      if (!lang) {
-        const browserLang = navigator.language.split('-')[0];
-        lang = ['pt', 'en', 'es', 'fr'].includes(browserLang) ? browserLang : 'pt';
-      }
-
-      document.getElementById('language-selector').value = lang;
-      setLanguage(lang);
-    }
-
-    function changeLanguage() {
-      const lang = document.getElementById('language-selector').value;
-      localStorage.setItem('preferredLanguage', lang);
-      setLanguage(lang);
-    }
-
-    function setLanguage(lang) {
-      const translation = translations[lang];
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (translation[key]) {
-          el.textContent = translation[key];
-        }
-      });
-
-      document.documentElement.lang = lang;
-    }
-
-    // Detect test mode
-    const params = new URLSearchParams(window.location.search);
-    const isTestMode = params.has('test') && params.get('test') === 'true';
-
-    if (isTestMode) {
-      document.getElementById('test-badge').style.display = 'block';
-      document.getElementById('price-display').textContent = 'GRÁTIS';
-      document.getElementById('price-period').textContent = 'Acesso ilimitado';
-      document.getElementById('cta-btn').textContent = '✨ Acessar Teste Grátis';
-      localStorage.setItem('test_mode', 'true');
-    }
-
-    function handleCTA() {
-      const consoleUrl = window.location.origin + '/?test=' + (isTestMode ? 'true' : 'false');
-      window.location.href = consoleUrl;
-    }
-
-    // Initialize on page load
-    window.addEventListener('load', initLanguage);
-  </script>
 </body>
 </html>
