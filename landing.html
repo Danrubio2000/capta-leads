@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CAPTA LEADS - Adquira Agora</title>
+  <title>CAPTA LEADS - Pricing</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -12,7 +12,6 @@
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 20px;
@@ -21,67 +20,103 @@
     .container {
       background: white;
       border-radius: 20px;
-      padding: 60px 40px;
-      max-width: 500px;
+      padding: 50px 40px;
+      max-width: 600px;
       width: 100%;
-      text-align: center;
       box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 50px;
     }
 
     h1 {
       font-size: 2.5em;
       color: #333;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
 
     .tagline {
       font-size: 1.1em;
       color: #666;
-      margin-bottom: 30px;
       line-height: 1.6;
     }
 
-    .description {
-      background: #f0f0f0;
-      padding: 25px;
-      border-radius: 12px;
+    .cta-section {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .cta-title {
+      font-size: 1.3em;
+      color: #333;
       margin-bottom: 30px;
-      text-align: left;
-      font-size: 1em;
-      color: #555;
-      line-height: 1.8;
+      font-weight: 600;
     }
 
-    .description strong {
-      color: #667eea;
-    }
-
-    .price-box {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 30px;
+    .pricing-box {
+      background: #f9f9f9;
+      border: 2px solid #667eea;
       border-radius: 15px;
-      margin-bottom: 30px;
+      padding: 40px 30px;
+      margin-bottom: 40px;
+      text-align: center;
     }
 
-    .price-box .label {
-      font-size: 1em;
-      opacity: 0.9;
-      margin-bottom: 10px;
+    .plan-name {
+      font-size: 1.2em;
+      color: #667eea;
+      margin-bottom: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
-    .price-box .price {
-      font-size: 3.5em;
+    .price {
+      font-size: 3em;
       font-weight: bold;
+      color: #333;
       margin-bottom: 5px;
     }
 
-    .price-box .period {
-      font-size: 1.1em;
-      opacity: 0.95;
+    .currency {
+      font-size: 1.5em;
+      vertical-align: super;
     }
 
-    .btn-pay {
+    .billing-period {
+      font-size: 1em;
+      color: #999;
+      margin-bottom: 30px;
+    }
+
+    .features {
+      text-align: left;
+      margin-bottom: 30px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      padding: 12px 0;
+      color: #555;
+      font-size: 1em;
+      border-bottom: 1px solid #eee;
+    }
+
+    .feature:last-child {
+      border-bottom: none;
+    }
+
+    .feature-check {
+      color: #009B3A;
+      font-weight: bold;
+      margin-right: 15px;
+      font-size: 1.3em;
+    }
+
+    .btn-purchase {
       display: block;
       width: 100%;
       background: #009B3A;
@@ -94,60 +129,84 @@
       font-weight: bold;
       cursor: pointer;
       transition: all 0.3s;
-      margin-bottom: 15px;
+      text-align: center;
     }
 
-    .btn-pay:hover {
+    .btn-purchase:hover {
       background: #007A2E;
       transform: translateY(-2px);
       box-shadow: 0 10px 25px rgba(0, 155, 58, 0.3);
     }
 
-    .security {
+    .security-badge {
+      text-align: center;
       color: #999;
       font-size: 0.9em;
+      margin-top: 20px;
     }
 
     footer {
       text-align: center;
-      color: rgba(255,255,255,0.7);
-      margin-top: 40px;
+      color: #999;
       font-size: 0.85em;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h1>🚀 CAPTA LEADS</h1>
-    <p class="tagline">Plataforma All-in-One para Geração de Leads, Email Marketing e Landing Pages</p>
+    <header>
+      <h1>🚀 CAPTA LEADS</h1>
+      <p class="tagline">Plataforma All-in-One para Geração de Leads, Email Marketing e Landing Pages</p>
+    </header>
 
-    <div class="description">
-      <strong>O que você recebe:</strong><br>
-      ✓ Busca ilimitada de leads em qualquer segmento<br>
-      ✓ Envio de campanhas de email em massa<br>
-      ✓ Criador de landing pages sem código<br>
-      ✓ Assistente IA integrado<br>
-      ✓ Dashboard com analytics completo<br>
-      <strong>Acesso vitalício — use quantas vezes quiser</strong>
+    <div class="cta-section">
+      <h2 class="cta-title">Comece Agora</h2>
+
+      <div class="pricing-box">
+        <div class="plan-name">Plano Único</div>
+
+        <div class="price"><span class="currency">R$</span> 80</div>
+        <div class="billing-period">Pagamento Único</div>
+
+        <div class="features">
+          <div class="feature">
+            <span class="feature-check">✓</span>
+            <span>Busca ilimitada de leads em qualquer segmento</span>
+          </div>
+          <div class="feature">
+            <span class="feature-check">✓</span>
+            <span>Campanhas de email em massa com personalização automática</span>
+          </div>
+          <div class="feature">
+            <span class="feature-check">✓</span>
+            <span>Construtor de landing pages sem código</span>
+          </div>
+          <div class="feature">
+            <span class="feature-check">✓</span>
+            <span>Assistente IA integrado (Claude)</span>
+          </div>
+          <div class="feature">
+            <span class="feature-check">✓</span>
+            <span>Dashboard completo com analytics</span>
+          </div>
+        </div>
+
+        <a href="https://mpago.la/1ijEWTN" target="_blank" rel="noopener noreferrer" class="btn-purchase">
+          💳 Pagar com Mercado Pago
+        </a>
+
+        <div class="security-badge">🔒 Pagamento 100% seguro — Mercado Pago</div>
+      </div>
     </div>
 
-    <div class="price-box">
-      <div class="label">Preço Único — Pagamento Única Vez</div>
-      <div class="price">R$ 80</div>
-      <div class="period">Acesso vitalício</div>
-    </div>
-
-    <a href="https://mpago.la/1ijEWTN" target="_blank" rel="noopener noreferrer" class="btn-pay">
-      💳 Pagar com Mercado Pago
-    </a>
-
-    <p class="security">🔒 Pagamento 100% seguro — Mercado Pago</p>
+    <footer>
+      <p>© 2026 CAPTA LEADS · danrubio_2000@yahoo.com</p>
+    </footer>
   </div>
-
-  <footer>
-    <p>© 2026 CAPTA LEADS · danrubio_2000@yahoo.com</p>
-  </footer>
 
 </body>
 </html>
