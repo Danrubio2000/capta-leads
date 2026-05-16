@@ -155,6 +155,11 @@ const server = http.createServer(async (req, res) => {
       const html = fs.readFileSync(path.join(__dirname, "landing.html"), "utf8");
       res.writeHead(200);
       res.end(html);
+    } else if (pathname === "/landing-pagamento.html") {
+      res.setHeader("Content-Type", "text/html");
+      const html = fs.readFileSync(path.join(__dirname, "landing-pagamento.html"), "utf8");
+      res.writeHead(200);
+      res.end(html);
     } else if (pathname === "/tutorial.html") {
       res.setHeader("Content-Type", "text/html");
       const html = fs.readFileSync(path.join(__dirname, "tutorial.html"), "utf8");
