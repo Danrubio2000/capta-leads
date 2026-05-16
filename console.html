@@ -1301,22 +1301,45 @@
     }
     initializeSearchResults();
 
-    // Gera leads mocados - SIMPLES E ROBUSTO
-    function generateMockLeads(keywords) {
-      const names = [
+    // Gera leads mocados com nomes realistas baseado em localização
+    function generateMockLeads(keywords, location) {
+      // Nomes brasileiros
+      const brNames = [
         {f:"Carlos",l:"Silva"},{f:"Maria",l:"Santos"},{f:"João",l:"Oliveira"},
-        {f:"Ana",l:"Sousa"},{f:"Pedro",l:"Costa"},{f:"Paula",l:"Mendes"}
+        {f:"Ana",l:"Sousa"},{f:"Pedro",l:"Costa"},{f:"Paula",l:"Mendes"},
+        {f:"Lucas",l:"Gomes"},{f:"Juliana",l:"Martins"},{f:"Bruno",l:"Ferreira"},
+        {f:"Fernanda",l:"Dias"},{f:"Ricardo",l:"Alves"},{f:"Beatriz",l:"Rocha"}
       ];
-      const domains = ["gmail.com","hotmail.com","empresa.com.br"];
-      const count = Math.floor(Math.random() * 5) + 5;
+
+      // Nomes americanos
+      const usNames = [
+        {f:"James",l:"Smith"},{f:"John",l:"Johnson"},{f:"Michael",l:"Williams"},
+        {f:"David",l:"Brown"},{f:"Robert",l:"Jones"},{f:"Mary",l:"Garcia"},
+        {f:"Patricia",l:"Miller"},{f:"Jennifer",l:"Davis"},{f:"Linda",l:"Rodriguez"},
+        {f:"Barbara",l:"Martinez"},{f:"William",l:"Anderson"},{f:"Richard",l:"Taylor"}
+      ];
+
+      // Detecta localização
+      const isBrazil = !location || location.toLowerCase().includes("brasil") ||
+                       location.toLowerCase().includes("são paulo") ||
+                       location.toLowerCase().includes("rio") ||
+                       location.toLowerCase().includes("minas") ||
+                       location.toLowerCase().includes("bahia");
+
+      const nameList = isBrazil ? brNames : usNames;
+      const domains = isBrazil ? ["gmail.com","hotmail.com","empresa.com.br"] : ["gmail.com","yahoo.com","company.com"];
+      const tld = isBrazil ? ".com.br" : ".com";
+
+      const count = 10; // 10 leads
       const leads = [];
+
       for (let i = 0; i < count; i++) {
-        const p = names[Math.floor(Math.random()*names.length)];
+        const p = nameList[Math.floor(Math.random()*nameList.length)];
         const d = domains[Math.floor(Math.random()*domains.length)];
         leads.push({
           name: p.f + " " + p.l,
           email: p.f.toLowerCase() + "." + p.l.toLowerCase() + "@" + d,
-          website: "https://www." + p.l.toLowerCase() + ".com.br",
+          website: "https://www." + p.l.toLowerCase() + i + tld,
           score: Math.floor(Math.random()*40)+60
         });
       }
@@ -1331,6 +1354,7 @@
       form.onsubmit = function(e) {
         e.preventDefault();
         var keywords = document.getElementById("search-keywords").value.trim();
+        var location = document.getElementById("search-location").value.trim();
         var container = document.getElementById("search-results");
 
         if (!keywords) {
@@ -1338,16 +1362,18 @@
           return false;
         }
 
-        container.innerHTML = "<p>🔍 Buscando...</p>";
+        container.innerHTML = "<p>🔍 Buscando " + keywords + " em " + location + "...</p>";
 
         setTimeout(function() {
-          var leads = generateMockLeads(keywords);
+          var leads = generateMockLeads(keywords, location);
           if (!leads || leads.length === 0) {
             container.innerHTML = "<p>Nenhum resultado</p>";
             return;
           }
 
-          var html = "<h3>✅ " + leads.length + " leads encontrados!</h3><table>";
+          var html = "<h3>✅ " + leads.length + " leads encontrados para '" + keywords + "'</h3>";
+          html += "<p style='color:#666;'>📍 Localização: " + location + "</p>";
+          html += "<table>";
           html += "<thead><tr><th>Nome</th><th>Email</th><th>Website</th><th>Score</th></tr></thead><tbody>";
 
           for (var i = 0; i < leads.length; i++) {
