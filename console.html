@@ -1303,11 +1303,15 @@
 
     // Gera leads mocados para demonstração
     function generateMockLeads(keywords, location, type, businessType) {
+      console.log("🎲 generateMockLeads chamado com:", { keywords, location, type, businessType });
+
       const firstNames = ["Carlos", "Maria", "João", "Ana", "Pedro", "Paula", "Lucas", "Juliana", "Bruno", "Fernanda"];
       const lastNames = ["Silva", "Santos", "Oliveira", "Sousa", "Costa", "Mendes", "Gomes", "Martins", "Ferreira", "Dias"];
       const domains = ["gmail.com", "hotmail.com", "outlook.com", "empresa.com.br", "business.com.br", "yahoo.com"];
 
       const leadCount = Math.floor(Math.random() * 8) + 5; // 5-12 leads
+      console.log("Gerando", leadCount, "leads...");
+
       const leads = [];
 
       for (let i = 0; i < leadCount; i++) {
@@ -1323,6 +1327,7 @@
         });
       }
 
+      console.log("✅ Leads gerados com sucesso:", leads);
       return leads;
     }
 
@@ -1330,19 +1335,27 @@
       e.preventDefault();
 
       console.log("🔍 Iniciando busca de leads...");
+      console.log("currentProject:", currentProject);
 
       const keywords = document.getElementById("search-keywords").value;
       const location = document.getElementById("search-location").value;
       const type = document.getElementById("search-type").value;
 
-      if (!keywords) {
+      if (!keywords || keywords.trim() === "") {
         showAlert("⚠️ Digite uma palavra-chave para buscar!", "warning");
         return;
       }
 
       // Get business type from project settings
-      const settings = JSON.parse(localStorage.getItem(getProjectKey('settings')) || '{}');
-      const businessType = settings.businessType || "Dentista";
+      let businessType = "Dentista";
+      try {
+        const projectKey = currentProject ? `settings_${currentProject}` : 'settings_default';
+        const settings = JSON.parse(localStorage.getItem(projectKey) || '{}');
+        businessType = settings.businessType || "Dentista";
+        console.log("Tipo de negócio carregado:", businessType);
+      } catch (settingsErr) {
+        console.warn("Erro ao carregar settings, usando padrão:", settingsErr);
+      }
 
       console.log("Parâmetros:", { keywords, location, type, businessType });
       showAlert("🔍 Buscando leads...", "info");
@@ -1355,13 +1368,18 @@
 
         // Gera dados mocados
         const leads = generateMockLeads(keywords, location, type, businessType);
-        console.log("Leads gerados:", leads);
+        console.log("Leads gerados:", leads.length, leads);
+
+        if (!leads || leads.length === 0) {
+          showAlert("⚠️ Nenhum lead gerado. Tente com outra palavra-chave.", "warning");
+          return;
+        }
 
         searchResults = leads;
         console.log("searchResults atualizado:", searchResults);
 
         renderSearchResults();
-        console.log("Resultados renderizados");
+        console.log("Resultados renderizados com sucesso");
 
         showAlert(`✅ ${leads.length} leads encontrados!`, "success");
       } catch (error) {
