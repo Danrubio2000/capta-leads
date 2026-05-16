@@ -1331,11 +1331,19 @@
       return leads;
     }
 
-    document.getElementById("search-leads-form")?.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    // Envolve em setTimeout para garantir que o DOM está pronto
+    setTimeout(() => {
+      const formElement = document.getElementById("search-leads-form");
+      if (!formElement) {
+        console.error("❌ Elemento #search-leads-form não encontrado!");
+        return;
+      }
 
-      console.log("🔍 Iniciando busca de leads...");
-      console.log("currentProject:", currentProject);
+      formElement.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        console.log("🔍 Iniciando busca de leads...");
+        console.log("currentProject:", currentProject);
 
       const keywords = document.getElementById("search-keywords").value;
       const location = document.getElementById("search-location").value;
@@ -1392,7 +1400,8 @@
         console.error("Stack:", error.stack);
         showAlert(`❌ Erro ao buscar leads: ${error.message}`, "error");
       }
-    });
+      });
+    }, 100); // Aguarda 100ms para garantir que o DOM está pronto
 
     function renderSearchResults() {
       console.log("renderSearchResults chamado, searchResults:", searchResults);
