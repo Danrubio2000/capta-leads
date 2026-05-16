@@ -10,6 +10,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
+import { handleProjectAPI } from "./api-projects.js";
 
 dotenv.config();
 
@@ -181,6 +182,11 @@ async function handleAPI(req, res, url, method) {
   const parts = url.pathname.replace("/api/", "").split("/").filter(Boolean);
   const endpoint = parts[0];
   const action = parts[1];
+
+  // 📁 PROJETOS (Multi-Project Management)
+  if (endpoint === "projects") {
+    return await handleProjectAPI(req, res, url, method);
+  }
 
   // 🎯 LEADS HUNTING
   if (endpoint === "leads") {
@@ -580,6 +586,14 @@ const server = http.createServer(async (req, res) => {
 
     if (url.pathname === "/landing.html") {
       return serveStatic(res, path.join(__dirname, "landing.html"), "text/html");
+    }
+
+    if (url.pathname === "/console.html") {
+      return serveStatic(res, path.join(__dirname, "console.html"), "text/html");
+    }
+
+    if (url.pathname === "/console-simple.html") {
+      return serveStatic(res, path.join(__dirname, "console-simple.html"), "text/html");
     }
 
     if (url.pathname === "/chat-widget.js") {

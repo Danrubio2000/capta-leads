@@ -1,0 +1,15 @@
+{
+  "id": "1778960872909",
+  "name": "SOMOS-TODAS-MISS",
+  "createdAt": "2026-05-16T19:47:52.909Z",
+  "config": {
+    "industry": "cinema",
+    "currency": "BRL"
+  },
+  "stats": {
+    "totalLeads": 1,
+    "totalCampaigns": 1,
+    "totalPages": 1,
+    "conversions": 0
+  }
+}
