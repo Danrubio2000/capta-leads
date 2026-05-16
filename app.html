@@ -632,28 +632,78 @@ function generateLeads(keyword, location) {
     {f:"Carlos",l:"Silva"},{f:"Maria",l:"Santos"},{f:"João",l:"Oliveira"},
     {f:"Ana",l:"Sousa"},{f:"Pedro",l:"Costa"},{f:"Paula",l:"Mendes"},
     {f:"Lucas",l:"Gomes"},{f:"Juliana",l:"Martins"},{f:"Bruno",l:"Ferreira"},
-    {f:"Fernanda",l:"Dias"},{f:"Ricardo",l:"Alves"},{f:"Beatriz",l:"Rocha"}
+    {f:"Fernanda",l:"Dias"},{f:"Ricardo",l:"Alves"},{f:"Beatriz",l:"Rocha"},
+    {f:"André",l:"Rodrígues"},{f:"Carla",l:"Pereira"},{f:"Daniel",l:"Souza"},
+    {f:"Fernanda",l:"Cardoso"},{f:"Gustavo",l:"Barbosa"},{f:"Helena",l:"Campos"},
+    {f:"Igor",l:"Mendes"},{f:"Iris",l:"Ribeiro"},{f:"João",l:"Henrique"},
+    {f:"Júlia",l:"Vieira"},{f:"Karine",l:"Marques"},{f:"Klaus",l:"Müller"},
+    {f:"Laura",l:"Ferraz"},{f:"Leonardo",l:"Goulart"},{f:"Mariana",l:"Nunes"},
+    {f:"Marcelo",l:"Ramos"},{f:"Natalia",l:"Teixeira"},{f:"Nelson",l:"Vargas"},
+    {f:"Olivia",l:"Macedo"},{f:"Otávio",l:"Lopes"},{f:"Patricia",l:"Freitas"},
+    {f:"Paulo",l:"Aguiar"},{f:"Rafaela",l:"Monteiro"},{f:"Roberto",l:"Pinto"},
+    {f:"Sabrina",l:"Saraiva"},{f:"Samuel",l:"Leite"},{f:"Sandra",l:"Andrade"},
+    {f:"Sebastião",l:"Barros"},{f:"Silvia",l:"Duarte"},{f:"Simone",l:"Cavalcanti"},
+    {f:"Tania",l:"Rocha"},{f:"Tatiana",l:"Toledo"},{f:"Thiago",l:"Mota"},
+    {f:"Theodoro",l:"Rios"},{f:"Tiago",l:"Santana"},{f:"Vanessa",l:"Borges"},
+    {f:"Vitor",l:"Cunha"},{f:"Wagner",l:"Lemos"},{f:"Walmir",l:"Gomes"}
   ];
+
   const usNames = [
     {f:"James",l:"Smith"},{f:"John",l:"Johnson"},{f:"Michael",l:"Williams"},
-    {f:"David",l:"Brown"},{f:"Robert",l:"Jones"},{f:"Mary",l:"Garcia"}
+    {f:"David",l:"Brown"},{f:"Robert",l:"Jones"},{f:"Mary",l:"Garcia"},
+    {f:"Patricia",l:"Miller"},{f:"Jennifer",l:"Davis"},{f:"Linda",l:"Rodriguez"},
+    {f:"Barbara",l:"Martinez"},{f:"William",l:"Anderson"},{f:"Richard",l:"Taylor"},
+    {f:"Joseph",l:"Thomas"},{f:"Charles",l:"Moore"},{f:"Christopher",l:"Jackson"},
+    {f:"Donald",l:"Martin"},{f:"Matthew",l:"Lee"},{f:"Mark",l:"White"},
+    {f:"Donald",l:"Harris"},{f:"Steven",l:"Clark"},{f:"Paul",l:"Lewis"},
+    {f:"Andrew",l:"Walker"},{f:"Joshua",l:"Hall"},{f:"Kenneth",l:"Young"},
+    {f:"Kevin",l:"King"},{f:"Brian",l:"Wright"},{f:"George",l:"Lopez"},
+    {f:"Edward",l:"Hill"},{f:"Ronald",l:"Scott"},{f:"Anthony",l:"Green"},
+    {f:"Frank",l:"Adams"},{f:"Ryan",l:"Nelson"},{f:"Gary",l:"Carter"},
+    {f:"Nicholas",l:"Roberts"},{f:"Eric",l:"Phillips"},{f:"Jonathan",l:"Campbell"},
+    {f:"Stephen",l:"Parker"},{f:"Larry",l:"Evans"},{f:"Justin",l:"Edwards"},
+    {f:"Scott",l:"Collins"},{f:"Brandon",l:"Stewart"},{f:"Benjamin",l:"Sanchez"},
+    {f:"Samuel",l:"Morris"},{f:"Frank",l:"Rogers"},{f:"Gregory",l:"Morgan"},
+    {f:"Alexander",l:"Peterson"},{f:"Raymond",l:"Cooper"},{f:"Patrick",l:"Brady"}
   ];
 
-  const isBrazil = !location || location.toLowerCase().includes("brasil") || location.toLowerCase().includes("são paulo");
+  const isBrazil = !location || location.toLowerCase().includes("brasil") ||
+                   location.toLowerCase().includes("são paulo") || location.toLowerCase().includes("rio");
   const nameList = isBrazil ? brNames : usNames;
-  const domains = isBrazil ? ["gmail.com","empresa.com.br"] : ["gmail.com","company.com"];
-  const tld = isBrazil ? ".com.br" : ".com";
+  const domains = isBrazil ? ["gmail.com","hotmail.com","empresa.com.br","consultoria.com.br","services.com.br"]
+                            : ["gmail.com","yahoo.com","company.com","business.com","corp.com"];
 
-  const count = Math.floor(Math.random() * 100) + 100;
+  const tld = isBrazil ? ".com.br" : ".com";
+  const companySuffixes = isBrazil ? ["empresa", "consultoria", "agência", "serviços", "soluções", "digital"]
+                                   : ["company", "solutions", "group", "services", "inc", "llc"];
+
+  const count = Math.floor(Math.random() * 50) + 80; // 80-130 leads, menos que antes
   const leads = [];
+  const usedEmails = new Set();
 
   for (let i = 0; i < count; i++) {
     const p = nameList[Math.floor(Math.random() * nameList.length)];
     const d = domains[Math.floor(Math.random() * domains.length)];
+
+    // Gera email único
+    let email;
+    let attempts = 0;
+    do {
+      const random = Math.floor(Math.random() * 9999);
+      email = p.f.toLowerCase() + "." + p.l.toLowerCase() + random + "@" + d;
+      attempts++;
+    } while (usedEmails.has(email) && attempts < 5);
+
+    usedEmails.add(email);
+
+    // Gera website mais realista
+    const suffix = companySuffixes[Math.floor(Math.random() * companySuffixes.length)];
+    const website = "https://www." + suffix + Math.floor(Math.random() * 9999) + tld;
+
     leads.push({
       name: p.f + " " + p.l,
-      email: p.f.toLowerCase() + "." + p.l.toLowerCase() + i + "@" + d,
-      website: "https://www." + keyword.replace(/\s+/g, '').toLowerCase() + p.l.toLowerCase() + i + tld,
+      email: email,
+      website: website,
       score: Math.floor(Math.random() * 40) + 60
     });
   }
