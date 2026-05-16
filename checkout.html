@@ -15,87 +15,70 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 40px 20px;
+      padding: 20px;
     }
 
-    header {
-      text-align: center;
-      color: white;
-      margin-bottom: 40px;
-    }
-
-    header h1 {
-      font-size: 2.8em;
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
-
-    header p {
-      font-size: 1.2em;
-      opacity: 0.9;
-    }
-
-    .plan {
+    .container {
       background: white;
-      border-radius: 16px;
-      padding: 50px 40px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      text-align: center;
-      max-width: 480px;
-      width: 100%;
-      border: 3px solid #667eea;
-    }
-
-    .badge {
-      display: inline-block;
-      background: #667eea;
-      color: white;
-      padding: 6px 20px;
       border-radius: 20px;
-      font-size: 0.85em;
-      font-weight: bold;
-      margin-bottom: 20px;
-      letter-spacing: 1px;
+      padding: 60px 40px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
 
-    .plan h2 {
-      font-size: 1.8em;
+    h1 {
+      font-size: 2.5em;
       color: #333;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
     }
 
-    .price {
-      font-size: 4em;
-      color: #667eea;
-      font-weight: bold;
-      margin: 20px 0 5px 0;
+    .tagline {
+      font-size: 1.1em;
+      color: #666;
+      margin-bottom: 30px;
+      line-height: 1.6;
     }
 
-    .price-label {
+    .description {
+      background: #f0f0f0;
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      text-align: left;
       font-size: 1em;
-      color: #999;
+      color: #555;
+      line-height: 1.8;
+    }
+
+    .description strong {
+      color: #667eea;
+    }
+
+    .price-box {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
       margin-bottom: 30px;
     }
 
-    ul {
-      list-style: none;
-      text-align: left;
-      margin-bottom: 35px;
-    }
-
-    ul li {
-      padding: 10px 0;
-      border-bottom: 1px solid #eee;
-      color: #555;
+    .price-box .label {
       font-size: 1em;
+      opacity: 0.9;
+      margin-bottom: 10px;
     }
 
-    ul li:last-child { border-bottom: none; }
-
-    ul li::before {
-      content: "✓ ";
-      color: #667eea;
+    .price-box .price {
+      font-size: 3.5em;
       font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .price-box .period {
+      font-size: 1.1em;
+      opacity: 0.95;
     }
 
     .btn-pay {
@@ -110,67 +93,60 @@
       font-size: 1.2em;
       font-weight: bold;
       cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
-      text-align: center;
+      transition: all 0.3s;
+      margin-bottom: 15px;
     }
 
     .btn-pay:hover {
       background: #007A2E;
       transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 155, 58, 0.3);
     }
 
-    .guarantee {
-      margin-top: 20px;
+    .security {
       color: #999;
-      font-size: 0.85em;
+      font-size: 0.9em;
     }
 
     footer {
       text-align: center;
-      color: rgba(255,255,255,0.8);
+      color: rgba(255,255,255,0.7);
       margin-top: 40px;
-      font-size: 0.9em;
-    }
-
-    footer a {
-      color: white;
+      font-size: 0.85em;
     }
   </style>
 </head>
 <body>
 
-  <header>
+  <div class="container">
     <h1>🚀 CAPTALEADS</h1>
-    <p>Geração de Leads · Email Marketing · Landing Pages · IA Integrada</p>
-  </header>
+    <p class="tagline">Plataforma All-in-One para Geração de Leads, Email Marketing e Landing Pages</p>
 
-  <div class="plan">
-    <div class="badge">✨ ACESSO COMPLETO</div>
-    <h2>Plano Profissional</h2>
+    <div class="description">
+      <strong>O que você recebe:</strong><br>
+      ✓ Busca ilimitada de leads em qualquer segmento<br>
+      ✓ Envio de campanhas de email em massa<br>
+      ✓ Criador de landing pages sem código<br>
+      ✓ Assistente IA integrado<br>
+      ✓ Dashboard com analytics completo<br>
+      <strong>Acesso vitalício — use quantas vezes quiser</strong>
+    </div>
 
-    <div class="price">R$ 80</div>
-    <div class="price-label">Pagamento Único — Acesso Vitalício</div>
-
-    <ul>
-      <li>Busca ilimitada de leads em múltiplas fontes</li>
-      <li>Campanhas de email em massa com personalização</li>
-      <li>Landing page builder sem código</li>
-      <li>Assistente IA Claude integrado</li>
-      <li>Dashboard com analytics completo</li>
-      <li>Exportação de leads em CSV e JSON</li>
-      <li>Suporte prioritário por email</li>
-      <li>Atualizações incluídas</li>
-    </ul>
+    <div class="price-box">
+      <div class="label">Preço Único — Pagamento Única Vez</div>
+      <div class="price">R$ 80</div>
+      <div class="period">Acesso vitalício</div>
+    </div>
 
     <a href="https://mpago.la/1ijEWTN" target="_blank" rel="noopener noreferrer" class="btn-pay">
       💳 Pagar com Mercado Pago
     </a>
 
-    <p class="guarantee">🔒 Pagamento 100% seguro via Mercado Pago</p>
+    <p class="security">🔒 Pagamento 100% seguro — Mercado Pago</p>
   </div>
 
   <footer>
-    <p>© 2026 CAPTALEADS · <a href="mailto:danrubio_2000@yahoo.com">danrubio_2000@yahoo.com</a></p>
+    <p>© 2026 CAPTALEADS · danrubio_2000@yahoo.com</p>
   </footer>
 
 </body>
