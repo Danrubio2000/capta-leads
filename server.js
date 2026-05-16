@@ -596,6 +596,10 @@ const server = http.createServer(async (req, res) => {
       return serveStatic(res, path.join(__dirname, "landing-paid.html"), "text/html");
     }
 
+    if (url.pathname === "/landing-pagamento.html") {
+      return serveStatic(res, path.join(__dirname, "landing-pagamento.html"), "text/html");
+    }
+
     if (url.pathname === "/console.html") {
       return serveStatic(res, path.join(__dirname, "console.html"), "text/html");
     }
