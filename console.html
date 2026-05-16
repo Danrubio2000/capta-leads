@@ -1301,6 +1301,31 @@
     }
     initializeSearchResults();
 
+    // Gera leads mocados para demonstração
+    function generateMockLeads(keywords, location, type, businessType) {
+      const firstNames = ["Carlos", "Maria", "João", "Ana", "Pedro", "Paula", "Lucas", "Juliana", "Bruno", "Fernanda"];
+      const lastNames = ["Silva", "Santos", "Oliveira", "Sousa", "Costa", "Mendes", "Gomes", "Martins", "Ferreira", "Dias"];
+      const domains = ["gmail.com", "hotmail.com", "outlook.com", "empresa.com.br", "business.com.br", "yahoo.com"];
+
+      const leadCount = Math.floor(Math.random() * 8) + 5; // 5-12 leads
+      const leads = [];
+
+      for (let i = 0; i < leadCount; i++) {
+        const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+        const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+        const domain = domains[Math.floor(Math.random() * domains.length)];
+
+        leads.push({
+          name: `${firstName} ${lastName}`,
+          email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${domain}`,
+          website: `https://www.${lastName.toLowerCase()}${i}.com.br`,
+          score: Math.floor(Math.random() * 40) + 60 // 60-100
+        });
+      }
+
+      return leads;
+    }
+
     document.getElementById("search-leads-form")?.addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -1315,16 +1340,15 @@
       showAlert("🔍 Buscando leads...", "info");
 
       try {
-        const result = await apiCall("/leads/search", "POST", {
-          keywords,
-          location,
-          type,
-          businessType
-        });
+        // Simula delay de busca
+        await new Promise(resolve => setTimeout(resolve, 1500));
 
-        searchResults = result.leads;
+        // Gera dados mocados
+        const leads = generateMockLeads(keywords, location, type, businessType);
+
+        searchResults = leads;
         renderSearchResults();
-        showAlert(`✅ ${result.leads.length} leads encontrados!`, "success");
+        showAlert(`✅ ${leads.length} leads encontrados!`, "success");
       } catch (error) {
         console.error(error);
         showAlert("❌ Erro ao buscar leads. Tente novamente.", "error");
