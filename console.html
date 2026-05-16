@@ -1363,10 +1363,14 @@
       try {
         console.log("Gerando dados mocados...");
 
+        // LIMPA resultados antigos ANTES de gerar novos
+        searchResults = [];
+        console.log("✅ searchResults limpo");
+
         // Simula delay de busca
         await new Promise(resolve => setTimeout(resolve, 1500));
 
-        // Gera dados mocados
+        // Gera dados mocados NOVOS
         const leads = generateMockLeads(keywords, location, type, businessType);
         console.log("Leads gerados:", leads.length, leads);
 
@@ -1375,8 +1379,9 @@
           return;
         }
 
+        // Atribui novos leads
         searchResults = leads;
-        console.log("searchResults atualizado:", searchResults);
+        console.log("searchResults atualizado com novos leads:", searchResults);
 
         renderSearchResults();
         console.log("Resultados renderizados com sucesso");
