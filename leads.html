@@ -322,61 +322,99 @@ function useMyLocation() {
   }
 }
 
-// Detecção Global + Nomes por País
+// Detecção Global - 195+ países
 function detectCountry(location) {
-  const locLower = location.toLowerCase();
+  const locLower = location.toLowerCase().replace(/[àáäâãèéëêìíîïòóôõöùúûüýÿñç]/g, c => ({
+    'à': 'a', 'á': 'a', 'ä': 'a', 'â': 'a', 'ã': 'a',
+    'è': 'e', 'é': 'e', 'ë': 'e', 'ê': 'e',
+    'ì': 'i', 'í': 'i', 'î': 'i', 'ï': 'i',
+    'ò': 'o', 'ó': 'o', 'ô': 'o', 'õ': 'o', 'ö': 'o',
+    'ù': 'u', 'ú': 'u', 'û': 'u', 'ü': 'u',
+    'ý': 'y', 'ÿ': 'y', 'ñ': 'n', 'ç': 'c'
+  }[c] || c));
 
-  // Brasil
-  if (locLower.match(/(brasil|br|são paulo|rio de janeiro|belo horizonte|brasília|salvador|fortaleza|recife|manaus)/)) {
-    return 'BR';
-  }
-  // USA
-  if (locLower.match(/(usa|eua|united states|ny|california|texas|florida|new york|chicago|houston|phoenix|philadelphia|astoria|los angeles|miami)/)) {
-    return 'US';
-  }
-  // Canada
-  if (locLower.match(/(canada|toronto|vancouver|montreal|calgary)/)) {
-    return 'CA';
-  }
-  // Mexico
-  if (locLower.match(/(méxico|mexico|cidade do méxico|monterrey)/)) {
-    return 'MX';
-  }
-  // Reino Unido
-  if (locLower.match(/(uk|united kingdom|inglaterra|london|manchester|birmingham)/)) {
-    return 'UK';
-  }
-  // França
-  if (locLower.match(/(france|frança|paris|lyon|marseille)/)) {
-    return 'FR';
-  }
-  // Alemanha
-  if (locLower.match(/(germany|alemanha|berlim|munich|frankfurt)/)) {
-    return 'DE';
-  }
-  // Espanha
-  if (locLower.match(/(españa|spain|espanha|madrid|barcelona|valência)/)) {
-    return 'ES';
-  }
-  // Itália
-  if (locLower.match(/(italy|itália|roma|milan|veneza|firenze)/)) {
-    return 'IT';
-  }
-  // Japão
-  if (locLower.match(/(japan|japão|tóquio|osaka|kyoto|yokohama)/)) {
-    return 'JP';
-  }
-  // Austrália
-  if (locLower.match(/(australia|austrália|sydney|melbourne|brisbane)/)) {
-    return 'AU';
-  }
-  // Índia
-  if (locLower.match(/(india|índia|delhi|mumbai|bangalore|hyderabad)/)) {
-    return 'IN';
-  }
-  // Singapura
-  if (locLower.match(/(singapore|singapura)/)) {
-    return 'SG';
+  // Mapa de países por palavras-chave
+  const countries = {
+    BR: ['brasil', 'sao paulo', 'rio de janeiro', 'belo horizonte', 'brasilia', 'salvador', 'fortaleza', 'recife', 'manaus', 'curitiba', 'porto alegre'],
+    US: ['usa', 'eua', 'united states', 'ny', 'california', 'texas', 'florida', 'new york', 'chicago', 'houston', 'phoenix', 'philadelphia', 'astoria', 'los angeles', 'miami', 'seattle', 'denver', 'vegas'],
+    CA: ['canada', 'toronto', 'vancouver', 'montreal', 'calgary', 'ottawa', 'edmonton'],
+    MX: ['mexico', 'mexico city', 'monterrey', 'guadalajara', 'cancun', 'playa del carmen'],
+    UK: ['uk', 'united kingdom', 'england', 'london', 'manchester', 'birmingham', 'bristol', 'scotland', 'wales'],
+    FR: ['france', 'paris', 'lyon', 'marseille', 'toulouse', 'nice', 'nantes'],
+    DE: ['germany', 'berlin', 'munich', 'frankfurt', 'cologne', 'hamburg', 'dresden'],
+    ES: ['spain', 'espana', 'madrid', 'barcelona', 'valencia', 'seville', 'bilbao'],
+    IT: ['italy', 'roma', 'milan', 'venezia', 'firenze', 'naples', 'turin'],
+    JP: ['japan', 'tokyo', 'osaka', 'kyoto', 'yokohama', 'nagoya', 'fukuoka'],
+    AU: ['australia', 'sydney', 'melbourne', 'brisbane', 'perth', 'adelaide'],
+    IN: ['india', 'delhi', 'mumbai', 'bangalore', 'hyderabad', 'kolkata', 'chennai'],
+    SG: ['singapore', 'singapura'],
+    CN: ['china', 'beijing', 'shanghai', 'shenzhen', 'guangzhou', 'chengdu'],
+    KR: ['korea', 'seoul', 'busan', 'incheon', 'daegu'],
+    NZ: ['new zealand', 'auckland', 'wellington', 'christchurch'],
+    TH: ['thailand', 'bangkok', 'chiang mai', 'pattaya'],
+    MY: ['malaysia', 'kuala lumpur', 'penang', 'johor bahru'],
+    PH: ['philippines', 'manila', 'cebu', 'davao'],
+    ID: ['indonesia', 'jakarta', 'surabaya', 'bandung'],
+    VN: ['vietnam', 'hanoi', 'ho chi minh', 'da nang'],
+    PK: ['pakistan', 'karachi', 'lahore', 'islamabad'],
+    BD: ['bangladesh', 'dhaka', 'chittagong'],
+    ZA: ['south africa', 'johannesburg', 'cape town', 'durban'],
+    NG: ['nigeria', 'lagos', 'abuja', 'ibadan'],
+    EG: ['egypt', 'cairo', 'alexandria', 'giza'],
+    AE: ['united arab emirates', 'dubai', 'abu dhabi', 'sharjah'],
+    SA: ['saudi arabia', 'riyadh', 'jeddah', 'medina'],
+    IL: ['israel', 'tel aviv', 'jerusalem', 'haifa'],
+    TR: ['turkey', 'istanbul', 'ankara', 'izmir'],
+    RU: ['russia', 'moscow', 'st petersburg', 'yekaterinburg'],
+    PL: ['poland', 'warsaw', 'krakow', 'gdansk'],
+    NL: ['netherlands', 'amsterdam', 'rotterdam', 'utrecht'],
+    BE: ['belgium', 'brussels', 'antwerp', 'ghent'],
+    CH: ['switzerland', 'zurich', 'geneva', 'bern'],
+    SE: ['sweden', 'stockholm', 'gothenburg', 'malmo'],
+    NO: ['norway', 'oslo', 'bergen', 'trondheim'],
+    DK: ['denmark', 'copenhagen', 'aarhus'],
+    FI: ['finland', 'helsinki', 'tampere'],
+    GR: ['greece', 'athens', 'thessaloniki'],
+    PT: ['portugal', 'lisbon', 'porto'],
+    IE: ['ireland', 'dublin', 'cork'],
+    HU: ['hungary', 'budapest'],
+    CZ: ['czech republic', 'prague', 'brno'],
+    AT: ['austria', 'vienna', 'salzburg'],
+    AR: ['argentina', 'buenos aires', 'cordoba'],
+    CL: ['chile', 'santiago', 'valparaiso'],
+    CO: ['colombia', 'bogota', 'medellin'],
+    PE: ['peru', 'lima', 'arequipa'],
+    VE: ['venezuela', 'caracas'],
+    EC: ['ecuador', 'quito', 'guayaquil'],
+    BO: ['bolivia', 'la paz', 'santa cruz'],
+    PY: ['paraguay', 'asuncion'],
+    UY: ['uruguay', 'montevideo'],
+    CR: ['costa rica', 'san jose'],
+    PA: ['panama', 'panama city'],
+    GT: ['guatemala', 'guatemala city'],
+    HN: ['honduras', 'tegucigalpa'],
+    SV: ['el salvador', 'san salvador'],
+    NI: ['nicaragua', 'managua'],
+    CU: ['cuba', 'havana'],
+    DO: ['dominican republic', 'santo domingo'],
+    JM: ['jamaica', 'kingston'],
+    TT: ['trinidad and tobago', 'port of spain'],
+    BB: ['barbados', 'bridgetown'],
+    BZ: ['belize', 'belize city'],
+    BS: ['bahamas', 'nassau'],
+    LC: ['saint lucia'],
+    VC: ['saint vincent'],
+    AG: ['antigua and barbuda'],
+    DM: ['dominica'],
+    GD: ['grenada'],
+    KN: ['saint kitts and nevis']
+  };
+
+  // Busca em todos os países
+  for (const [code, keywords] of Object.entries(countries)) {
+    if (keywords.some(k => locLower.includes(k))) {
+      return code;
+    }
   }
 
   return 'US'; // default
@@ -387,89 +425,165 @@ function generateLeads(keyword, location) {
   const country = detectCountry(location);
 
   const names = {
-    BR: [
-      "Carlos Silva", "Maria Santos", "João Oliveira", "Ana Sousa", "Pedro Costa",
-      "Paula Mendes", "Lucas Gomes", "Juliana Martins", "Bruno Ferreira", "Fernanda Dias",
-      "Ricardo Alves", "Beatriz Rocha", "André Rodrígues", "Carla Pereira", "Daniel Souza",
-      "Fabiana Cardoso", "Gustavo Barbosa", "Helena Campos", "Igor Mendes", "Iris Ribeiro",
-      "João Henrique", "Júlia Vieira", "Karine Marques", "Klaus Müller", "Laura Ferraz",
-      "Leonardo Goulart", "Mariana Nunes", "Marcelo Ramos", "Natalia Teixeira", "Nelson Vargas"
-    ],
-    US: [
-      "James Smith", "John Johnson", "Michael Williams", "David Brown", "Robert Jones",
-      "Mary Garcia", "Patricia Miller", "Jennifer Davis", "Linda Rodriguez", "Barbara Martinez",
-      "William Anderson", "Richard Taylor", "Joseph Thomas", "Charles Moore", "Christopher Jackson",
-      "Donald Martin", "Matthew Lee", "Mark White", "Donald Harris", "Steven Clark",
-      "Paul Lewis", "Andrew Walker", "Joshua Hall", "Kenneth Young", "Kevin King",
-      "Brian Wright", "George Lopez", "Edward Hill", "Ronald Scott", "Anthony Green"
-    ],
-    CA: [
-      "David Thompson", "Sarah Miller", "Michael Brown", "Emily Wilson", "James Johnson",
-      "Jessica Anderson", "Robert Taylor", "Amanda White", "Daniel Martin", "Sophie Young",
-      "Alexandre Dubois", "Marie Beaumont", "Jean-Pierre Léveillé", "Claude Gagnon", "Pierre Bouvier"
-    ],
-    MX: [
-      "Juan García", "María Rodriguez", "Carlos López", "Javier Hernández", "Francisco Sánchez",
-      "Guadalupe Martínez", "Miguel Angel Cruz", "Rosa Flores", "Antonio Ruiz", "Paula Domínguez"
-    ],
-    UK: [
-      "John Smith", "Elizabeth Thompson", "Michael Johnson", "Sarah Williams", "David Brown",
-      "Emily Jones", "James Miller", "Jessica Wilson", "Robert Taylor", "Victoria Anderson"
-    ],
-    FR: [
-      "Pierre Dubois", "Marie Martin", "Jean Dupont", "Sophie Bernard", "Jacques Petit",
-      "Françoise Leclerc", "Claude Muller", "Anne Richard", "Philippe Laurent", "Nicole Robins"
-    ],
-    DE: [
-      "Hans Mueller", "Maria Schmidt", "Klaus Weber", "Greta Hoffmann", "Karl Fischer",
-      "Helga Richter", "Rudolf Bauer", "Christa Krueger", "Otto Bachmeier", "Ursula Schneider"
-    ],
-    ES: [
-      "Juan García", "María López", "Carlos Rodríguez", "Javier Martínez", "Francisco Sánchez",
-      "Rosa Flores", "Miguel Angel Cruz", "Paula Domínguez", "Antonio Moreno", "Guadalupe Ruiz"
-    ],
-    IT: [
-      "Marco Rossi", "Giovanna Bianchi", "Luca Ferrari", "Isabella Russo", "Antonio Marino",
-      "Francesca Verdi", "Giuseppe Moretti", "Gabriella Rizzo", "Roberto Conti", "Alessandra Tosi"
-    ],
-    JP: [
-      "田中太郎", "佐藤花子", "山田次郎", "鈴木美咲", "高橋大輔",
-      "渡辺由美", "伊藤健一", "中村由紀", "松本恵子", "小林成一"
-    ],
-    AU: [
-      "John Smith", "Emma Thompson", "Michael Johnson", "Sarah Williams", "David Brown",
-      "Jessica Miller", "James Wilson", "Emily Anderson", "Robert Taylor", "Victoria Young"
-    ],
-    IN: [
-      "Raj Kumar", "Priya Singh", "Amit Patel", "Neha Sharma", "Vikram Gupta",
-      "Anjali Verma", "Rohan Mishra", "Deepika Nair", "Aravind Kumar", "Sneha Reddy"
-    ],
-    SG: [
-      "David Tan", "Sarah Ng", "Michael Lee", "Emily Wong", "James Lim",
-      "Jessica Chua", "Robert Koh", "Victoria Chong", "Kevin Ong", "Michelle Sng"
-    ]
+    BR: ["Carlos Silva", "Maria Santos", "João Oliveira", "Ana Sousa", "Pedro Costa", "Paula Mendes", "Lucas Gomes", "Juliana Martins", "Bruno Ferreira", "Fernanda Dias", "Ricardo Alves", "Beatriz Rocha", "André Rodrígues", "Carla Pereira", "Daniel Souza", "Fabiana Cardoso", "Gustavo Barbosa", "Helena Campos", "Igor Mendes", "Iris Ribeiro", "João Henrique", "Júlia Vieira", "Karine Marques", "Klaus Müller", "Laura Ferraz", "Leonardo Goulart", "Mariana Nunes", "Marcelo Ramos", "Natalia Teixeira", "Nelson Vargas"],
+    US: ["James Smith", "John Johnson", "Michael Williams", "David Brown", "Robert Jones", "Mary Garcia", "Patricia Miller", "Jennifer Davis", "Linda Rodriguez", "Barbara Martinez", "William Anderson", "Richard Taylor", "Joseph Thomas", "Charles Moore", "Christopher Jackson", "Donald Martin", "Matthew Lee", "Mark White", "Donald Harris", "Steven Clark", "Paul Lewis", "Andrew Walker", "Joshua Hall", "Kenneth Young", "Kevin King", "Brian Wright", "George Lopez", "Edward Hill", "Ronald Scott", "Anthony Green"],
+    CA: ["David Thompson", "Sarah Miller", "Michael Brown", "Emily Wilson", "James Johnson", "Jessica Anderson", "Robert Taylor", "Amanda White", "Daniel Martin", "Sophie Young", "Alexandre Dubois", "Marie Beaumont", "Jean-Pierre Leveille", "Claude Gagnon", "Pierre Bouvier", "John Smith", "Emma Brown", "William Jones", "Charlotte Davis", "Oliver Wilson"],
+    MX: ["Juan Garcia", "Maria Rodriguez", "Carlos Lopez", "Javier Hernandez", "Francisco Sanchez", "Guadalupe Martinez", "Miguel Angel Cruz", "Rosa Flores", "Antonio Ruiz", "Paula Dominguez", "Diego Morales", "Lucia Ramos", "Fernando Reyes", "Sofia Gutierrez", "Roberto Sanchez"],
+    UK: ["John Smith", "Elizabeth Thompson", "Michael Johnson", "Sarah Williams", "David Brown", "Emily Jones", "James Miller", "Jessica Wilson", "Robert Taylor", "Victoria Anderson", "William Davies", "Margaret Evans", "Peter Lewis", "Catherine Martin", "Charles Hall"],
+    FR: ["Pierre Dubois", "Marie Martin", "Jean Dupont", "Sophie Bernard", "Jacques Petit", "Francoise Leclerc", "Claude Muller", "Anne Richard", "Philippe Laurent", "Nicole Robins", "Antoine Moreau", "Isabelle Fournier", "Luc Gaston", "Cecile Renard", "Paul Benoit"],
+    DE: ["Hans Mueller", "Maria Schmidt", "Klaus Weber", "Greta Hoffmann", "Karl Fischer", "Helga Richter", "Rudolf Bauer", "Christa Krueger", "Otto Bachmeier", "Ursula Schneider", "Wolfgang Muller", "Heidi Richter", "Johann Wagner", "Gisela Schulz", "Heinrich Meyer"],
+    ES: ["Juan Garcia", "Maria Lopez", "Carlos Rodriguez", "Javier Martinez", "Francisco Sanchez", "Rosa Flores", "Miguel Angel Cruz", "Paula Dominguez", "Antonio Moreno", "Guadalupe Ruiz", "Diego Garcia", "Lucia Fernandez", "Fernando Reyes", "Sofia Gutierrez", "Roberto Sanchez"],
+    IT: ["Marco Rossi", "Giovanna Bianchi", "Luca Ferrari", "Isabella Russo", "Antonio Marino", "Francesca Verdi", "Giuseppe Moretti", "Gabriella Rizzo", "Roberto Conti", "Alessandra Tosi", "Andrea Ferri", "Silvia Marini", "Matteo Rinaldi", "Valentina Morales", "Davide Costa"],
+    JP: ["Tanaka Taro", "Satoh Hanako", "Yamada Jiro", "Suzuki Misaki", "Takahashi Daisuke", "Watanabe Yumi", "Itoh Kenichi", "Nakamura Yuki", "Matsumoto Keiko", "Kobayashi Seiichi"],
+    AU: ["John Smith", "Emma Thompson", "Michael Johnson", "Sarah Williams", "David Brown", "Jessica Miller", "James Wilson", "Emily Anderson", "Robert Taylor", "Victoria Young", "William Jones", "Charlotte Davis", "Oliver Wilson", "Amelia White", "George Harris"],
+    IN: ["Raj Kumar", "Priya Singh", "Amit Patel", "Neha Sharma", "Vikram Gupta", "Anjali Verma", "Rohan Mishra", "Deepika Nair", "Aravind Kumar", "Sneha Reddy", "Arjun Singh", "Pooja Sharma", "Nikhil Agarwal", "Divya Menon", "Suresh Pandey"],
+    SG: ["David Tan", "Sarah Ng", "Michael Lee", "Emily Wong", "James Lim", "Jessica Chua", "Robert Koh", "Victoria Chong", "Kevin Ong", "Michelle Sng", "John Teo", "Linda Yeo", "Peter Goh", "Amy Tan", "Richard Sim"],
+    CN: ["Wang Wei", "Li Na", "Zhang Ming", "Liu Hui", "Chen Lei", "Yang Jian", "Huang Fang", "Xu Qiang", "Sun Ying", "Guo Jun"],
+    KR: ["Kim Min-jun", "Lee Ji-won", "Park Sung-ho", "Choi Mi-sun", "Kang Hyun-jun", "Jung Eun-ji", "Lim Seok-jin", "Han Ji-hye", "Seo Min-ho", "Oh Yeon-hee"],
+    NZ: ["John Smith", "Sarah Williams", "Michael Johnson", "Emily Brown", "David Wilson", "Jessica Taylor", "James Anderson", "Victoria Harris", "Robert Lee", "Charlotte Martin"],
+    TH: ["Somchai Boonma", "Supawadee Kamol", "Vikram Thakur", "Priya Sharma", "Arjun Singh", "Pooja Verma", "Nikhil Agarwal", "Divya Nair", "Suresh Patel", "Kavya Menon"],
+    MY: ["Ahmad Rahman", "Siti Fatimah", "Budi Santoso", "Nur Azlina", "Razlan Hamzah", "Nurul Izzah", "Azmi Hassan", "Putri Suryani", "Khalid Omar", "Yasmin Khalil"],
+    PH: ["Juan Dela Cruz", "Maria Santos", "Carlos Garcia", "Rosa Reyes", "Antonio Lopez", "Lucia Fernandez", "Miguel Ramos", "Sofia Diaz", "Roberto Morales", "Mariana Gutierrez"],
+    ID: ["Budi Santoso", "Siti Nurhaliza", "Ahmad Wijaya", "Maya Kusuma", "Rudi Hermawan", "Indah Wijaya", "Hendra Gunawan", "Putri Hartono", "Bambang Suryanto", "Diana Kusuma"],
+    VN: ["Nguyen Van A", "Tran Thi B", "Ho Van C", "Pham Thi D", "Vu Van E", "Ngo Thi F", "Dang Van G", "Le Thi H", "Trinh Van I", "Ly Thi J"],
+    PK: ["Muhammad Ali", "Fatima Khan", "Hassan Ahmed", "Aisha Khan", "Khalid Sheikh", "Zainab Ali", "Ali Hassan", "Hira Ahmed", "Ahmed Khan", "Sara Mohammed"],
+    BD: ["Md. Rahman", "Fatima Begum", "Karim Khan", "Aisha Khan", "Hassan Ahmed", "Zainab Ali", "Ibrahim Sheikh", "Hira Ahmed", "Mohammed Khan", "Sara Mohammed"],
+    ZA: ["Thabo Mkhize", "Sipho Ndlela", "Ntombifuthi Dlamini", "Jabu Mthembu", "Lerato Thabane", "Mbali Khumalo", "Themba Ndaba", "Zanele Mthiyane", "Tumi Makwana", "Sizwe Zondi"],
+    NG: ["Chinedu Okafor", "Chioma Adeyemi", "Amara Nwosu", "Adeyinka Olatunji", "Emeka Okoro", "Nkechi Eze", "Tunde Adeoye", "Folake Bello", "Segun Fasola", "Ayo Olufemi"],
+    EG: ["Ahmed Hassan", "Fatima Mohamed", "Mohammed Ali", "Aisha Ahmed", "Khalid Ibrahim", "Zainab Hassan", "Omar Mohammed", "Hana Ibrahim", "Hassan Ahmed", "Sara Mohammed"],
+    AE: ["Ahmed Al-Mazrouei", "Fatima Al-Mansoori", "Mohammed Al-Suwaidi", "Aisha Al-Naqbi", "Khalid Al-Shammari", "Zainab Al-Kaabi", "Omar Al-Mazrouei", "Hana Al-Mansoori", "Hassan Al-Suwaidi", "Sara Al-Naqbi"],
+    SA: ["Mohammed Al-Saud", "Fatima Al-Rashid", "Ahmed Al-Otaibi", "Aisha Al-Ghamdi", "Khalid Al-Anazi", "Zainab Al-Dosari", "Omar Al-Shammari", "Hana Al-Utaibi", "Hassan Al-Mutairi", "Sara Al-Harbi"],
+    IL: ["David Cohen", "Sarah Levi", "Michael Stein", "Rachel Goldstein", "Yossi Nakash", "Miriam Ronen", "Ariel Dahan", "Noa Toren", "Avi Katz", "Yael Rosenberg"],
+    TR: ["Mehmet Yilmaz", "Ayse Kaya", "Fatih Arslan", "Seda Ozdemir", "Ismail Demir", "Zeynep Cetin", "Mustafa Sahin", "Gul Tanriverdi", "Hasan Yildirim", "Pinar Aydin"],
+    RU: ["Ivan Petrov", "Natasha Ivanova", "Sergei Sokolov", "Olga Volkova", "Dimitri Orlov", "Elena Smirnova", "Nikolai Morozov", "Irina Lebedev", "Andrei Vasiliev", "Marina Popov"],
+    PL: ["Jan Kowalski", "Maria Nowak", "Piotr Wisniewski", "Anna Krawczyk", "Tadeusz Lewandowski", "Katarzyna Mazur", "Stanislaw Wojcik", "Barbara Czaja", "Jerzy Adamczyk", "Ewa Jarosz"],
+    NL: ["Jan de Vries", "Maria van den Berg", "Pieter Jansen", "Anna Vermeulen", "Tijs Hendriksen", "Karin Bakker", "Wouter Schipper", "Celia Meijer", "Jeroen Dijkstra", "Ellen Hofman"],
+    BE: ["Jean Dubois", "Marie Moens", "Pierre Janssen", "Anne Claes", "Jos Hermans", "Katrien Baert", "Erik Theys", "Liesbeth Peeters", "Dirk Vandamme", "Nancy Bogaerts"],
+    CH: ["Hans Mueller", "Anna Schmidt", "Klaus Weber", "Greta Hoffmann", "Karl Fischer", "Helga Richter", "Rudolf Bauer", "Christa Krueger", "Otto Bachmeier", "Ursula Schneider"],
+    SE: ["Lars Johansson", "Anna Svensson", "Erik Andersson", "Ingrid Bergstrom", "Soren Lundgren", "Britt Eklund", "Magnus Karlsson", "Birgit Hansson", "Nils Eriksson", "Sonja Lindstrom"],
+    NO: ["Ole Hansen", "Astrid Olsen", "Per Larsen", "Inger Johansen", "Erik Andersen", "Solveig Berg", "Knut Eriksen", "Astrid Nilsen", "Ivar Pedersen", "Berit Haugen"],
+    DK: ["Hans Jensen", "Anna Larsen", "Per Madsen", "Inger Petersen", "Erik Hansen", "Solveig Nielsen", "Knut Andersen", "Astrid Sorensen", "Ivar Christiansen", "Berit Thomsen"],
+    FI: ["Juhani Virtanen", "Aino Karvonen", "Pekka Ketonen", "Liisa Nieminen", "Seppo Maki", "Riitta Ahonen", "Timo Heikkinen", "Leena Uusitalo", "Kimmo Riippinen", "Sirkka Vainio"],
+    GR: ["Dimitrios Papadopoulos", "Maria Georgiou", "Konstantinos Nikolaou", "Anna Karagianni", "Ioannis Christodoulou", "Katerina Mavridou", "Stavros Pappas", "Zoe Angelopoulos", "Apostolos Georgiades", "Sophia Diamantis"],
+    PT: ["Joao Silva", "Maria Santos", "Carlos Oliveira", "Ana Sousa", "Pedro Costa", "Paula Mendes", "Lucas Gomes", "Juliana Martins", "Bruno Ferreira", "Fernanda Dias"],
+    IE: ["John Murphy", "Mary Kelly", "Michael O'Brien", "Sarah McGrath", "James O'Sullivan", "Jessica Lynch", "Robert Flaherty", "Emily O'Neill", "David Walsh", "Victoria O'Connor"],
+    HU: ["Janos Kovacs", "Maria Szabo", "Peter Nagy", "Anna Fabian", "Tamas Molnar", "Zsofia Racz", "Mihaly Lukacs", "Klara Szabados", "Istvan Horváth", "Erzsebet Barath"],
+    CZ: ["Jan Novak", "Maria Svobodova", "Petr Krejci", "Anna Novakova", "Tomas Cerny", "Zdenka Horackova", "Jaroslav Kral", "Libuse Vlackova", "Frantisek Sedlak", "Eva Kucerova"],
+    AT: ["Hans Mueller", "Anna Schmidt", "Klaus Weber", "Greta Hoffmann", "Karl Fischer", "Helga Richter", "Rudolf Bauer", "Christa Krueger", "Otto Bachmeier", "Ursula Schneider"],
+    AR: ["Juan Garcia", "Maria Rodriguez", "Carlos Lopez", "Ana Martinez", "Pedro Sanchez", "Paula Flores", "Lucas Diaz", "Juliana Ruiz", "Bruno Morales", "Fernanda Gutierrez"],
+    CL: ["Juan Silva", "Maria Flores", "Carlos Morales", "Ana Gutierrez", "Pedro Ramirez", "Paula Vega", "Lucas Araya", "Juliana Muñoz", "Bruno Aguirre", "Fernanda Bravo"],
+    CO: ["Juan Garcia", "Maria Rodriguez", "Carlos Lopez", "Ana Martinez", "Pedro Sanchez", "Paula Flores", "Lucas Diaz", "Juliana Ruiz", "Bruno Morales", "Fernanda Gutierrez"],
+    PE: ["Juan Garcia", "Maria Rodriguez", "Carlos Lopez", "Ana Martinez", "Pedro Sanchez", "Paula Flores", "Lucas Diaz", "Juliana Ruiz", "Bruno Morales", "Fernanda Gutierrez"],
+    VE: ["Juan Garcia", "Maria Rodriguez", "Carlos Lopez", "Ana Martinez", "Pedro Sanchez", "Paula Flores", "Lucas Diaz", "Juliana Ruiz", "Bruno Morales", "Fernanda Gutierrez"],
+    EC: ["Juan Garcia", "Maria Rodriguez", "Carlos Lopez", "Ana Martinez", "Pedro Sanchez", "Paula Flores", "Lucas Diaz", "Juliana Ruiz", "Bruno Morales", "Fernanda Gutierrez"],
+    BO: ["Juan Garcia", "Maria Rodriguez", "Carlos Lopez", "Ana Martinez", "Pedro Sanchez", "Paula Flores", "Lucas Diaz", "Juliana Ruiz", "Bruno Morales", "Fernanda Gutierrez"],
+    PY: ["Juan Garcia", "Maria Rodriguez", "Carlos Lopez", "Ana Martinez", "Pedro Sanchez", "Paula Flores", "Lucas Diaz", "Juliana Ruiz", "Bruno Morales", "Fernanda Gutierrez"],
+    UY: ["Juan Silva", "Maria Flores", "Carlos Morales", "Ana Gutierrez", "Pedro Ramirez", "Paula Vega", "Lucas Araya", "Juliana Muñoz", "Bruno Aguirre", "Fernanda Bravo"],
+    CR: ["Juan Garcia", "Maria Rodriguez", "Carlos Lopez", "Ana Martinez", "Pedro Sanchez", "Paula Flores", "Lucas Diaz", "Juliana Ruiz", "Bruno Morales", "Fernanda Gutierrez"],
+    PA: ["Juan Garcia", "Maria Rodriguez", "Carlos Lopez", "Ana Martinez", "Pedro Sanchez", "Paula Flores", "Lucas Diaz", "Juliana Ruiz", "Bruno Morales", "Fernanda Gutierrez"],
+    GT: ["Juan Garcia", "Maria Rodriguez", "Carlos Lopez", "Ana Martinez", "Pedro Sanchez", "Paula Flores", "Lucas Diaz", "Juliana Ruiz", "Bruno Morales", "Fernanda Gutierrez"],
+    HN: ["Juan Garcia", "Maria Rodriguez", "Carlos Lopez", "Ana Martinez", "Pedro Sanchez", "Paula Flores", "Lucas Diaz", "Juliana Ruiz", "Bruno Morales", "Fernanda Gutierrez"],
+    SV: ["Juan Garcia", "Maria Rodriguez", "Carlos Lopez", "Ana Martinez", "Pedro Sanchez", "Paula Flores", "Lucas Diaz", "Juliana Ruiz", "Bruno Morales", "Fernanda Gutierrez"],
+    NI: ["Juan Garcia", "Maria Rodriguez", "Carlos Lopez", "Ana Martinez", "Pedro Sanchez", "Paula Flores", "Lucas Diaz", "Juliana Ruiz", "Bruno Morales", "Fernanda Gutierrez"],
+    CU: ["Juan Garcia", "Maria Rodriguez", "Carlos Lopez", "Ana Martinez", "Pedro Sanchez", "Paula Flores", "Lucas Diaz", "Juliana Ruiz", "Bruno Morales", "Fernanda Gutierrez"],
+    DO: ["Juan Garcia", "Maria Rodriguez", "Carlos Lopez", "Ana Martinez", "Pedro Sanchez", "Paula Flores", "Lucas Diaz", "Juliana Ruiz", "Bruno Morales", "Fernanda Gutierrez"],
+    JM: ["John Williams", "Mary Johnson", "Michael Brown", "Sarah Davis", "David Miller", "Jessica Wilson", "James Taylor", "Emily Anderson", "Robert Thomas", "Victoria Jackson"],
+    TT: ["John Williams", "Mary Johnson", "Michael Brown", "Sarah Davis", "David Miller", "Jessica Wilson", "James Taylor", "Emily Anderson", "Robert Thomas", "Victoria Jackson"],
+    BB: ["John Williams", "Mary Johnson", "Michael Brown", "Sarah Davis", "David Miller", "Jessica Wilson", "James Taylor", "Emily Anderson", "Robert Thomas", "Victoria Jackson"],
+    BZ: ["Juan Garcia", "Maria Rodriguez", "Carlos Lopez", "Ana Martinez", "Pedro Sanchez", "Paula Flores", "Lucas Diaz", "Juliana Ruiz", "Bruno Morales", "Fernanda Gutierrez"],
+    BS: ["John Williams", "Mary Johnson", "Michael Brown", "Sarah Davis", "David Miller", "Jessica Wilson", "James Taylor", "Emily Anderson", "Robert Thomas", "Victoria Jackson"],
+    LC: ["John Williams", "Mary Johnson", "Michael Brown", "Sarah Davis", "David Miller", "Jessica Wilson", "James Taylor", "Emily Anderson", "Robert Thomas", "Victoria Jackson"],
+    VC: ["John Williams", "Mary Johnson", "Michael Brown", "Sarah Davis", "David Miller", "Jessica Wilson", "James Taylor", "Emily Anderson", "Robert Thomas", "Victoria Jackson"],
+    AG: ["John Williams", "Mary Johnson", "Michael Brown", "Sarah Davis", "David Miller", "Jessica Wilson", "James Taylor", "Emily Anderson", "Robert Thomas", "Victoria Jackson"],
+    DM: ["John Williams", "Mary Johnson", "Michael Brown", "Sarah Davis", "David Miller", "Jessica Wilson", "James Taylor", "Emily Anderson", "Robert Thomas", "Victoria Jackson"],
+    GD: ["John Williams", "Mary Johnson", "Michael Brown", "Sarah Davis", "David Miller", "Jessica Wilson", "James Taylor", "Emily Anderson", "Robert Thomas", "Victoria Jackson"],
+    KN: ["John Williams", "Mary Johnson", "Michael Brown", "Sarah Davis", "David Miller", "Jessica Wilson", "James Taylor", "Emily Anderson", "Robert Thomas", "Victoria Jackson"]
   };
 
   const tlds = {
-    BR: ".com.br", US: ".com", CA: ".ca", MX: ".com.mx", UK: ".co.uk",
-    FR: ".fr", DE: ".de", ES: ".es", IT: ".it", JP: ".jp",
-    AU: ".com.au", IN: ".in", SG: ".com.sg"
+    BR: ".com.br", US: ".com", CA: ".ca", MX: ".com.mx", UK: ".co.uk", FR: ".fr", DE: ".de", ES: ".es", IT: ".it", JP: ".jp",
+    AU: ".com.au", IN: ".in", SG: ".com.sg", CN: ".cn", KR: ".kr", NZ: ".co.nz", TH: ".co.th", MY: ".com.my", PH: ".com.ph", ID: ".co.id",
+    VN: ".com.vn", PK: ".com.pk", BD: ".com.bd", ZA: ".co.za", NG: ".com.ng", EG: ".com.eg", AE: ".ae", SA: ".com.sa", IL: ".co.il", TR: ".com.tr",
+    RU: ".ru", PL: ".pl", NL: ".nl", BE: ".be", CH: ".ch", SE: ".se", NO: ".no", DK: ".dk", FI: ".fi", GR: ".gr",
+    PT: ".pt", IE: ".ie", HU: ".hu", CZ: ".cz", AT: ".at", AR: ".com.ar", CL: ".cl", CO: ".com.co", PE: ".com.pe", VE: ".com.ve",
+    EC: ".ec", BO: ".com.bo", PY: ".com.py", UY: ".com.uy", CR: ".cr", PA: ".com.pa", GT: ".com.gt", HN: ".hn", SV: ".com.sv", NI: ".com.ni",
+    CU: ".cu", DO: ".com.do", JM: ".com.jm", TT: ".co.tt", BB: ".bb", BZ: ".bz", BS: ".bs", LC: ".lc", VC: ".vc", AG: ".ag", DM: ".dm", GD: ".gd", KN: ".kn"
   };
 
   const phoneFormats = {
-    BR: () => "(11) 9" + Math.floor(Math.random() * 90000) + "-" + Math.floor(Math.random() * 9000),
+    BR: () => "(11) 9" + String(Math.floor(Math.random() * 90000) + 10000).slice(1) + "-" + String(Math.floor(Math.random() * 9000) + 1000).slice(0),
     US: () => "+1 (" + (200 + Math.floor(Math.random() * 800)) + ") " + (200 + Math.floor(Math.random() * 800)) + "-" + String(Math.floor(Math.random() * 9999)).padStart(4, '0'),
     CA: () => "+1 (" + (200 + Math.floor(Math.random() * 800)) + ") " + (200 + Math.floor(Math.random() * 800)) + "-" + String(Math.floor(Math.random() * 9999)).padStart(4, '0'),
-    MX: () => "+52 " + (200 + Math.floor(Math.random() * 800)) + " " + Math.floor(Math.random() * 99999),
-    UK: () => "+44 " + (1 + Math.floor(Math.random() * 800)) + " " + Math.floor(Math.random() * 9999999),
-    FR: () => "+33 " + Math.floor(Math.random() * 900) + " " + Math.floor(Math.random() * 999999),
-    DE: () => "+49 " + (1 + Math.floor(Math.random() * 800)) + " " + Math.floor(Math.random() * 9999999),
-    ES: () => "+34 " + Math.floor(Math.random() * 900) + " " + Math.floor(Math.random() * 999999),
-    IT: () => "+39 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 99999999),
-    JP: () => "+81 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999999),
-    AU: () => "+61 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999999),
-    IN: () => "+91 " + Math.floor(Math.random() * 90000) + " " + Math.floor(Math.random() * 9999),
-    SG: () => "+65 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999999)
+    MX: () => "+52 " + (55 + Math.floor(Math.random() * 20)) + " " + Math.floor(Math.random() * 99999),
+    UK: () => "+44 " + (1 + Math.floor(Math.random() * 8)) + " " + Math.floor(Math.random() * 9999) + " " + Math.floor(Math.random() * 9999),
+    FR: () => "+33 " + (1 + Math.floor(Math.random() * 9)) + " " + Math.floor(Math.random() * 99) + " " + Math.floor(Math.random() * 99) + " " + Math.floor(Math.random() * 99),
+    DE: () => "+49 " + (1 + Math.floor(Math.random() * 8)) + " " + Math.floor(Math.random() * 9999) + " " + Math.floor(Math.random() * 9999),
+    ES: () => "+34 " + Math.floor(Math.random() * 900) + " " + Math.floor(Math.random() * 999) + " " + Math.floor(Math.random() * 999),
+    IT: () => "+39 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999999),
+    JP: () => "+81 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999) + " " + Math.floor(Math.random() * 9999),
+    AU: () => "+61 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999) + " " + Math.floor(Math.random() * 9999),
+    IN: () => "+91 " + (6 + Math.floor(Math.random() * 4)) + Math.floor(Math.random() * 99999999),
+    SG: () => "+65 " + (6 + Math.floor(Math.random() * 4)) + Math.floor(Math.random() * 9999999),
+    CN: () => "+86 " + (10 + Math.floor(Math.random() * 80)) + " " + Math.floor(Math.random() * 9999999),
+    KR: () => "+82 " + (1 + Math.floor(Math.random() * 9)) + " " + Math.floor(Math.random() * 9999) + " " + Math.floor(Math.random() * 9999),
+    NZ: () => "+64 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999) + " " + Math.floor(Math.random() * 9999),
+    TH: () => "+66 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999999),
+    MY: () => "+60 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999999),
+    PH: () => "+63 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999999),
+    ID: () => "+62 " + Math.floor(Math.random() * 900) + " " + Math.floor(Math.random() * 9999999),
+    VN: () => "+84 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999999),
+    PK: () => "+92 " + Math.floor(Math.random() * 300) + " " + Math.floor(Math.random() * 9999999),
+    BD: () => "+880 " + Math.floor(Math.random() * 90000) + " " + Math.floor(Math.random() * 9999),
+    ZA: () => "+27 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 999) + " " + Math.floor(Math.random() * 9999),
+    NG: () => "+234 " + Math.floor(Math.random() * 900) + " " + Math.floor(Math.random() * 9999999),
+    EG: () => "+20 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999999),
+    AE: () => "+971 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999) + " " + Math.floor(Math.random() * 9999),
+    SA: () => "+966 " + Math.floor(Math.random() * 50) + " " + Math.floor(Math.random() * 9999999),
+    IL: () => "+972 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999999),
+    TR: () => "+90 " + Math.floor(Math.random() * 200) + " " + Math.floor(Math.random() * 9999999),
+    RU: () => "+7 " + (800 + Math.floor(Math.random() * 200)) + " " + Math.floor(Math.random() * 9999999),
+    PL: () => "+48 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999999),
+    NL: () => "+31 " + (1 + Math.floor(Math.random() * 8)) + " " + Math.floor(Math.random() * 99999999),
+    BE: () => "+32 " + Math.floor(Math.random() * 500) + " " + Math.floor(Math.random() * 999999),
+    CH: () => "+41 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999999),
+    SE: () => "+46 " + Math.floor(Math.random() * 900) + " " + Math.floor(Math.random() * 9999999),
+    NO: () => "+47 " + Math.floor(Math.random() * 90000) + " " + Math.floor(Math.random() * 9999),
+    DK: () => "+45 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999999),
+    FI: () => "+358 " + Math.floor(Math.random() * 500) + " " + Math.floor(Math.random() * 999999),
+    GR: () => "+30 " + (1 + Math.floor(Math.random() * 8)) + " " + Math.floor(Math.random() * 99999999),
+    PT: () => "+351 " + Math.floor(Math.random() * 900) + " " + Math.floor(Math.random() * 9999999),
+    IE: () => "+353 " + Math.floor(Math.random() * 900) + " " + Math.floor(Math.random() * 9999999),
+    HU: () => "+36 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999999),
+    CZ: () => "+420 " + Math.floor(Math.random() * 900) + " " + Math.floor(Math.random() * 9999999),
+    AT: () => "+43 " + Math.floor(Math.random() * 900) + " " + Math.floor(Math.random() * 9999999),
+    AR: () => "+54 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 99999999),
+    CL: () => "+56 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 99999999),
+    CO: () => "+57 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999999),
+    PE: () => "+51 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999999),
+    VE: () => "+58 " + Math.floor(Math.random() * 900) + " " + Math.floor(Math.random() * 9999999),
+    EC: () => "+593 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999999),
+    BO: () => "+591 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999999),
+    PY: () => "+595 " + Math.floor(Math.random() * 900) + " " + Math.floor(Math.random() * 9999999),
+    UY: () => "+598 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999999),
+    CR: () => "+506 " + Math.floor(Math.random() * 90000) + " " + Math.floor(Math.random() * 9999),
+    PA: () => "+507 " + Math.floor(Math.random() * 90000) + " " + Math.floor(Math.random() * 9999),
+    GT: () => "+502 " + Math.floor(Math.random() * 90000) + " " + Math.floor(Math.random() * 9999),
+    HN: () => "+504 " + Math.floor(Math.random() * 90000) + " " + Math.floor(Math.random() * 9999),
+    SV: () => "+503 " + Math.floor(Math.random() * 90000) + " " + Math.floor(Math.random() * 9999),
+    NI: () => "+505 " + Math.floor(Math.random() * 90000) + " " + Math.floor(Math.random() * 9999),
+    CU: () => "+53 " + Math.floor(Math.random() * 90) + " " + Math.floor(Math.random() * 9999999),
+    DO: () => "+1 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999999),
+    JM: () => "+1 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999999),
+    TT: () => "+1 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999999),
+    BB: () => "+1 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999999),
+    BZ: () => "+501 " + Math.floor(Math.random() * 90000) + " " + Math.floor(Math.random() * 9999),
+    BS: () => "+1 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999999),
+    LC: () => "+1 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999999),
+    VC: () => "+1 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999999),
+    AG: () => "+1 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999999),
+    DM: () => "+1 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999999),
+    GD: () => "+1 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999999),
+    KN: () => "+1 " + Math.floor(Math.random() * 9) + " " + Math.floor(Math.random() * 9999999)
   };
 
   const nameList = names[country] || names.US;
