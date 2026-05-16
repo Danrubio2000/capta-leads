@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAPTA LEADS - Sistema de Leads</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; flex-direction: column; }
+
+    .header { background: rgba(0,0,0,0.2); padding: 20px; text-align: center; color: white; }
+    h1 { font-size: 2.5em; margin-bottom: 10px; }
+    .tagline { font-size: 1.1em; opacity: 0.95; }
+
+    .container { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+
+    .card { background: white; border-radius: 20px; padding: 60px 40px; max-width: 600px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; }
+
+    h2 { color: #333; margin-bottom: 20px; font-size: 2em; }
+
+    .features { text-align: left; margin: 30px 0; }
+    .feature { margin: 15px 0; padding: 15px; background: #f5f5f5; border-radius: 10px; border-left: 4px solid #667eea; }
+    .feature-icon { font-size: 1.5em; margin-right: 10px; }
+    .feature-text { color: #333; }
+
+    .btn-enter { display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 18px 50px; border-radius: 10px; text-decoration: none; font-size: 1.2em; font-weight: bold; margin-top: 30px; transition: transform 0.3s; cursor: pointer; border: none; }
+    .btn-enter:hover { transform: scale(1.05); }
+
+    .footer { background: rgba(0,0,0,0.2); padding: 20px; text-align: center; color: rgba(255,255,255,0.8); font-size: 0.9em; }
+
+    .price { font-size: 2.5em; color: #667eea; font-weight: bold; margin: 20px 0; }
+    .price-label { color: #999; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🚀 CAPTA LEADS</h1>
+  <p class="tagline">Geração de Leads, Email Marketing e Landing Pages</p>
+</div>
+
+<div class="container">
+  <div class="card">
+    <h2>Bem-vindo ao CAPTA LEADS</h2>
+
+    <div class="features">
+      <div class="feature">
+        <span class="feature-icon">🎯</span>
+        <span class="feature-text"><strong>Busca de Leads</strong> — Encontre prospects qualificados em segundos</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">📧</span>
+        <span class="feature-text"><strong>Email Marketing</strong> — Campanhas automáticas e personalizadas</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🎨</span>
+        <span class="feature-text"><strong>Landing Pages</strong> — Crie páginas profissionais sem código</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">💬</span>
+        <span class="feature-text"><strong>Chat IA</strong> — Assistente inteligente integrado</span>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">📊</span>
+        <span class="feature-text"><strong>Analytics</strong> — Acompanhe resultados em tempo real</span>
+      </div>
+    </div>
+
+    <div class="price">
+      R$ 80
+      <div class="price-label">Acesso vitalício</div>
+    </div>
+
+    <p style="color: #666; margin-bottom: 30px;">
+      Tudo em um sistema — sem custos escondidos, sem limites de uso.
+    </p>
+
+    <button class="btn-enter" onclick="entrar()">
+      ▶️ Entrar no Painel
+    </button>
+  </div>
+</div>
+
+<div class="footer">
+  <p>© 2026 CAPTA LEADS • danrubio_2000@yahoo.com</p>
+</div>
+
+<script>
+function entrar() {
+  window.location.href = '/login.html';
+}
+</script>
+
+</body>
+</html>

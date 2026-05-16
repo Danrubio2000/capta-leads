@@ -1,0 +1,15 @@
+{
+  "id": "1778961799231",
+  "name": "Meu Documentário",
+  "createdAt": "2026-05-16T20:03:19.232Z",
+  "config": {
+    "industry": "cinema",
+    "currency": "BRL"
+  },
+  "stats": {
+    "totalLeads": 2,
+    "totalCampaigns": 1,
+    "totalPages": 1,
+    "conversions": 0
+  }
+}

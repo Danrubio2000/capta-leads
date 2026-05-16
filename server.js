@@ -573,7 +573,7 @@ const server = http.createServer(async (req, res) => {
 
     // Static files
     if (url.pathname === "/" || url.pathname === "/index.html") {
-      return serveStatic(res, path.join(__dirname, "console-simple.html"), "text/html");
+      return serveStatic(res, path.join(__dirname, "index.html"), "text/html");
     }
 
     if (url.pathname === "/tutorial.html") {
@@ -588,6 +588,14 @@ const server = http.createServer(async (req, res) => {
       return serveStatic(res, path.join(__dirname, "landing.html"), "text/html");
     }
 
+    if (url.pathname === "/landing-free.html") {
+      return serveStatic(res, path.join(__dirname, "landing-free.html"), "text/html");
+    }
+
+    if (url.pathname === "/landing-paid.html") {
+      return serveStatic(res, path.join(__dirname, "landing-paid.html"), "text/html");
+    }
+
     if (url.pathname === "/console.html") {
       return serveStatic(res, path.join(__dirname, "console.html"), "text/html");
     }
@@ -598,6 +606,10 @@ const server = http.createServer(async (req, res) => {
 
     if (url.pathname === "/console-projects.html") {
       return serveStatic(res, path.join(__dirname, "console-projects.html"), "text/html");
+    }
+
+    if (url.pathname === "/login.html") {
+      return serveStatic(res, path.join(__dirname, "login.html"), "text/html");
     }
 
     if (url.pathname === "/chat-widget.js") {
