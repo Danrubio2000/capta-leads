@@ -1329,35 +1329,58 @@
     document.getElementById("search-leads-form")?.addEventListener("submit", async (e) => {
       e.preventDefault();
 
+      console.log("🔍 Iniciando busca de leads...");
+
       const keywords = document.getElementById("search-keywords").value;
       const location = document.getElementById("search-location").value;
       const type = document.getElementById("search-type").value;
+
+      if (!keywords) {
+        showAlert("⚠️ Digite uma palavra-chave para buscar!", "warning");
+        return;
+      }
 
       // Get business type from project settings
       const settings = JSON.parse(localStorage.getItem(getProjectKey('settings')) || '{}');
       const businessType = settings.businessType || "Dentista";
 
+      console.log("Parâmetros:", { keywords, location, type, businessType });
       showAlert("🔍 Buscando leads...", "info");
 
       try {
+        console.log("Gerando dados mocados...");
+
         // Simula delay de busca
         await new Promise(resolve => setTimeout(resolve, 1500));
 
         // Gera dados mocados
         const leads = generateMockLeads(keywords, location, type, businessType);
+        console.log("Leads gerados:", leads);
 
         searchResults = leads;
+        console.log("searchResults atualizado:", searchResults);
+
         renderSearchResults();
+        console.log("Resultados renderizados");
+
         showAlert(`✅ ${leads.length} leads encontrados!`, "success");
       } catch (error) {
-        console.error(error);
-        showAlert("❌ Erro ao buscar leads. Tente novamente.", "error");
+        console.error("❌ ERRO COMPLETO:", error);
+        console.error("Stack:", error.stack);
+        showAlert(`❌ Erro ao buscar leads: ${error.message}`, "error");
       }
     });
 
     function renderSearchResults() {
+      console.log("renderSearchResults chamado, searchResults:", searchResults);
+
       const container = document.getElementById("search-results");
-      if (searchResults.length === 0) {
+      if (!container) {
+        console.error("❌ Elemento #search-results não encontrado no DOM!");
+        return;
+      }
+
+      if (!searchResults || searchResults.length === 0) {
         const lang = getCurrentLanguage();
         const messages = {
           pt: "Nenhum resultado. Faça uma busca primeiro.",
@@ -1369,34 +1392,43 @@
         return;
       }
 
-      container.innerHTML = `
-        <h3>📊 Resultados (${searchResults.length})</h3>
-        <table>
-          <thead>
+      try {
+        const rows = searchResults.map((lead) => {
+          // Escape special characters to avoid HTML injection
+          const name = (lead.name || "").replace(/'/g, "\\'");
+          const email = (lead.email || "").replace(/'/g, "\\'");
+
+          return `
             <tr>
-              <th>Nome</th>
-              <th>Email</th>
-              <th>Website</th>
-              <th>Score</th>
-              <th>Ação</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${searchResults
-              .map(
-                (lead) => `
+              <td>${lead.name}</td>
+              <td>${lead.email}</td>
+              <td><a href="${lead.website}" target="_blank">Ir</a></td>
+              <td><span class="badge success">${lead.score}</span></td>
+              <td><button onclick="addToLeads('${email}', '${name}')">➕ Adicionar</button></td>
+            </tr>`;
+        }).join("");
+
+        container.innerHTML = `
+          <h3>📊 Resultados (${searchResults.length})</h3>
+          <table>
+            <thead>
               <tr>
-                <td>${lead.name}</td>
-                <td>${lead.email}</td>
-                <td><a href="${lead.website}" target="_blank">Ir</a></td>
-                <td><span class="badge success">${lead.score}</span></td>
-                <td><button onclick="addToLeads('${lead.email}', '${lead.name}')">➕ Adicionar</button></td>
-              </tr>`
-              )
-              .join("")}
-          </tbody>
-        </table>
-      `;
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Website</th>
+                <th>Score</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows}
+            </tbody>
+          </table>
+        `;
+      } catch (err) {
+        console.error("❌ Erro ao renderizar resultados:", err);
+        container.innerHTML = `<p style="color: red;">❌ Erro ao exibir resultados: ${err.message}</p>`;
+      }
     }
 
     async function addToLeads(email, name) {
