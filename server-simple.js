@@ -3,8 +3,19 @@ import http from "http";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { handleProjectAPI } from "./api-projects.js";
-import DataManager from "./data-manager.js";
+
+let handleProjectAPI;
+let DataManager;
+
+// Try to import project API modules (may fail in some environments)
+try {
+  const apiModule = await import("./api-projects.js");
+  handleProjectAPI = apiModule.handleProjectAPI;
+  const dmModule = await import("./data-manager.js");
+  DataManager = dmModule.default;
+} catch (e) {
+  console.warn("⚠️  Project API modules not available");
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -274,6 +285,12 @@ const server = http.createServer(async (req, res) => {
         res.end(JSON.stringify({ error: "Service error" }));
       }
     } else if (pathname.startsWith("/api/projects")) {
+      if (!handleProjectAPI || !DataManager) {
+        res.writeHead(503);
+        res.end(JSON.stringify({ error: "Project API not available" }));
+        return;
+      }
+
       // Set teamKey from header
       const teamKey = req.headers['x-team-key'] || 'default';
       DataManager.setTeamKey(teamKey);
