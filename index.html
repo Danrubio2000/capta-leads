@@ -1,322 +1,718 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CAPTA LEADS - Geração de Leads para Qualquer Negócio</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; background: white; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAPTA LEADS — Geração de Leads para Qualquer Negócio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
 
-    header {
-      background: linear-gradient(135deg, #0066cc 0%, #0088ff 100%);
-      color: white;
-      padding: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
+:root {
+  --bg:      #FAFAF8;
+  --surface: #FFFFFF;
+  --surface2:#F2F0EB;
+  --border:  #1A1A1A;
+  --text:    #0D0D0D;
+  --muted:   #6B6B6B;
+  --blue:    #0066CC;
+  --blue2:   #0088FF;
+}
 
-    header h1 { font-size: 2.5em; margin-bottom: 10px; font-weight: bold; }
-    header p { font-size: 1.2em; opacity: 0.95; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
 
-    .header-left { flex: 1; }
+/* ── UTILS ── */
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+.center { text-align: center; }
 
-    .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--text);
+  border-bottom: 3px solid var(--blue);
+  padding: 0 28px; height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo { font-family: 'Playfair Display', serif; font-style: italic; font-size: 22px; font-weight: 700; color: #fff; }
+.nav-logo span { color: var(--blue); font-style: normal; }
+.nav-cta { background: var(--blue); color: #fff; padding: 10px 24px; border-radius: 3px; font-size: 13px; font-weight: 700; text-decoration: none; border: 2px solid var(--blue); transition: all .15s; }
+.nav-cta:hover { background: var(--blue2); transform: translateY(-1px); }
 
-    .hero {
-      text-align: center;
-      padding: 60px 20px;
-      background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%);
-      border-radius: 15px;
-      margin-bottom: 40px;
-      border: 2px solid #0066cc;
-    }
+/* ═══════════════════════════════════════════
+   FUNDO 1 — HERO: Branco editorial + foto
+═══════════════════════════════════════════ */
+.hero {
+  position: relative;
+  min-height: 88vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: #FAFAF8;
+  border-bottom: 3px solid #0D0D0D;
+}
 
-    .hero h2 { font-size: 2.2em; margin-bottom: 20px; color: #0066cc; font-weight: bold; }
-    .hero p { font-size: 1.1em; margin-bottom: 30px; color: #333; line-height: 1.8; }
+.hero-inner {
+  position: relative; z-index: 2;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 100px 40px 110px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
 
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      margin-bottom: 40px;
-    }
+.hero-video-wrap {
+  position: relative;
+}
 
-    .feature {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 102, 204, 0.1);
-      border-left: 5px solid #0066cc;
-      transition: all 0.3s ease;
-    }
+.hero-video-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-    .feature:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(0, 102, 204, 0.15);
-    }
+.hero-video-label::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 1px;
+  background: var(--blue);
+  opacity: 0.6;
+}
 
-    .feature h3 { margin-bottom: 15px; color: #0066cc; font-weight: bold; font-size: 1.2em; }
-    .feature p { color: #555; line-height: 1.8; }
+.hero-video-frame {
+  width: 100%;
+  aspect-ratio: 16/9;
+  display: block;
+  border-radius: 4px;
+  border: 1px solid rgba(0,0,0,0.10);
+  box-shadow:
+    0 0 0 1px rgba(0, 102, 204, 0.25),
+    0 24px 56px rgba(0,0,0,0.18),
+    0 6px 16px rgba(0,0,0,0.10);
+  background: #0D0D0D;
+  overflow: hidden;
+}
 
-    .use-cases {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-      margin: 40px 0;
-    }
+@media (max-width: 860px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; padding: 80px 24px 90px; }
+  .hero-video-wrap { order: -1; }
+}
 
-    .use-case {
-      background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%);
-      padding: 28px;
-      border-radius: 12px;
-      border: 2px solid #0088ff;
-      transition: all 0.3s ease;
-    }
+.hero-scene {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&w=1000');
+  background-size: cover;
+  background-position: center 30%;
+  opacity: 0.10;
+  pointer-events: none;
+}
 
-    .use-case:hover {
-      background: linear-gradient(135deg, #e6f2ff 0%, #d9edff 100%);
-      border-color: #0066cc;
-    }
+.hero-scene::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 5px;
+  background: var(--blue);
+  opacity: 1;
+}
 
-    .use-case h4 { color: #0066cc; margin-bottom: 12px; font-weight: bold; font-size: 1.1em; }
-    .use-case p { color: #555; line-height: 1.8; font-size: 0.95em; }
+.hero-skyline {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, #FAFAF8);
+  pointer-events: none;
+}
 
-    .section-title {
-      grid-column: 1/-1;
-      text-align: center;
-      margin-bottom: 15px;
-      font-weight: bold;
-      color: #0066cc;
-      font-size: 1.8em;
-    }
+.hero-overlay { display: none; }
 
-    .video-section {
-      text-align: center;
-      padding: 60px 20px;
-      background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%);
-      border-radius: 15px;
-      margin: 40px 0;
-      border: 2px solid #0066cc;
-    }
+.hero-content { /* layout handled by .hero-inner grid */ }
 
-    .video-section h3 { font-size: 1.8em; margin-bottom: 20px; color: #0066cc; font-weight: bold; }
-    .video-section p { font-size: 1.05em; color: #555; margin-bottom: 25px; line-height: 1.8; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--blue); color: #fff;
+  padding: 5px 14px; border-radius: 2px;
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  margin-bottom: 28px;
+}
 
-    .video-button {
-      background: linear-gradient(135deg, #0066cc 0%, #0088ff 100%);
-      color: white;
-      padding: 16px 50px;
-      font-size: 1.1em;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(46px, 7vw, 82px);
+  font-weight: 900; line-height: 1.01;
+  margin-bottom: 22px; color: #0D0D0D; letter-spacing: -1.5px;
+}
+.hero h1 em { font-style: italic; color: var(--blue); }
 
-    .video-button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 25px rgba(0, 102, 204, 0.3);
-    }
+.hero p { font-size: 17px; color: rgba(20,12,5,0.65); max-width: 490px; margin-bottom: 36px; line-height: 1.75; }
 
-    .pricing {
-      background: linear-gradient(135deg, #0066cc 0%, #0088ff 100%);
-      color: white;
-      padding: 60px 40px;
-      border-radius: 15px;
-      text-align: center;
-      margin: 50px 0;
-    }
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
 
-    .pricing h2 { font-size: 2.3em; margin-bottom: 30px; font-weight: bold; }
-    .price { font-size: 4.2em; font-weight: bold; margin: 25px 0; }
-    .price-label { font-size: 1.2em; opacity: 0.95; margin-bottom: 30px; }
+.btn-primary {
+  background: var(--blue); color: #fff;
+  padding: 15px 30px; border-radius: 3px; font-size: 14px; font-weight: 700;
+  text-decoration: none; border: 2px solid var(--blue); transition: all .15s;
+}
+.btn-primary:hover { background: var(--blue2); box-shadow: 4px 4px 0 rgba(255,255,255,0.2); transform: translate(-1px,-1px); }
 
-    .cta-button {
-      background: white;
-      color: #0066cc;
-      padding: 16px 45px;
-      font-size: 1.15em;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+.btn-ghost {
+  background: transparent; color: #0D0D0D;
+  border: 2px solid rgba(13,13,13,0.40);
+  padding: 15px 30px; border-radius: 3px; font-size: 14px; font-weight: 700;
+  text-decoration: none; transition: all .15s;
+}
+.btn-ghost:hover { border-color: #0D0D0D; background: rgba(0,0,0,0.05); }
 
-    .cta-button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
-      background: #f0f7ff;
-    }
+/* ═══════════════════════════════════════════
+   STATS BAR — preto sólido
+═══════════════════════════════════════════ */
+.stats-bar {
+  background: var(--text); border-top: 3px solid var(--blue);
+  padding: 32px 28px;
+  display: flex; justify-content: center; gap: 60px; flex-wrap: wrap;
+}
+.stat-item { text-align: center; }
+.stat-item .num { font-family: 'Playfair Display', serif; font-size: 38px; font-weight: 900; color: var(--blue); line-height: 1; margin-bottom: 5px; }
+.stat-item .lbl { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 600; }
 
-    .success-stories {
-      background: white;
-      padding: 40px;
-      border-radius: 15px;
-      margin: 50px 0;
-      border: 2px solid #0088ff;
-    }
+/* ═══════════════════════════════════════════
+   FUNDO 2 — PROBLEMA: Arquivo documental
+═══════════════════════════════════════════ */
+.sec-problema {
+  position: relative;
+  padding: 88px 0;
+  overflow: hidden;
+}
 
-    .success-stories h3 { color: #0066cc; margin-bottom: 30px; font-weight: bold; font-size: 1.8em; }
+.sec-problema-bg {
+  position: absolute; inset: 0;
+  background-color: #F0F7FF;
+  background-image:
+    repeating-linear-gradient(180deg, transparent, transparent 31px, rgba(0, 102, 204, 0.15) 31px, rgba(0, 102, 204, 0.15) 32px),
+    linear-gradient(90deg, rgba(0, 102, 204, 0.10) 0%, transparent 8%, transparent 92%, rgba(0, 102, 204, 0.10) 100%);
+}
 
-    .story {
-      margin-bottom: 25px;
-      padding-bottom: 25px;
-      border-bottom: 1px solid #e6f2ff;
-    }
+.sec-problema-bg::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(ellipse 5px 7px at 18px 40px, rgba(0, 102, 204, 0.60) 0%, transparent 100%),
+    radial-gradient(ellipse 5px 7px at 18px 80px, rgba(0, 102, 204, 0.60) 0%, transparent 100%),
+    radial-gradient(ellipse 5px 7px at 18px 120px, rgba(0, 102, 204, 0.60) 0%, transparent 100%),
+    radial-gradient(ellipse 5px 7px at 18px 160px, rgba(0, 102, 204, 0.60) 0%, transparent 100%),
+    radial-gradient(ellipse 5px 7px at calc(100% - 18px) 40px, rgba(0, 102, 204, 0.60) 0%, transparent 100%),
+    radial-gradient(ellipse 5px 7px at calc(100% - 18px) 80px, rgba(0, 102, 204, 0.60) 0%, transparent 100%),
+    radial-gradient(ellipse 5px 7px at calc(100% - 18px) 120px, rgba(0, 102, 204, 0.60) 0%, transparent 100%),
+    radial-gradient(ellipse 5px 7px at calc(100% - 18px) 160px, rgba(0, 102, 204, 0.60) 0%, transparent 100%);
+  background-repeat: repeat-y;
+  background-size: 100% 200px;
+}
 
-    .story:last-child {
-      border-bottom: none;
-      margin-bottom: 0;
-      padding-bottom: 0;
-    }
+.sec-problema-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.0 0 0 0 0 0.4 0 0 0 0 0.8 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
 
-    .story strong { color: #0066cc; font-size: 1.05em; }
-    .story p { color: #555; font-size: 0.95em; margin-top: 8px; line-height: 1.7; }
+/* ═══════════════════════════════════════════
+   FUNDO 3 — COMO FUNCIONA: Abertura de câmera
+═══════════════════════════════════════════ */
+.sec-camera {
+  position: relative;
+  padding: 88px 0;
+  overflow: hidden;
+}
 
-    footer {
-      background: linear-gradient(135deg, #0066cc 0%, #0088ff 100%);
-      color: white;
-      text-align: center;
-      padding: 35px 20px;
-      margin-top: 50px;
-    }
+.sec-camera-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(0, 40, 80, 0.0) 0%, rgba(0, 20, 40, 1.0) 100%),
+    linear-gradient(180deg, #000818 0%, #000510 50%, #000310 100%);
+}
 
-    footer p { margin: 8px 0; font-size: 0.95em; }
-  </style>
+.sec-camera-bg::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px; height: 700px;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0%, transparent 18%, rgba(0, 136, 255, 0.06) 19%, transparent 20%,
+      transparent 33%, rgba(0, 136, 255, 0.05) 34%, transparent 35%,
+      transparent 50%, rgba(0, 136, 255, 0.04) 51%, transparent 52%,
+      transparent 68%, rgba(0, 136, 255, 0.03) 69%, transparent 70%),
+    radial-gradient(circle at 50% 50%, rgba(0, 136, 255, 0.12) 0%, transparent 18%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.sec-camera-bg::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(22.5deg);
+  width: 350px; height: 350px;
+  background:
+    repeating-conic-gradient(rgba(0, 136, 255, 0.05) 0deg, rgba(0, 136, 255, 0.05) 5deg,
+      transparent 5deg, transparent 45deg);
+  border-radius: 50%;
+  clip-path: circle(50%);
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════
+   FUNDO 4 — FEATURES: Editorial gráfico
+═══════════════════════════════════════════ */
+.sec-features {
+  position: relative;
+  padding: 88px 0;
+  overflow: hidden;
+}
+
+.sec-features-bg {
+  position: absolute; inset: 0;
+  background: #FAFAF8;
+  background-image:
+    linear-gradient(rgba(26,26,26,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,26,26,0.045) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+.sec-features-bg::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(180deg, transparent 0%, var(--blue) 0%),
+    linear-gradient(180deg, transparent 0%, var(--blue) 0%);
+  background-size: 2px 100%, 2px 100%;
+  background-position: 36px 0, calc(100% - 36px) 0;
+  background-repeat: no-repeat;
+  opacity: 0.15;
+}
+
+/* ═══════════════════════════════════════════
+   FUNDO 5 — PARA QUEM: Fotografia vintage
+═══════════════════════════════════════════ */
+.sec-paraquem {
+  position: relative;
+  padding: 88px 0;
+  overflow: hidden;
+}
+
+.sec-paraquem-bg {
+  position: absolute; inset: 0;
+  background: #E6F2FF;
+  background-image:
+    radial-gradient(ellipse 80% 80% at 50% 50%, transparent 50%, rgba(0, 66, 204, 0.35) 100%),
+    linear-gradient(180deg, rgba(0, 102, 204, 0.10) 0%, rgba(0, 136, 255, 0.08) 100%);
+}
+
+.sec-paraquem-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.90' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.0 0 0 0 0 0.4 0 0 0 0 0.8 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* ═══════════════════════════════════════════
+   FUNDO 6 — PLANOS: Branco limpo editorial
+═══════════════════════════════════════════ */
+.sec-planos {
+  position: relative;
+  padding: 88px 0;
+  background: #FFFFFF;
+}
+
+/* ═══════════════════════════════════════════
+   FUNDO 7 — CTA: Holofote dramático
+═══════════════════════════════════════════ */
+.sec-cta {
+  margin: 80px 28px;
+  position: relative;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 3px solid var(--border);
+}
+
+.cta-bg {
+  position: absolute; inset: 0;
+  background: #000810;
+  background-image:
+    conic-gradient(from 150deg at 15% 0%, transparent 0deg, rgba(0, 136, 255, 0.0) 20deg,
+      rgba(0, 136, 255, 0.22) 35deg, rgba(0, 200, 255, 0.12) 45deg,
+      rgba(0, 136, 255, 0.0) 55deg, transparent 360deg),
+    radial-gradient(ellipse 50% 60% at 50% 110%, rgba(0, 136, 255, 0.18) 0%, transparent 60%);
+}
+
+.cta-bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.22 0'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 250px 250px;
+  mix-blend-mode: screen;
+  opacity: 0.60;
+}
+
+/* ── SECTION LABELS E TÍTULOS ── */
+.section-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--blue); margin-bottom: 14px; display: inline-block;
+  border-bottom: 2px solid var(--blue); padding-bottom: 4px;
+}
+.section-title {
+  font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 46px);
+  font-weight: 900; letter-spacing: -0.5px; line-height: 1.08; margin-bottom: 16px;
+}
+.section-sub { font-size: 16px; color: var(--muted); max-width: 520px; margin: 0 auto 52px; line-height: 1.7; }
+
+.light-title { color: #FAFAF8; }
+.light-sub   { color: rgba(220,210,195,0.75); }
+
+/* ── PROBLEMA CARDS ── */
+.problema-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+.problema-card {
+  background: rgba(255,252,248,0.85); border: 2px solid rgba(26,26,26,0.25);
+  border-radius: 3px; padding: 28px; backdrop-filter: blur(2px); transition: all .12s;
+}
+.problema-card:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 rgba(26,26,26,0.3); border-color: var(--border); }
+.problema-card .emoji { font-size: 26px; margin-bottom: 14px; }
+.problema-card h3 { font-size: 15px; color: var(--text); margin-bottom: 9px; font-weight: 700; }
+.problema-card p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+/* ── STEPS ── */
+.steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+.step {
+  text-align: center; padding: 36px 24px;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 3px; transition: all .12s;
+}
+.step:hover { background: rgba(255,255,255,0.10); border-color: rgba(0, 136, 255, 0.40); }
+.step-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 46px; height: 46px; background: var(--blue); color: #fff;
+  border-radius: 3px; font-weight: 900; font-size: 20px; margin-bottom: 18px;
+  font-family: 'Playfair Display', serif;
+}
+.step h3 { font-size: 16px; color: #FAFAF8; margin-bottom: 9px; font-weight: 700; }
+.step p { font-size: 13px; color: rgba(210,200,185,0.75); line-height: 1.65; }
+
+/* ── FEATURES ── */
+.features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.feature {
+  background: #FFFFFF; border: 2px solid var(--border); border-radius: 3px;
+  padding: 26px; display: flex; gap: 18px; align-items: flex-start; transition: all .12s;
+}
+.feature:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--border); }
+.feature-icon { font-size: 22px; width: 46px; height: 46px; background: var(--text); border-radius: 3px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.feature h3 { font-size: 14px; color: var(--text); margin-bottom: 7px; font-weight: 700; }
+.feature p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+/* ── PARA QUEM ── */
+.para-quem-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+.pq-card {
+  background: rgba(255,252,248,0.78); border: 2px solid rgba(0, 102, 204, 0.30);
+  border-radius: 3px; padding: 24px 16px; text-align: center; backdrop-filter: blur(2px); transition: all .12s;
+}
+.pq-card:hover { transform: translate(-2px,-2px); box-shadow: 3px 3px 0 rgba(0, 102, 204, 0.4); }
+.pq-card .icon { font-size: 30px; margin-bottom: 12px; }
+.pq-card h3 { font-size: 13px; color: var(--text); font-weight: 700; margin-bottom: 7px; }
+.pq-card p { font-size: 12px; color: #5A6A8A; line-height: 1.55; }
+
+/* ── PLANOS ── */
+.planos-grid { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+.planos-grid .plano { max-width: 420px; width: 100%; flex: 1 1 340px; }
+.plano { background: #fff; border: 2px solid var(--border); border-radius: 3px; padding: 30px; position: relative; transition: all .12s; }
+.plano:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--border); }
+.plano.destaque { border-color: var(--blue); border-width: 3px; }
+.plano-badge { position: absolute; top: -14px; left: 24px; background: var(--blue); color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; padding: 4px 12px; border-radius: 2px; text-transform: uppercase; }
+.plano-nome { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; font-weight: 700; }
+.plano-preco { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900; color: var(--text); line-height: 1; margin-bottom: 5px; }
+.plano.destaque .plano-preco { color: var(--blue); }
+.plano-preco sup { font-size: 22px; vertical-align: top; margin-top: 9px; font-family: 'Inter', sans-serif; font-weight: 700; }
+.plano-sub { font-size: 12px; color: var(--muted); margin-bottom: 22px; }
+.plano-items { list-style: none; margin-bottom: 26px; }
+.plano-items li { font-size: 13px; color: var(--muted); padding: 7px 0; border-bottom: 1px solid #E8E4DE; display: flex; gap: 8px; align-items: flex-start; }
+.plano-items li::before { content: "✓"; color: var(--blue); font-weight: 900; flex-shrink: 0; }
+.plano-btn { display: block; text-align: center; padding: 13px; border-radius: 3px; font-size: 13px; font-weight: 700; text-decoration: none; cursor: pointer; transition: all .15s; border: none; width: 100%; }
+.plano-btn-primary { background: var(--blue); color: #fff; border: 2px solid var(--blue); }
+.plano-btn-primary:hover { background: var(--blue2); box-shadow: 3px 3px 0 var(--border); }
+.plano-btn-ghost { background: transparent; border: 2px solid var(--border); color: var(--text); }
+.plano-btn-ghost:hover { background: var(--text); color: #fff; }
+
+/* Responsivo */
+@media (max-width: 760px) {
+  .problema-grid { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .para-quem-grid { grid-template-columns: repeat(2,1fr); }
+}
+</style>
 </head>
 <body>
-  <header>
-    <div class="header-left">
-      <h1>🚀 CAPTA LEADS</h1>
-      <p>Geração de Leads para Qualquer Negócio</p>
-    </div>
-  </header>
+  <nav>
+    <div class="nav-logo">CAPTA <span>LEADS</span></div>
+    <a href="https://mpago.la/1py3Tgc" class="nav-cta">Começar Agora</a>
+  </nav>
 
-  <div class="container">
-    <div class="hero">
-      <h2>Encontre Leads para Fazer Suas Vendas Crescerem</h2>
-      <p>CAPTA LEADS ajuda empresas, produtoras, artistas e criativos a encontrar clientes, patrocinadores e investidores. Busque leads qualificados, envie campanhas personalizadas e venda mais.</p>
-    </div>
-
-    <div class="features">
-      <div class="feature">
-        <h3>🔍 Busca de Leads Qualificados</h3>
-        <p>Encontre contatos perfeitos para seu negócio. Filtro avançado por país, segmento, tipo de indústria. Múltiplas fontes de dados verificadas e atualizadas.</p>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-scene"></div>
+    <div class="hero-skyline"></div>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge">🚀 NOVO</div>
+        <h1>Encontre <em>leads qualificados</em> para crescer</h1>
+        <p>CAPTA LEADS ajuda empresas, artistas e criadores a encontrar clientes, patrocinadores e investidores. Busque leads, envie campanhas personalizadas e venda mais.</p>
+        <div class="hero-btns">
+          <a href="https://mpago.la/1py3Tgc" class="btn-primary">💳 Começar Agora</a>
+          <a href="#comofunciona" class="btn-ghost">Saiba Mais</a>
+        </div>
       </div>
-      <div class="feature">
-        <h3>📧 Campanhas Personalizadas</h3>
-        <p>Envie emails em massa com personalização automática. Templates especializados por segmento. Rastreie aberturas, cliques e respostas em tempo real.</p>
-      </div>
-      <div class="feature">
-        <h3>🎨 Landing Pages Pro</h3>
-        <p>Crie páginas de venda profissionais sem código. Builder intuitivo. Templates responsivos otimizados para conversão máxima.</p>
-      </div>
-      <div class="feature">
-        <h3>🤖 Assistente IA Integrado</h3>
-        <p>Sugestões inteligentes com Claude IA. Melhore seus textos, copy, estratégias de venda. Análise automática de propostas e pitches.</p>
-      </div>
-      <div class="feature">
-        <h3>📊 Analytics Completo</h3>
-        <p>Dashboard detalhado com métricas em tempo real. Acompanhe performance de leads, campanhas, landing pages e ROI.</p>
-      </div>
-      <div class="feature">
-        <h3>🔒 Segurança Total</h3>
-        <p>Seus dados protegidos com isolamento completo. Criptografia de ponta a ponta. Conformidade com LGPD e privacidade garantida.</p>
+      <div class="hero-video-wrap">
+        <div class="hero-video-label">Demonstração</div>
+        <button class="hero-video-frame" onclick="window.location.href='tutorial.html'" style="cursor:pointer;">▶️</button>
       </div>
     </div>
+  </section>
 
-    <div class="video-section">
-      <h3>🎥 Veja Como Funciona</h3>
-      <p>Assista a demonstração completa de como CAPTA LEADS ajuda você a encontrar leads qualificados, enviar campanhas e aumentar suas vendas de forma exponencial.</p>
-      <button class="video-button" onclick="window.location.href='tutorial.html'">▶️ Assistir Demonstração Completa</button>
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="num">10k+</div>
+      <div class="lbl">Leads Disponíveis</div>
     </div>
-
-    <div class="use-cases">
-      <div class="section-title">💼 Para Quem é CAPTA LEADS?</div>
-
-      <div class="use-case">
-        <h4>🎬 Produtoras & Cineastas</h4>
-        <p>Encontre fundações, patrocinadores e investidores para seus projetos audiovisuais. Acesse editais internacionais, oportunidades de financiamento e parcerias estratégicas.</p>
-      </div>
-
-      <div class="use-case">
-        <h4>🎨 Artistas & Criadores</h4>
-        <p>Acesso direto a oportunidades de financiamento, bolsas e editais culturais. Conecte-se com galeristas, curadores, colecionadores e instituições.</p>
-      </div>
-
-      <div class="use-case">
-        <h4>🎭 Espaços Culturais</h4>
-        <p>Encontre públicos qualificados para eventos, workshops, exposições. Estruture parcerias e patrocínios com marcas alinhadas à sua missão cultural.</p>
-      </div>
-
-      <div class="use-case">
-        <h4>🏢 Pequenos Negócios</h4>
-        <p>Gere leads qualificados e direcionados. Encontre clientes ideais para seu nicho. Aumente sua carteira com estratégias testadas e comprovadas.</p>
-      </div>
-
-      <div class="use-case">
-        <h4>📱 Agências & Consultorias</h4>
-        <p>Encontre clientes B2B e B2C para seus serviços. Aumente sua base de clientes com leads pré-qualificados e de alto potencial.</p>
-      </div>
-
-      <div class="use-case">
-        <h4>🎓 Educadores & Mentores</h4>
-        <p>Conecte-se com alunos, clientes e parceiros para cursos, treinamentos e serviços de consultoria. Expanda seu impacto e comunidade.</p>
-      </div>
+    <div class="stat-item">
+      <div class="num">5k+</div>
+      <div class="lbl">Usuários Ativos</div>
     </div>
-
-    <div class="pricing">
-      <h2>💰 Preço Único — Acesso Vitalício</h2>
-      <div class="price">R$ 80</div>
-      <div class="price-label">Pagamento único • Sem mensalidades • Sem renovação</div>
-      <button class="cta-button" onclick="window.location.href='https://mpago.la/1py3Tgc'">💳 Começar Agora</button>
-    </div>
-
-    <div class="success-stories">
-      <h3>✨ O Que Você Recebe</h3>
-      <div class="story">
-        <strong>✓ Busca Ilimitada de Leads</strong>
-        <p>Procure por contatos qualificados em qualquer segmento, país ou tipo de negócio. Sem limites de buscas, sem restrições de uso.</p>
-      </div>
-      <div class="story">
-        <strong>✓ Campanhas de Email em Massa</strong>
-        <p>Envie para centenas de leads com personalização automática. Templates por indústria. Rastreamento de aberturas, cliques e conversões.</p>
-      </div>
-      <div class="story">
-        <strong>✓ Construtor de Landing Pages</strong>
-        <p>Crie páginas de venda sem código. Drag-and-drop intuitivo. Otimizado para máxima conversão e mobile-responsive.</p>
-      </div>
-      <div class="story">
-        <strong>✓ Chat IA Integrado (Claude)</strong>
-        <p>Assistente inteligente para sugestões de copy, análise de propostas, estratégias de venda e otimização de mensagens.</p>
-      </div>
-      <div class="story">
-        <strong>✓ Dashboard & Analytics</strong>
-        <p>Gerencie projetos, contatos, campanhas e landing pages em um só lugar. Métricas detalhadas e relatórios em tempo real.</p>
-      </div>
-      <div class="story">
-        <strong>✓ Acesso Vitalício</strong>
-        <p>Use quantas vezes quiser, pelo tempo que quiser. Sem renovação de assinatura, sem surpresas, sem custos extras.</p>
-      </div>
+    <div class="stat-item">
+      <div class="num">98%</div>
+      <div class="lbl">Taxa de Satisfação</div>
     </div>
   </div>
 
-  <footer>
-    <p>CAPTA LEADS v2.0 | © 2026 · danrubio_2000@yahoo.com</p>
-    <p>WhatsApp: +55 11 98765-4321</p>
-  </footer>
+  <!-- PROBLEMA -->
+  <section class="sec-problema">
+    <div class="sec-problema-bg"></div>
+    <div class="container" style="position:relative;z-index:2;">
+      <div class="center">
+        <div class="section-label">❌ O Problema</div>
+        <h2 class="section-title">Por que procurar leads é difícil?</h2>
+        <p class="section-sub">Encontrar clientes qualificados consome tempo e recursos. Veja os principais desafios:</p>
+      </div>
+      <div class="problema-grid">
+        <div class="problema-card">
+          <div class="emoji">⏳</div>
+          <h3>Pesquisa Manual Exaustiva</h3>
+          <p>Semanas pesquisando nomes, emails e contatos em dezenas de fontes diferentes.</p>
+        </div>
+        <div class="problema-card">
+          <div class="emoji">📧</div>
+          <h3>Emails Genéricos</h3>
+          <p>Mensagens padronizadas têm baixa taxa de resposta e não conectam com o público.</p>
+        </div>
+        <div class="problema-card">
+          <div class="emoji">📉</div>
+          <h3>Falta de Acompanhamento</h3>
+          <p>Sem sistema centralizado, é fácil perder leads e oportunidades no caminho.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      console.log('CAPTA LEADS - Landing page em AZUL com conteúdo genérico + cultura');
-    });
-  </script>
+  <!-- COMO FUNCIONA -->
+  <section class="sec-camera" id="comofunciona">
+    <div class="sec-camera-bg"></div>
+    <div class="container" style="position:relative;z-index:2;">
+      <div class="center">
+        <div class="section-label light-title">✅ Como Funciona</div>
+        <h2 class="section-title light-title">3 passos simples para gerar leads</h2>
+        <p class="section-sub light-sub">Automatize sua busca e conquiste clientes em minutos.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Descreva Seu Projeto</h3>
+          <p>Conte sobre seu negócio, produto ou serviço. O sistema entende exatamente o que você precisa.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Mapeie Leads</h3>
+          <p>CAPTA encontra os melhores contatos de clientes, patrocinadores ou investidores para você.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Envie & Feche</h3>
+          <p>Campanhas personalizadas com IA. Rastreie respostas. Feche vendas com confiança.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="sec-features">
+    <div class="sec-features-bg"></div>
+    <div class="container" style="position:relative;z-index:2;">
+      <div class="center">
+        <div class="section-label">💎 O Que Você Recebe</div>
+        <h2 class="section-title">Tudo que você precisa para crescer</h2>
+        <p class="section-sub">Uma plataforma completa com todas as ferramentas para encontrar, contatar e vender.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature">
+          <div class="feature-icon">🔍</div>
+          <div>
+            <h3>Busca de Leads Ilimitada</h3>
+            <p>Filtre por país, segmento, tipo de negócio. Múltiplas fontes verificadas.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📧</div>
+          <div>
+            <h3>Campanhas de Email</h3>
+            <p>Envie em massa com personalização automática. Rastreie aberturas e cliques.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🎨</div>
+          <div>
+            <h3>Landing Pages Pro</h3>
+            <p>Crie páginas de venda sem código. Templates responsivos e otimizados.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🤖</div>
+          <div>
+            <h3>Assistente IA (Claude)</h3>
+            <p>Sugestões inteligentes para melhorar textos, copy e estratégias de venda.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📊</div>
+          <div>
+            <h3>Analytics & Dashboard</h3>
+            <p>Métricas em tempo real. Acompanhe performance de leads e campanhas.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🔒</div>
+          <div>
+            <h3>Segurança Completa</h3>
+            <p>Dados protegidos com isolamento e criptografia. LGPD compliant.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARA QUEM -->
+  <section class="sec-paraquem">
+    <div class="sec-paraquem-bg"></div>
+    <div class="container" style="position:relative;z-index:2;">
+      <div class="center">
+        <div class="section-label">👥 Para Quem É</div>
+        <h2 class="section-title">CAPTA LEADS funciona para qualquer negócio</h2>
+        <p class="section-sub">De artistas a pequenas empresas, agências e educadores.</p>
+      </div>
+      <div class="para-quem-grid">
+        <div class="pq-card">
+          <div class="icon">🎬</div>
+          <h3>Produtoras & Cineastas</h3>
+          <p>Encontre fundações, patrocinadores e investidores para seus projetos.</p>
+        </div>
+        <div class="pq-card">
+          <div class="icon">🎨</div>
+          <h3>Artistas & Criadores</h3>
+          <p>Acesso a oportunidades de financiamento, bolsas e editais culturais.</p>
+        </div>
+        <div class="pq-card">
+          <div class="icon">🎭</div>
+          <h3>Espaços Culturais</h3>
+          <p>Encontre públicos para eventos e estruture parcerias com marcas.</p>
+        </div>
+        <div class="pq-card">
+          <div class="icon">🏢</div>
+          <h3>Pequenos Negócios</h3>
+          <p>Gere leads qualificados e aumente sua carteira de clientes.</p>
+        </div>
+        <div class="pq-card">
+          <div class="icon">📱</div>
+          <h3>Agências & Consultorias</h3>
+          <p>Encontre clientes B2B e B2C para seus serviços especializados.</p>
+        </div>
+        <div class="pq-card">
+          <div class="icon">🎓</div>
+          <h3>Educadores & Mentores</h3>
+          <p>Conecte-se com alunos, clientes e parceiros para seus cursos.</p>
+        </div>
+        <div class="pq-card">
+          <div class="icon">💼</div>
+          <h3>Startups & Inovadores</h3>
+          <p>Encontre investidores, clientes early-adopters e parceiros.</p>
+        </div>
+        <div class="pq-card">
+          <div class="icon">🌍</div>
+          <h3>Exportadores & B2B</h3>
+          <p>Mapeie buyers internacionais e distribuidores qualificados.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANOS -->
+  <section class="sec-planos">
+    <div class="container" style="position:relative;z-index:2;">
+      <div class="center">
+        <div class="section-label">💰 Preços</div>
+        <h2 class="section-title">Acesso Vitalício — Sem Mensalidades</h2>
+        <p class="section-sub">Pague uma vez, use para sempre. Sem surpresas, sem renovação.</p>
+      </div>
+      <div class="planos-grid">
+        <div class="plano destaque">
+          <div class="plano-badge">MAIS POPULAR</div>
+          <div class="plano-nome">Acesso Completo</div>
+          <div class="plano-preco">R$ 80<sup>00</sup></div>
+          <p class="plano-sub">Acesso vitalício • Sem renovação</p>
+          <ul class="plano-items">
+            <li>Busca ilimitada de leads</li>
+            <li>Campanhas de email em massa</li>
+            <li>Landing page builder</li>
+            <li>Assistente IA integrado</li>
+            <li>Dashboard & Analytics</li>
+            <li>Suporte por email</li>
+            <li>Atualizações futuras incluídas</li>
+          </ul>
+          <a href="https://mpago.la/1py3Tgc" class="plano-btn plano-btn-primary">🚀 Comprar Agora</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="sec-cta">
+    <div class="cta-bg"></div>
+    <div class="container" style="position:relative;z-index:2;text-align:center;padding:60px 40px;">
+      <h2 style="font-family:'Playfair Display',serif;font-size:42px;color:#fff;margin-bottom:20px;font-weight:900;">Comece Agora</h2>
+      <p style="font-size:16px;color:rgba(255,255,255,0.85);margin-bottom:30px;max-width:520px;margin-left:auto;margin-right:auto;">Encontre seus primeiros leads hoje mesmo. Acesso vitalício, sem renovação, sem surpresas.</p>
+      <a href="https://mpago.la/1py3Tgc" class="btn-primary" style="display:inline-block;">💳 Começar Agora — R$ 80</a>
+    </div>
+  </section>
+
+  <footer style="background:#1A1A1A;border-top:3px solid var(--blue);color:#fff;text-align:center;padding:40px 20px;">
+    <p style="margin:10px 0;font-size:14px;">CAPTA LEADS v2.0 © 2026 · danrubio_2000@yahoo.com</p>
+    <p style="margin:10px 0;font-size:13px;opacity:0.7;">WhatsApp: +55 11 98765-4321</p>
+  </footer>
 </body>
 </html>
