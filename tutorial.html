@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Como funciona o Capta — Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --blue: #0066CC;
+  --blue2: #0088FF;
+  --black:  #0D0D0D;
+  --white:  #FAFAF8;
+  --muted:  #888;
+}
+
+body {
+  background: #111;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+/* ── PLAYER ── */
+.player {
+  width: 100%;
+  max-width: 860px;
+  background: var(--black);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+}
+
+/* ── SCREEN ── */
+.screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--black);
+  overflow: hidden;
+}
+
+/* ── SCENES ── */
+.scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  padding: 40px;
+  text-align: center;
+}
+
+.scene.active { opacity: 1; }
+
+/* ── CONTROLS ── */
+.controls {
+  background: #1A1A1A;
+  padding: 14px 20px 16px;
+  border-top: 1px solid #2A2A2A;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: #333;
+  border-radius: 2px;
+  margin-bottom: 14px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--blue);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.1s linear;
+}
+
+.controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ctrl-left { display: flex; align-items: center; gap: 12px; }
+.ctrl-right { display: flex; align-items: center; gap: 10px; }
+
+.btn-ctrl {
+  background: none; border: none; cursor: pointer;
+  color: var(--muted); font-size: 18px; padding: 4px; line-height: 1;
+  transition: color .15s;
+}
+
+.btn-ctrl:hover { color: var(--white); }
+.btn-ctrl.play { font-size: 22px; color: var(--blue); }
+.btn-ctrl.play:hover { color: var(--blue2); }
+
+.scene-counter { font-size: 12px; color: var(--muted); letter-spacing: 0.5px; }
+.scene-title-ctrl { font-size: 12px; color: var(--white); font-weight: 600; max-width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Dots */
+.dots { display: flex; gap: 5px; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: #444; cursor: pointer; transition: background .15s; }
+.dot.active { background: var(--blue); }
+.dot:hover { background: #888; }
+
+/* ── SCENE STYLES ── */
+
+/* S1 — Intro */
+.s1-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 64px; font-weight: 900;
+  color: var(--white);
+  animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+.s1-logo span { color: var(--blue); }
+.s1-sub {
+  font-size: 16px; color: var(--muted); margin-top: 16px;
+  animation: fadeUp 0.6s 0.4s ease both;
+}
+.s1-badge {
+  display: inline-block;
+  background: var(--blue); color: #fff;
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 5px 14px; border-radius: 2px; margin-bottom: 20px;
+  animation: fadeUp 0.4s 0.1s ease both;
+}
+
+/* S2 — Problema */
+.s2-scene { background: linear-gradient(135deg, #120806 0%, #1A0D05 100%); }
+.char {
+  font-size: 72px; line-height: 1;
+  animation: wobble 2s ease-in-out infinite;
+}
+.speech-bubble {
+  background: var(--white); border-radius: 12px;
+  padding: 14px 20px; margin: 20px auto 0; max-width: 400px;
+  font-size: 14px; color: var(--black); font-weight: 600; line-height: 1.5;
+  position: relative; animation: fadeUp 0.5s 0.3s ease both;
+}
+.speech-bubble::before {
+  content: '';
+  position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-bottom-color: var(--white);
+}
+
+/* S3 — Lightbulb */
+.s3-scene { background: radial-gradient(circle at 50% 40%, #1A1000 0%, #080604 70%); }
+.lightbulb { font-size: 80px; animation: glow 1.5s ease-in-out infinite alternate; }
+.big-q {
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: clamp(18px, 3vw, 26px); color: var(--white); margin-top: 20px;
+  line-height: 1.4; max-width: 500px;
+  animation: fadeUp 0.6s 0.2s ease both;
+}
+.big-q em { color: var(--blue); font-style: italic; }
+
+/* S4 — Formulário */
+.s4-scene { background: #0A0A0A; }
+.form-demo {
+  background: #1A1A1A; border: 2px solid #2A2A2A; border-radius: 6px;
+  padding: 24px; width: 100%; max-width: 440px; text-align: left;
+}
+.form-demo-title { font-size: 13px; color: var(--blue); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 18px; }
+.field {
+  margin-bottom: 14px;
+  animation: slideRight 0.4s ease both;
+}
+.field:nth-child(2) { animation-delay: 0.1s; }
+.field:nth-child(3) { animation-delay: 0.3s; }
+.field:nth-child(4) { animation-delay: 0.5s; }
+.field:nth-child(5) { animation-delay: 0.7s; }
+.field label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 5px; }
+.field .val {
+  display: flex; align-items: center; gap: 8px;
+  background: #222; border: 1px solid #333; border-radius: 4px;
+  padding: 8px 12px; font-size: 13px; color: var(--white); font-weight: 600;
+}
+.val .check { color: #5DBD7A; font-size: 14px; margin-left: auto; }
+.typing { border-right: 2px solid var(--blue); padding-right: 2px; }
+
+/* S5 — Agente trabalhando */
+.s5-scene { background: #080808; }
+.agent-working {
+  font-size: 48px;
+  animation: spin360 1s linear infinite;
+  display: inline-block;
+}
+.leads-list { margin-top: 24px; width: 100%; max-width: 440px; }
+.lead-item {
+  display: flex; align-items: center; gap: 12px;
+  background: #161616; border: 1px solid #222; border-radius: 4px;
+  padding: 8px 14px; margin-bottom: 6px; font-size: 13px; color: var(--white);
+  animation: slideRight 0.4s ease both;
+}
+.lead-item:nth-child(1) { animation-delay: 0.0s; }
+.lead-item:nth-child(2) { animation-delay: 0.3s; }
+.lead-item:nth-child(3) { animation-delay: 0.6s; }
+.lead-item:nth-child(4) { animation-delay: 0.9s; }
+.lead-item:nth-child(5) { animation-delay: 1.2s; }
+.lead-flag { font-size: 16px; }
+.lead-name { flex: 1; }
+.lead-prio { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 2px; background: rgba(93,189,122,0.15); color: #5DBD7A; }
+.counter-big {
+  font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 900;
+  color: var(--blue); margin-bottom: 6px;
+  animation: countUp 2s ease both;
+}
+.counter-lbl { font-size: 13px; color: var(--muted); }
+
+/* S6 — Emails */
+.s6-scene { background: #0A0A0A; }
+.email-cards { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 480px; }
+.email-card {
+  background: #161616; border: 1px solid #2A2A2A; border-radius: 6px;
+  padding: 14px 16px; text-align: left;
+  animation: slideLeft 0.5s ease both;
+}
+.email-card:nth-child(1) { animation-delay: 0.1s; border-left: 3px solid #5DBD7A; }
+.email-card:nth-child(2) { animation-delay: 0.4s; border-left: 3px solid var(--blue); }
+.email-card:nth-child(3) { animation-delay: 0.7s; border-left: 3px solid #60a5fa; }
+.email-to { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+.email-subj { font-size: 13px; color: var(--white); font-weight: 700; margin-bottom: 4px; }
+.email-tag { font-size: 10px; color: var(--muted); font-style: italic; }
+
+/* S7 — Revisão */
+.s7-scene { background: #0A0A0A; }
+.review-box {
+  background: var(--white); border-radius: 6px;
+  padding: 24px; width: 100%; max-width: 460px; text-align: left;
+  animation: fadeUp 0.5s ease both;
+}
+.review-header { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; font-weight: 700; }
+.review-body { font-size: 13px; color: #333; line-height: 1.7; margin-bottom: 18px; border-left: 3px solid var(--blue); padding-left: 12px; }
+.review-actions { display: flex; gap: 10px; }
+.btn-aprovar {
+  background: var(--blue); color: #fff; border: none;
+  padding: 9px 20px; border-radius: 3px; font-size: 13px; font-weight: 700;
+  cursor: pointer; animation: pulse 1s 0.8s ease infinite;
+}
+.btn-editar { background: transparent; color: #888; border: 1px solid #DDD; padding: 9px 20px; border-radius: 3px; font-size: 13px; cursor: pointer; }
+.you-control { font-size: 13px; color: var(--muted); margin-top: 16px; font-style: italic;
+  animation: fadeUp 0.5s 0.6s ease both; }
+
+/* S8 — Follow-up */
+.s8-scene { background: linear-gradient(160deg, #0A0A0A, #0D0808); }
+.calendar-demo { display: flex; gap: 12px; animation: fadeUp 0.6s ease both; }
+.cal-day {
+  background: #1A1A1A; border: 1px solid #2A2A2A; border-radius: 6px;
+  padding: 16px 14px; text-align: center; min-width: 90px;
+}
+.cal-day.sent { border-color: var(--blue); }
+.cal-day .day-num { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; color: var(--white); }
+.cal-day.sent .day-num { color: var(--blue); }
+.cal-day .day-lbl { font-size: 10px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+.cal-day.sent .day-lbl { color: var(--blue); }
+.cal-day .day-status { font-size: 18px; margin-top: 8px; }
+.followup-msg { font-size: 14px; color: var(--muted); margin-top: 24px; line-height: 1.6;
+  animation: fadeUp 0.5s 0.5s ease both; }
+.followup-msg strong { color: var(--white); }
+
+/* S9 — Resultados */
+.s9-scene { background: radial-gradient(circle at 50% 40%, #140B03 0%, #080604 70%); }
+.results-grid { display: flex; gap: 24px; margin-bottom: 24px; }
+.result-num {
+  text-align: center;
+  animation: popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+.result-num:nth-child(2) { animation-delay: 0.15s; }
+.result-num:nth-child(3) { animation-delay: 0.3s; }
+.result-num .n {
+  font-family: 'Playfair Display', serif; font-size: 52px; font-weight: 900;
+  color: var(--blue); line-height: 1;
+}
+.result-num .l { font-size: 12px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+.result-desc { font-size: 15px; color: rgba(230,220,210,0.75); line-height: 1.7; max-width: 460px;
+  animation: fadeUp 0.5s 0.5s ease both; }
+
+/* S10 — CTA */
+.s10-scene { background: var(--black); }
+.final-title {
+  font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 52px);
+  font-weight: 900; color: var(--white); line-height: 1.08; margin-bottom: 16px;
+  animation: fadeUp 0.6s ease both;
+}
+.final-title em { color: var(--blue); font-style: italic; }
+.final-sub { font-size: 16px; color: var(--muted); margin-bottom: 28px; animation: fadeUp 0.5s 0.2s ease both; }
+.final-btn {
+  display: inline-block;
+  background: var(--blue); color: #fff;
+  padding: 16px 36px; border-radius: 3px; font-size: 15px; font-weight: 700;
+  text-decoration: none; border: 2px solid var(--blue);
+  animation: fadeUp 0.5s 0.4s ease both;
+  transition: all .15s;
+}
+.final-btn:hover { background: var(--blue2); transform: translateY(-2px); }
+
+/* ── KEYFRAMES ── */
+@keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes fadeUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes slideRight { from { transform: translateX(-24px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes slideLeft { from { transform: translateX(24px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes wobble { 0%,100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+@keyframes glow { from { filter: drop-shadow(0 0 8px rgba(240,180,40,0.3)); } to { filter: drop-shadow(0 0 28px rgba(240,180,40,0.8)); } }
+@keyframes spin360 { to { transform: rotate(360deg); } }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(232,80,26,0.4); } 50% { box-shadow: 0 0 0 8px rgba(232,80,26,0); } }
+@keyframes countUp { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+
+/* ── CONFETTI ── */
+.confetti-piece {
+  position: absolute; width: 8px; height: 8px; opacity: 0;
+  animation: confettiFall 1.5s ease-in both;
+}
+@keyframes confettiFall {
+  0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(300px) rotate(720deg); opacity: 0; }
+}
+
+/* ── SKIP MESSAGE ── */
+.skip-hint {
+  font-size: 11px; color: #444; margin-top: 12px; text-align: center;
+  letter-spacing: 0.5px;
+}
+.skip-hint kbd { background: #222; border: 1px solid #333; border-radius: 3px; padding: 1px 5px; font-family: monospace; }
+</style>
+</head>
+<body>
+
+<div class="player">
+  <div class="screen" id="screen">
+
+    <!-- CENA 1 — Apresentação -->
+    <div class="scene active" id="s1" style="background:var(--black)">
+      <div class="s1-badge">✦ Tutorial · 9 cenas · ~1 minuto</div>
+      <div class="s1-logo">cap<span>ta</span></div>
+      <div class="s1-sub">O Captador que encontra seus próximos clientes —<br>enquanto você trabalha.</div>
+    </div>
+
+    <!-- CENA 2 — O problema -->
+    <div class="scene s2-scene" id="s2">
+      <div class="char">😩🔨</div>
+      <div class="speech-bubble">
+        "Já faz 3 semanas ligando para construtoras.<br>
+        Criei uma planilha enorme.<br>
+        Não fechei <em>nenhum</em> contrato ainda."
+      </div>
+      <div style="margin-top:24px;font-size:13px;color:rgba(200,180,150,0.6);font-style:italic;animation:fadeUp 0.5s 0.8s ease both">
+        Isso acontece com 8 em cada 10 prestadores de serviço autônomos.
+      </div>
+    </div>
+
+    <!-- CENA 3 — A ideia -->
+    <div class="scene s3-scene" id="s3">
+      <div class="lightbulb">💡</div>
+      <div class="big-q">
+        E se você tivesse um Captador que<br>
+        <em>trabalha 24h por você</em> —<br>
+        pesquisando clientes, escrevendo propostas, acompanhando —<br>
+        enquanto você trabalha em campo?
+      </div>
+    </div>
+
+    <!-- CENA 4 — Configure -->
+    <div class="scene s4-scene" id="s4">
+      <div style="font-size:13px;color:var(--blue);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;animation:fadeUp 0.4s ease both">Passo 1 — Você configura seu negócio</div>
+      <div class="form-demo">
+        <div class="form-demo-title">📋 Configurando: ProRoof Services</div>
+        <div class="field">
+          <label>Nome do negócio</label>
+          <div class="val">ProRoof Services <span class="check">✓</span></div>
+        </div>
+        <div class="field">
+          <label>Serviço</label>
+          <div class="val">Roofing · instalação e manutenção <span class="check">✓</span></div>
+        </div>
+        <div class="field">
+          <label>Público-alvo</label>
+          <div class="val">Construtoras e gestores de imóveis <span class="check">✓</span></div>
+        </div>
+        <div class="field">
+          <label>Ticket médio</label>
+          <div class="val">US$ 8.000 por contrato <span class="check">✓</span></div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-top:14px;animation:fadeUp 0.4s 1s ease both">É só isso. O Captador cuida do resto.</div>
+    </div>
+
+    <!-- CENA 5 — Agente trabalhando -->
+    <div class="scene s5-scene" id="s5">
+      <div style="font-size:13px;color:var(--blue);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;animation:fadeUp 0.4s ease both">Passo 2 — O Captador abre caminhos</div>
+      <div style="display:flex;align-items:flex-start;gap:32px;width:100%;max-width:520px">
+        <div style="text-align:center;min-width:90px">
+          <div class="agent-working">⚙️</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:10px">buscando...</div>
+          <div style="margin-top:20px">
+            <div class="counter-big" id="leadCounter">32</div>
+            <div class="counter-lbl">clientes mapeados</div>
+          </div>
+        </div>
+        <div class="leads-list">
+          <div class="lead-item"><span class="lead-flag">🏗️</span><span class="lead-name">Johnson Construction Group</span><span class="lead-prio">Alta</span></div>
+          <div class="lead-item"><span class="lead-flag">🏢</span><span class="lead-name">Metro Property Management</span><span class="lead-prio">Alta</span></div>
+          <div class="lead-item"><span class="lead-flag">🏠</span><span class="lead-name">HomeServe Solutions</span><span class="lead-prio">Alta</span></div>
+          <div class="lead-item"><span class="lead-flag">🏗️</span><span class="lead-name">BuildRight Contractors</span><span class="lead-prio">Alta</span></div>
+          <div class="lead-item"><span class="lead-flag">🌆</span><span class="lead-name">Urban Real Estate Corp</span><span class="lead-prio">Média</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENA 6 — E-mails -->
+    <div class="scene s6-scene" id="s6">
+      <div style="font-size:13px;color:var(--blue);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;animation:fadeUp 0.4s ease both">Passo 3 — Uma mensagem diferente para cada um</div>
+      <div class="email-cards">
+        <div class="email-card">
+          <div class="email-to">Para: Johnson Construction Group · Dallas, TX</div>
+          <div class="email-subj">Roofing Partnership Proposal — Commercial Projects</div>
+          <div class="email-tag">📝 Em inglês · tom comercial · projetos grandes · preço/prazo</div>
+        </div>
+        <div class="email-card">
+          <div class="email-to">Para: Metro Property Management · Miami, FL</div>
+          <div class="email-subj">Manutenção Preventiva de Telhados — ProRoof</div>
+          <div class="email-tag">📝 Em inglês · tom técnico · contrato de manutenção · longo prazo</div>
+        </div>
+        <div class="email-card">
+          <div class="email-to">Para: Urban Real Estate Corp · São Paulo</div>
+          <div class="email-subj">Parceria Roofing — Projetos Residenciais em Volume</div>
+          <div class="email-tag">📝 Em português · tom parceria · residencial · desconto por volume</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-top:14px;font-style:italic;animation:fadeUp 0.4s 1s ease both">Cada proposta fala a língua de quem vai ler.</div>
+    </div>
+
+    <!-- CENA 7 — Revisão -->
+    <div class="scene s7-scene" id="s7">
+      <div style="font-size:13px;color:var(--blue);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;animation:fadeUp 0.4s ease both">Passo 4 — Você lê, edita e aprova</div>
+      <div class="review-box">
+        <div class="review-header">✉️ Johnson Construction Group — Para revisão</div>
+        <div class="review-body">
+          Dear Johnson Construction team,<br><br>
+          We are reaching out to offer our professional roofing services for your commercial projects.
+          <em>ProRoof</em> has completed 200+ installations in the region with a 98% satisfaction rate...
+        </div>
+        <div class="review-actions">
+          <button class="btn-aprovar">✓ Aprovar envio</button>
+          <button class="btn-editar">✏ Editar</button>
+        </div>
+      </div>
+      <div class="you-control">Nada é enviado sem a sua aprovação. Você está sempre no controle.</div>
+    </div>
+
+    <!-- CENA 8 — Follow-up -->
+    <div class="scene s8-scene" id="s8">
+      <div style="font-size:13px;color:var(--blue);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px;animation:fadeUp 0.4s ease both">Passo 5 — O Capta lembra o que você esqueceria</div>
+      <div class="calendar-demo">
+        <div class="cal-day">
+          <div class="day-num">1</div>
+          <div class="day-lbl">Hoje</div>
+          <div class="day-status">📤</div>
+        </div>
+        <div class="cal-day sent">
+          <div class="day-num">3</div>
+          <div class="day-lbl">Follow-up</div>
+          <div class="day-status">✅</div>
+        </div>
+        <div class="cal-day sent">
+          <div class="day-num">7</div>
+          <div class="day-lbl">Follow-up</div>
+          <div class="day-status">✅</div>
+        </div>
+        <div class="cal-day">
+          <div class="day-num">14</div>
+          <div class="day-lbl">Resposta?</div>
+          <div class="day-status">🔔</div>
+        </div>
+      </div>
+      <div class="followup-msg">
+        O Captador envia follow-ups automáticos nos dias <strong>3</strong> e <strong>7</strong>.<br>
+        Você não precisa lembrar — e não perde nenhuma oportunidade por esquecimento.
+      </div>
+    </div>
+
+    <!-- CENA 9 — Resultados -->
+    <div class="scene s9-scene" id="s9">
+      <div style="font-size:13px;color:var(--blue);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px;animation:fadeUp 0.3s ease both">Em uma tarde, o que levaria meses</div>
+      <div class="results-grid">
+        <div class="result-num">
+          <div class="n">32</div>
+          <div class="l">clientes mapeados</div>
+        </div>
+        <div class="result-num">
+          <div class="n">32</div>
+          <div class="l">propostas prontas</div>
+        </div>
+        <div class="result-num">
+          <div class="n">3</div>
+          <div class="l">em negociação</div>
+        </div>
+      </div>
+      <div class="result-desc">
+        De Johnson Construction à Metro Property Management.<br>
+        Do BuildRight Contractors à Urban Real Estate Corp.<br>
+        Em português e em inglês.<br><br>
+        <strong style="color:var(--white)">Tudo isso enquanto você trabalhava em campo. 🏗️</strong>
+      </div>
+    </div>
+
+    <!-- CENA 10 — CTA -->
+    <div class="scene s10-scene" id="s10">
+      <div class="final-title">
+        Seu próximo cliente<br>
+        <em>está esperando.</em>
+      </div>
+      <div class="final-sub">A partir de R$40 · Pagamento único · Sem mensalidade · Para qualquer criador</div>
+      <a href="/" class="final-btn">Quero começar agora →</a>
+    </div>
+
+  </div><!-- /screen -->
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <div class="progress-bar" id="progressBar" onclick="seekClick(event)">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="controls-row">
+      <div class="ctrl-left">
+        <button class="btn-ctrl" onclick="prevScene()" title="Anterior">◀</button>
+        <button class="btn-ctrl play" id="playBtn" onclick="togglePlay()">⏸</button>
+        <button class="btn-ctrl" onclick="nextScene()" title="Próxima">▶</button>
+        <span class="scene-counter" id="sceneCounter">1 / 10</span>
+        <span class="scene-title-ctrl" id="sceneTitleCtrl">Apresentação</span>
+      </div>
+      <div class="ctrl-right">
+        <div class="dots" id="dotsContainer"></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /player -->
+
+<div class="skip-hint">
+  <kbd>Space</kbd> play/pause &nbsp;·&nbsp; <kbd>→</kbd> próxima &nbsp;·&nbsp; <kbd>←</kbd> anterior &nbsp;·&nbsp; Clique nos pontos para pular cenas
+</div>
+
+<script>
+const SCENES = [
+  { id: "s1",  title: "Apresentação",        dur: 4000 },
+  { id: "s2",  title: "O problema",           dur: 5500 },
+  { id: "s3",  title: "A ideia",              dur: 5000 },
+  { id: "s4",  title: "Passo 1 · Configure",  dur: 6000 },
+  { id: "s5",  title: "Passo 2 · O Captador", dur: 6500 },
+  { id: "s6",  title: "Passo 3 · E-mails",    dur: 6000 },
+  { id: "s7",  title: "Passo 4 · Revisão",    dur: 5500 },
+  { id: "s8",  title: "Passo 5 · Follow-up",  dur: 5000 },
+  { id: "s9",  title: "Resultados",           dur: 5500 },
+  { id: "s10", title: "Comece agora",         dur: 999999 },
+];
+
+let current = 0;
+let playing = true;
+let timer = null;
+let startTime = null;
+let elapsed = 0;
+let rafId = null;
+
+// Build dots
+const dotsEl = document.getElementById("dotsContainer");
+SCENES.forEach((_, i) => {
+  const d = document.createElement("div");
+  d.className = "dot" + (i === 0 ? " active" : "");
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+});
+
+function showScene(idx) {
+  SCENES.forEach((s, i) => {
+    const el = document.getElementById(s.id);
+    el.classList.toggle("active", i === idx);
+  });
+  document.querySelectorAll(".dot").forEach((d, i) => d.classList.toggle("active", i === idx));
+  document.getElementById("sceneCounter").textContent = `${idx + 1} / ${SCENES.length}`;
+  document.getElementById("sceneTitleCtrl").textContent = SCENES[idx].title;
+}
+
+function startTimer() {
+  clearTimeout(timer);
+  cancelAnimationFrame(rafId);
+  startTime = Date.now();
+  elapsed = 0;
+  const dur = SCENES[current].dur;
+
+  function tick() {
+    if (!playing) return;
+    elapsed = Date.now() - startTime;
+    const pct = Math.min((elapsed / dur) * 100, 100);
+    document.getElementById("progressFill").style.width = pct + "%";
+    if (elapsed >= dur) {
+      nextScene();
+    } else {
+      rafId = requestAnimationFrame(tick);
+    }
+  }
+  rafId = requestAnimationFrame(tick);
+}
+
+function goTo(idx) {
+  current = Math.max(0, Math.min(SCENES.length - 1, idx));
+  showScene(current);
+  if (playing) startTimer();
+  else document.getElementById("progressFill").style.width = "0%";
+}
+
+function nextScene() {
+  if (current < SCENES.length - 1) goTo(current + 1);
+  else { playing = false; updatePlayBtn(); document.getElementById("progressFill").style.width = "100%"; }
+}
+
+function prevScene() {
+  goTo(Math.max(0, current - 1));
+}
+
+function togglePlay() {
+  playing = !playing;
+  updatePlayBtn();
+  if (playing) { startTime = Date.now() - elapsed; startTimer(); }
+  else cancelAnimationFrame(rafId);
+}
+
+function updatePlayBtn() {
+  document.getElementById("playBtn").textContent = playing ? "⏸" : "▶";
+}
+
+function seekClick(e) {
+  const bar = document.getElementById("progressBar");
+  const pct = e.offsetX / bar.offsetWidth;
+  elapsed = pct * SCENES[current].dur;
+  if (playing) { startTime = Date.now() - elapsed; }
+  document.getElementById("progressFill").style.width = (pct * 100) + "%";
+}
+
+document.addEventListener("keydown", e => {
+  if (e.code === "Space") { e.preventDefault(); togglePlay(); }
+  if (e.code === "ArrowRight") nextScene();
+  if (e.code === "ArrowLeft") prevScene();
+});
+
+// Start
+showScene(0);
+startTimer();
+</script>
+</body>
+</html>
