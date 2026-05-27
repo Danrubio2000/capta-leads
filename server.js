@@ -600,8 +600,13 @@ const server = http.createServer(async (req, res) => {
       return serveStatic(res, path.join(__dirname, "landing-pagamento.html"), "text/html");
     }
 
+    if (url.pathname === "/dashboard.html") {
+      return serveStatic(res, path.join(__dirname, "dashboard.html"), "text/html");
+    }
+
     if (url.pathname === "/console.html") {
-      return serveStatic(res, path.join(__dirname, "console.html"), "text/html");
+      // Backward compatibility - console.html was renamed to dashboard.html
+      return serveStatic(res, path.join(__dirname, "dashboard.html"), "text/html");
     }
 
     if (url.pathname === "/console-simple.html") {
