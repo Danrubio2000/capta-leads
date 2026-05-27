@@ -124,6 +124,13 @@
       color: white;
       font-size: 3em;
       box-shadow: 0 6px 20px rgba(0, 102, 204, 0.2);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .video-placeholder:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 30px rgba(0, 102, 204, 0.3);
     }
 
     .use-cases {
@@ -345,7 +352,7 @@
     <div class="video-section">
       <h3>Veja Como Funciona</h3>
       <p>Um pequeno vídeo mostrando o poder do CAPTA LEADS em ação</p>
-      <div class="video-placeholder">▶️</div>
+      <div class="video-placeholder" onclick="window.location.href='/tutorial'">▶️</div>
     </div>
 
     <!-- USE CASES SECTION -->
