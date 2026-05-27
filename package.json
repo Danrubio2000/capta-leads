@@ -1,7 +1,7 @@
 {
   "name": "capta-leads",
-  "version": "1.0.0",
-  "description": "Ferramenta para encontrar e gerenciar contatos para seus produtos ou serviços",
+  "version": "2.0.0",
+  "description": "Ferramenta completa para encontrar, gerenciar e converter leads. Integrado com Hunter.io, Email Marketing, IA e Landing Pages.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -13,7 +13,12 @@
     "contatos",
     "prospecção",
     "marketing",
-    "vendas"
+    "vendas",
+    "hunter.io",
+    "email marketing",
+    "landing pages",
+    "IA",
+    "automação"
   ],
   "author": "CAPTA LEADS",
   "license": "PRIVATE",
@@ -24,5 +29,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Danrubio2000/capta-leads.git"
-  }
+  },
+  "dependencies": {}
 }
