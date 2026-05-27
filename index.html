@@ -6,10 +6,10 @@
   <title>CAPTA LEADS - Geração de Leads para Qualquer Negócio</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Times New Roman', Times, serif; color: #333; background: white; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; background: white; }
 
     header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #0066cc 0%, #0088ff 100%);
       color: white;
       padding: 20px;
       display: flex;
@@ -18,8 +18,8 @@
       flex-wrap: wrap;
     }
 
-    header h1 { font-size: 2.5em; margin-bottom: 10px; }
-    header p { font-size: 1.2em; opacity: 0.9; }
+    header h1 { font-size: 2.5em; margin-bottom: 10px; font-weight: bold; }
+    header p { font-size: 1.2em; opacity: 0.95; }
 
     .header-left { flex: 1; }
 
@@ -28,18 +28,18 @@
     .hero {
       text-align: center;
       padding: 60px 20px;
-      background: white;
-      border-radius: 10px;
+      background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%);
+      border-radius: 15px;
       margin-bottom: 40px;
-      border: 1px solid #eee;
+      border: 2px solid #0066cc;
     }
 
-    .hero h2 { font-size: 2em; margin-bottom: 20px; color: #667eea; font-weight: bold; }
-    .hero p { font-size: 1.1em; margin-bottom: 30px; color: #666; line-height: 1.6; }
+    .hero h2 { font-size: 2.2em; margin-bottom: 20px; color: #0066cc; font-weight: bold; }
+    .hero p { font-size: 1.1em; margin-bottom: 30px; color: #333; line-height: 1.8; }
 
     .features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 30px;
       margin-bottom: 40px;
     }
@@ -47,123 +47,148 @@
     .feature {
       background: white;
       padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      border-left: 4px solid #667eea;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 102, 204, 0.1);
+      border-left: 5px solid #0066cc;
+      transition: all 0.3s ease;
     }
 
-    .feature h3 { margin-bottom: 15px; color: #667eea; font-weight: bold; }
-    .feature p { color: #666; line-height: 1.6; }
+    .feature:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 102, 204, 0.15);
+    }
+
+    .feature h3 { margin-bottom: 15px; color: #0066cc; font-weight: bold; font-size: 1.2em; }
+    .feature p { color: #555; line-height: 1.8; }
 
     .use-cases {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 25px;
       margin: 40px 0;
     }
 
     .use-case {
-      background: #f5f5ff;
-      padding: 25px;
-      border-radius: 8px;
-      border: 1px solid #667eea;
+      background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%);
+      padding: 28px;
+      border-radius: 12px;
+      border: 2px solid #0088ff;
+      transition: all 0.3s ease;
     }
 
-    .use-case h4 { color: #667eea; margin-bottom: 10px; font-weight: bold; }
-    .use-case p { color: #666; line-height: 1.6; }
+    .use-case:hover {
+      background: linear-gradient(135deg, #e6f2ff 0%, #d9edff 100%);
+      border-color: #0066cc;
+    }
+
+    .use-case h4 { color: #0066cc; margin-bottom: 12px; font-weight: bold; font-size: 1.1em; }
+    .use-case p { color: #555; line-height: 1.8; font-size: 0.95em; }
+
+    .section-title {
+      grid-column: 1/-1;
+      text-align: center;
+      margin-bottom: 15px;
+      font-weight: bold;
+      color: #0066cc;
+      font-size: 1.8em;
+    }
 
     .video-section {
       text-align: center;
       padding: 60px 20px;
-      background: white;
-      border-radius: 10px;
+      background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%);
+      border-radius: 15px;
       margin: 40px 0;
-      border: 2px solid #667eea;
+      border: 2px solid #0066cc;
     }
 
-    .video-section h3 { font-size: 1.8em; margin-bottom: 20px; color: #667eea; font-weight: bold; }
-    .video-section p { font-size: 1.1em; color: #666; margin-bottom: 25px; line-height: 1.6; }
+    .video-section h3 { font-size: 1.8em; margin-bottom: 20px; color: #0066cc; font-weight: bold; }
+    .video-section p { font-size: 1.05em; color: #555; margin-bottom: 25px; line-height: 1.8; }
 
     .video-button {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #0066cc 0%, #0088ff 100%);
       color: white;
-      padding: 15px 50px;
+      padding: 16px 50px;
       font-size: 1.1em;
       font-weight: bold;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       transition: all 0.3s;
-      font-family: 'Times New Roman', Times, serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     .video-button:hover {
       transform: scale(1.05);
-      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+      box-shadow: 0 8px 25px rgba(0, 102, 204, 0.3);
     }
 
     .pricing {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #0066cc 0%, #0088ff 100%);
       color: white;
-      padding: 50px;
-      border-radius: 10px;
+      padding: 60px 40px;
+      border-radius: 15px;
       text-align: center;
-      margin: 40px 0;
+      margin: 50px 0;
     }
 
-    .pricing h2 { font-size: 2.5em; margin-bottom: 20px; font-weight: bold; }
-    .price { font-size: 4em; font-weight: bold; margin: 20px 0; }
-    .price-label { font-size: 1.2em; opacity: 0.9; }
+    .pricing h2 { font-size: 2.3em; margin-bottom: 30px; font-weight: bold; }
+    .price { font-size: 4.2em; font-weight: bold; margin: 25px 0; }
+    .price-label { font-size: 1.2em; opacity: 0.95; margin-bottom: 30px; }
 
     .cta-button {
       background: white;
-      color: #667eea;
-      padding: 15px 40px;
-      font-size: 1.1em;
+      color: #0066cc;
+      padding: 16px 45px;
+      font-size: 1.15em;
       font-weight: bold;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
       transition: all 0.3s;
-      margin-top: 20px;
-      font-family: 'Times New Roman', Times, serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     .cta-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+      background: #f0f7ff;
     }
 
     .success-stories {
       background: white;
-      padding: 30px;
-      border-radius: 8px;
-      margin: 40px 0;
-      border: 1px solid #667eea;
+      padding: 40px;
+      border-radius: 15px;
+      margin: 50px 0;
+      border: 2px solid #0088ff;
     }
 
-    .success-stories h3 { color: #667eea; margin-bottom: 20px; font-weight: bold; }
+    .success-stories h3 { color: #0066cc; margin-bottom: 30px; font-weight: bold; font-size: 1.8em; }
 
     .story {
-      margin-bottom: 20px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #eee;
+      margin-bottom: 25px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid #e6f2ff;
     }
 
     .story:last-child {
       border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
     }
 
-    .story strong { color: #333; }
-    .story p { color: #666; font-size: 0.95em; }
+    .story strong { color: #0066cc; font-size: 1.05em; }
+    .story p { color: #555; font-size: 0.95em; margin-top: 8px; line-height: 1.7; }
 
     footer {
-      background: #333;
+      background: linear-gradient(135deg, #0066cc 0%, #0088ff 100%);
       color: white;
       text-align: center;
-      padding: 30px;
-      margin-top: 40px;
+      padding: 35px 20px;
+      margin-top: 50px;
     }
+
+    footer p { margin: 8px 0; font-size: 0.95em; }
   </style>
 </head>
 <body>
@@ -182,75 +207,75 @@
 
     <div class="features">
       <div class="feature">
-        <h3>🔍 Busca de Leads</h3>
-        <p>Encontre contatos qualificados em qualquer indústria. Filtro por país, segmento, tipo de negócio. Múltiplas fontes de dados verificadas.</p>
+        <h3>🔍 Busca de Leads Qualificados</h3>
+        <p>Encontre contatos perfeitos para seu negócio. Filtro avançado por país, segmento, tipo de indústria. Múltiplas fontes de dados verificadas e atualizadas.</p>
       </div>
       <div class="feature">
         <h3>📧 Campanhas Personalizadas</h3>
-        <p>Envie emails em massa com personalização automática. Templates especializados por indústria. Rastreie resultados e respostas.</p>
+        <p>Envie emails em massa com personalização automática. Templates especializados por segmento. Rastreie aberturas, cliques e respostas em tempo real.</p>
       </div>
       <div class="feature">
-        <h3>🎨 Landing Pages</h3>
-        <p>Crie páginas de venda profissionais sem código. Templates responsivos e otimizados. Aumente sua taxa de conversão.</p>
+        <h3>🎨 Landing Pages Pro</h3>
+        <p>Crie páginas de venda profissionais sem código. Builder intuitivo. Templates responsivos otimizados para conversão máxima.</p>
       </div>
       <div class="feature">
-        <h3>🤖 Assistente IA</h3>
-        <p>Sugestões inteligentes com Claude IA para melhorar seus textos, copy e estratégias de vendas.</p>
+        <h3>🤖 Assistente IA Integrado</h3>
+        <p>Sugestões inteligentes com Claude IA. Melhore seus textos, copy, estratégias de venda. Análise automática de propostas e pitches.</p>
       </div>
       <div class="feature">
         <h3>📊 Analytics Completo</h3>
-        <p>Dashboard com métricas em tempo real. Acompanhe performance de leads, emails e landing pages.</p>
+        <p>Dashboard detalhado com métricas em tempo real. Acompanhe performance de leads, campanhas, landing pages e ROI.</p>
       </div>
       <div class="feature">
-        <h3>🔒 Dados Seguros</h3>
-        <p>Seus projetos e contatos protegidos com isolamento completo de dados e criptografia.</p>
+        <h3>🔒 Segurança Total</h3>
+        <p>Seus dados protegidos com isolamento completo. Criptografia de ponta a ponta. Conformidade com LGPD e privacidade garantida.</p>
       </div>
     </div>
 
     <div class="video-section">
       <h3>🎥 Veja Como Funciona</h3>
-      <p>Assista a demonstração completa de como CAPTA LEADS ajuda você a encontrar leads, enviar campanhas e aumentar suas vendas.</p>
-      <button class="video-button" onclick="window.location.href='tutorial.html'">▶️ Assistir Demonstração</button>
+      <p>Assista a demonstração completa de como CAPTA LEADS ajuda você a encontrar leads qualificados, enviar campanhas e aumentar suas vendas de forma exponencial.</p>
+      <button class="video-button" onclick="window.location.href='tutorial.html'">▶️ Assistir Demonstração Completa</button>
     </div>
 
     <div class="use-cases">
-      <h3 style="grid-column: 1/-1; text-align: center; margin-bottom: 10px; font-weight: bold; color: #667eea;">Para Quem é CAPTA LEADS?</h3>
+      <div class="section-title">💼 Para Quem é CAPTA LEADS?</div>
 
       <div class="use-case">
         <h4>🎬 Produtoras & Cineastas</h4>
-        <p>Encontre fundações, patrocinadores e investidores para seus projetos audiovisuais. Acesse editais internacionais e oportunidades de financiamento.</p>
+        <p>Encontre fundações, patrocinadores e investidores para seus projetos audiovisuais. Acesse editais internacionais, oportunidades de financiamento e parcerias estratégicas.</p>
       </div>
 
       <div class="use-case">
         <h4>🎨 Artistas & Criadores</h4>
-        <p>Acesse oportunidades de financiamento, bolsas e editais. Encontre galeristas, curadores e colecionadores interessados em sua arte.</p>
+        <p>Acesso direto a oportunidades de financiamento, bolsas e editais culturais. Conecte-se com galeristas, curadores, colecionadores e instituições.</p>
       </div>
 
       <div class="use-case">
         <h4>🎭 Espaços Culturais</h4>
-        <p>Encontre leads para eventos, workshops, exposições. Patrocínios e parcerias com marcas alinhadas com sua missão cultural.</p>
+        <p>Encontre públicos qualificados para eventos, workshops, exposições. Estruture parcerias e patrocínios com marcas alinhadas à sua missão cultural.</p>
       </div>
 
       <div class="use-case">
         <h4>🏢 Pequenos Negócios</h4>
-        <p>Gere leads qualificados para sua empresa. Encontre clientes ideais e aumente sua carteira de negócios com estratégia testada.</p>
+        <p>Gere leads qualificados e direcionados. Encontre clientes ideais para seu nicho. Aumente sua carteira com estratégias testadas e comprovadas.</p>
       </div>
 
       <div class="use-case">
         <h4>📱 Agências & Consultorias</h4>
-        <p>Encontre clientes B2B e B2C para seus serviços. Aumente sua carteira de clientes com leads pré-qualificados.</p>
+        <p>Encontre clientes B2B e B2C para seus serviços. Aumente sua base de clientes com leads pré-qualificados e de alto potencial.</p>
       </div>
 
       <div class="use-case">
         <h4>🎓 Educadores & Mentores</h4>
-        <p>Conecte-se com alunos, clientes e parceiros para seus cursos, treinamentos e serviços de consultoria.</p>
+        <p>Conecte-se com alunos, clientes e parceiros para cursos, treinamentos e serviços de consultoria. Expanda seu impacto e comunidade.</p>
       </div>
     </div>
 
     <div class="pricing">
-      <h2>Preço Único — Acesso Vitalício</h2>
+      <h2>💰 Preço Único — Acesso Vitalício</h2>
       <div class="price">R$ 80</div>
-      <div class="price-label">Pagamento único — sem mensalidades, sem renovação</div>
+      <div class="price-label">Pagamento único • Sem mensalidades • Sem renovação</div>
       <button class="cta-button" onclick="window.location.href='https://mpago.la/1py3Tgc'">💳 Começar Agora</button>
     </div>
 
@@ -258,27 +283,27 @@
       <h3>✨ O Que Você Recebe</h3>
       <div class="story">
         <strong>✓ Busca Ilimitada de Leads</strong>
-        <p>Procure por contatos qualificados em qualquer segmento, país ou tipo de negócio. Sem limites de buscas.</p>
+        <p>Procure por contatos qualificados em qualquer segmento, país ou tipo de negócio. Sem limites de buscas, sem restrições de uso.</p>
       </div>
       <div class="story">
         <strong>✓ Campanhas de Email em Massa</strong>
-        <p>Envie para centenas de leads com personalização automática. Templates por indústria. Rastreamento de aberturas e cliques.</p>
+        <p>Envie para centenas de leads com personalização automática. Templates por indústria. Rastreamento de aberturas, cliques e conversões.</p>
       </div>
       <div class="story">
         <strong>✓ Construtor de Landing Pages</strong>
-        <p>Crie páginas de venda profissionais sem código. Drag-and-drop builder. Otimizado para conversão.</p>
+        <p>Crie páginas de venda sem código. Drag-and-drop intuitivo. Otimizado para máxima conversão e mobile-responsive.</p>
       </div>
       <div class="story">
-        <strong>✓ Chat IA Integrado</strong>
-        <p>Assistente Claude IA para sugestões inteligentes, análise de propostas, otimização de copy e estratégias.</p>
+        <strong>✓ Chat IA Integrado (Claude)</strong>
+        <p>Assistente inteligente para sugestões de copy, análise de propostas, estratégias de venda e otimização de mensagens.</p>
       </div>
       <div class="story">
-        <strong>✓ Dashboard Completo</strong>
-        <p>Gerencie projetos, contatos, campanhas e landing pages em um só lugar. Analytics em tempo real.</p>
+        <strong>✓ Dashboard & Analytics</strong>
+        <p>Gerencie projetos, contatos, campanhas e landing pages em um só lugar. Métricas detalhadas e relatórios em tempo real.</p>
       </div>
       <div class="story">
         <strong>✓ Acesso Vitalício</strong>
-        <p>Use quantas vezes quiser, pelo tempo que quiser. Sem renovação de assinatura, sem surpresas.</p>
+        <p>Use quantas vezes quiser, pelo tempo que quiser. Sem renovação de assinatura, sem surpresas, sem custos extras.</p>
       </div>
     </div>
   </div>
@@ -290,7 +315,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('CAPTA LEADS landing page loaded');
+      console.log('CAPTA LEADS - Landing page em AZUL com conteúdo genérico + cultura');
     });
   </script>
 </body>
