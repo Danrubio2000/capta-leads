@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Modal</title>
+  <style>
+    body { margin: 0; padding: 20px; font-family: Arial; background: #f5f5f5; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; margin: 10px 0; }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 600px;
+      position: relative;
+    }
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Test Modal</h1>
+<button onclick="openVideoModal(event)">Click me - opens modal</button>
+
+<div id="videoModal" class="modal" onclick="closeVideoModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="close-modal" onclick="closeVideoModal()">&times;</span>
+    <h2>This is the modal!</h2>
+    <p>If you see this, the modal opened on the SAME PAGE, not in a new window.</p>
+    <p>Check the browser console (F12) - you should see "Modal opened" message.</p>
+  </div>
+</div>
+
+<script>
+function openVideoModal(e) {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  console.log('Modal opened');
+  document.getElementById('videoModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeVideoModal(event) {
+  if (event && event.target.id !== 'videoModal') return;
+  console.log('Modal closed');
+  document.getElementById('videoModal').classList.remove('active');
+  document.body.style.overflow = 'auto';
+}
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    closeVideoModal();
+  }
+});
+</script>
+
+</body>
+</html>
