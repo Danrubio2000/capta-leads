@@ -135,6 +135,9 @@
       box-shadow: 0 6px 20px rgba(0, 102, 204, 0.2);
       cursor: pointer;
       transition: all 0.3s;
+      border: none;
+      padding: 0;
+      font-family: inherit;
     }
 
     .video-placeholder:hover {
@@ -374,7 +377,7 @@
     <div class="video-section">
       <h3 data-i18n="video-title">Veja Como Funciona</h3>
       <p data-i18n="video-desc">Um pequeno vídeo mostrando o poder do CAPTA LEADS em ação</p>
-      <div class="video-placeholder" onclick="openVideoModal()">▶️</div>
+      <button class="video-placeholder" onclick="openVideoModal(event)">▶️</button>
     </div>
 
     <h2 class="section-title" data-i18n="usecases-title">Casos de Uso</h2>
@@ -695,7 +698,11 @@
       window.location.href = 'https://mpago.la/1py3Tgc';
     }
 
-    function openVideoModal() {
+    function openVideoModal(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
       document.getElementById('videoModal').classList.add('active');
       document.body.style.overflow = 'hidden';
     }
