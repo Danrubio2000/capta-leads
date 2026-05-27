@@ -158,7 +158,12 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    if (pathname === "/" || pathname === "/index.html" || pathname === "/console.html") {
+    if (pathname === "/" || pathname === "/index.html") {
+      res.setHeader("Content-Type", "text/html");
+      const html = fs.readFileSync(path.join(__dirname, "index.html"), "utf8");
+      res.writeHead(200);
+      res.end(html);
+    } else if (pathname === "/console.html") {
       res.setHeader("Content-Type", "text/html");
       const html = fs.readFileSync(path.join(__dirname, "console.html"), "utf8");
       res.writeHead(200);
