@@ -1,0 +1,28 @@
+{
+  "name": "capta-leads",
+  "version": "1.0.0",
+  "description": "Ferramenta para encontrar e gerenciar contatos para seus produtos ou serviços",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"No tests yet\""
+  },
+  "keywords": [
+    "leads",
+    "contatos",
+    "prospecção",
+    "marketing",
+    "vendas"
+  ],
+  "author": "CAPTA LEADS",
+  "license": "PRIVATE",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Danrubio2000/capta-leads.git"
+  }
+}
