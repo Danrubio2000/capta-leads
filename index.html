@@ -13,13 +13,32 @@
     header {
       background: linear-gradient(135deg, #0066CC 0%, #0088FF 100%);
       color: white;
-      padding: 30px 20px;
-      text-align: center;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       box-shadow: 0 4px 6px rgba(0, 102, 204, 0.1);
     }
 
-    header h1 { font-family: 'Playfair Display', serif; font-size: 3em; margin-bottom: 10px; font-weight: 900; }
-    header p { font-family: 'Inter', sans-serif; font-size: 1.3em; opacity: 0.95; }
+    .header-left { flex: 1; }
+    .header-right { display: flex; align-items: center; gap: 15px; }
+
+    header h1 { font-family: 'Playfair Display', serif; font-size: 2.5em; margin-bottom: 5px; font-weight: 900; }
+    header p { font-family: 'Inter', sans-serif; font-size: 1.1em; opacity: 0.95; }
+
+    .language-selector {
+      background: rgba(255,255,255,0.2);
+      border: 1px solid white;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9em;
+    }
+
+    .language-selector:hover { background: rgba(255,255,255,0.3); }
+    .language-selector option { background: #333; color: white; }
 
     .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
 
@@ -64,17 +83,6 @@
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
       border-top: 4px solid #0066CC;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .feature:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 25px rgba(0, 102, 204, 0.15);
-    }
-
-    .feature-icon {
-      font-size: 2.5em;
-      margin-bottom: 15px;
     }
 
     .feature h3 {
@@ -85,11 +93,7 @@
       font-size: 1.3em;
     }
 
-    .feature p {
-      color: #666;
-      line-height: 1.7;
-      font-size: 1em;
-    }
+    .feature p { color: #666; line-height: 1.7; }
 
     .video-section {
       text-align: center;
@@ -151,11 +155,6 @@
       border-radius: 12px;
       border-left: 5px solid #0066CC;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-      transition: transform 0.3s;
-    }
-
-    .use-case:hover {
-      transform: translateX(5px);
     }
 
     .use-case h4 {
@@ -166,11 +165,7 @@
       font-size: 1.2em;
     }
 
-    .use-case p {
-      color: #666;
-      line-height: 1.7;
-      font-size: 0.95em;
-    }
+    .use-case p { color: #666; line-height: 1.7; }
 
     .pricing {
       background: linear-gradient(135deg, #0066CC 0%, #0088FF 100%);
@@ -193,27 +188,12 @@
       background: rgba(255, 255, 255, 0.1);
       padding: 40px;
       border-radius: 12px;
-      backdrop-filter: blur(10px);
       max-width: 500px;
       margin: 0 auto;
     }
 
-    .price {
-      font-size: 3.5em;
-      font-weight: 700;
-      margin: 20px 0;
-    }
-
-    .price-label {
-      font-size: 1.1em;
-      opacity: 0.9;
-    }
-
-    .price-description {
-      margin-top: 20px;
-      font-size: 1em;
-      line-height: 1.6;
-    }
+    .price { font-size: 3.5em; font-weight: 700; margin: 20px 0; }
+    .price-label { font-size: 1.1em; opacity: 0.9; }
 
     .cta-button {
       background: white;
@@ -226,7 +206,7 @@
       cursor: pointer;
       transition: all 0.3s;
       margin-top: 25px;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Inter', sans-serif;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
@@ -260,22 +240,9 @@
       border-bottom: 1px solid #eee;
     }
 
-    .story:last-child {
-      border-bottom: none;
-    }
-
-    .story strong {
-      color: #0066CC;
-      font-size: 1.1em;
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    .story p {
-      color: #666;
-      font-size: 1em;
-      line-height: 1.7;
-    }
+    .story:last-child { border-bottom: none; }
+    .story strong { color: #0066CC; font-size: 1.1em; display: block; margin-bottom: 8px; }
+    .story p { color: #666; font-size: 1em; line-height: 1.7; }
 
     footer {
       background: linear-gradient(135deg, #003d99 0%, #004db3 100%);
@@ -283,12 +250,6 @@
       text-align: center;
       padding: 40px 20px;
       margin-top: 50px;
-      font-size: 1em;
-    }
-
-    footer p {
-      margin-bottom: 10px;
-      line-height: 1.6;
     }
 
     .section-title {
@@ -309,13 +270,11 @@
       width: 100%;
       height: 100%;
       background-color: rgba(0,0,0,0.9);
-    }
-
-    .modal.active {
-      display: flex;
       align-items: center;
       justify-content: center;
     }
+
+    .modal.active { display: flex; }
 
     .modal-content {
       width: 90%;
@@ -336,9 +295,7 @@
       z-index: 1001;
     }
 
-    .close-modal:hover {
-      color: #0088FF;
-    }
+    .close-modal:hover { color: #0088FF; }
 
     iframe.video-iframe {
       width: 100%;
@@ -348,6 +305,8 @@
     }
 
     @media (max-width: 768px) {
+      header { flex-direction: column; text-align: center; }
+      .header-right { margin-top: 15px; }
       header h1 { font-size: 2em; }
       .hero h2 { font-size: 1.8em; }
       .hero { padding: 40px 20px; }
@@ -358,131 +317,135 @@
 </head>
 <body>
   <header>
-    <h1>🎯 CAPTA LEADS</h1>
-    <p>Encontre Leads de Alta Qualidade para Seu Negócio</p>
+    <div class="header-left">
+      <h1>🎯 CAPTA LEADS</h1>
+      <p data-i18n="subtitle">Encontre Leads de Alta Qualidade para Seu Negócio</p>
+    </div>
+    <div class="header-right">
+      <select class="language-selector" onchange="changeLanguage(this.value)">
+        <option value="pt">🇧🇷 Português</option>
+        <option value="es">🇪🇸 Español</option>
+        <option value="en">🇺🇸 English</option>
+        <option value="fr">🇫🇷 Français</option>
+      </select>
+    </div>
   </header>
 
   <div class="container">
-    <!-- HERO SECTION -->
     <div class="hero">
-      <h2>Você tem algo que alguém quer <strong>comprar</strong></h2>
-      <p>Conecte-se com leads qualificados, aumente suas vendas e expanda seu negócio com a ferramenta mais poderosa de geração de leads do mercado.</p>
+      <h2 data-i18n="hero">Você tem algo que alguém quer <strong>comprar</strong></h2>
+      <p data-i18n="hero-desc">Conecte-se com leads qualificados, aumente suas vendas e expanda seu negócio com a ferramenta mais poderosa de geração de leads do mercado.</p>
     </div>
 
-    <!-- FEATURES SECTION -->
-    <h2 class="section-title">Funcionalidades Principais</h2>
+    <h2 class="section-title" data-i18n="features-title">Funcionalidades Principais</h2>
     <div class="features">
       <div class="feature">
-        <div class="feature-icon">🎯</div>
-        <h3>Busca de Leads Inteligente</h3>
-        <p>Encontre profissionais e empresas com filtros avançados por indústria, localização, especialidade e muito mais.</p>
+        <h3>🎯</h3>
+        <h3 data-i18n="feature1-title">Busca de Leads Inteligente</h3>
+        <p data-i18n="feature1-desc">Encontre profissionais e empresas com filtros avançados por indústria, localização, especialidade e muito mais.</p>
       </div>
       <div class="feature">
-        <div class="feature-icon">📧</div>
-        <h3>Campanhas de Email Automáticas</h3>
-        <p>Crie, personalize e envie campanhas de email profissionais com templates prontos e tracking completo.</p>
+        <h3>📧</h3>
+        <h3 data-i18n="feature2-title">Campanhas de Email Automáticas</h3>
+        <p data-i18n="feature2-desc">Crie, personalize e envie campanhas de email profissionais com templates prontos e tracking completo.</p>
       </div>
       <div class="feature">
-        <div class="feature-icon">🎨</div>
-        <h3>Landing Pages sem Código</h3>
-        <p>Construa landing pages responsivas e profissionais em minutos, sem necessidade de conhecimento técnico.</p>
+        <h3>🎨</h3>
+        <h3 data-i18n="feature3-title">Landing Pages sem Código</h3>
+        <p data-i18n="feature3-desc">Construa landing pages responsivas e profissionais em minutos, sem necessidade de conhecimento técnico.</p>
       </div>
       <div class="feature">
-        <div class="feature-icon">📊</div>
-        <h3>Análises e Relatórios</h3>
-        <p>Acompanhe o desempenho de suas campanhas com dashboards detalhados e insights acionáveis.</p>
+        <h3>📊</h3>
+        <h3 data-i18n="feature4-title">Análises e Relatórios</h3>
+        <p data-i18n="feature4-desc">Acompanhe o desempenho de suas campanhas com dashboards detalhados e insights acionáveis.</p>
       </div>
       <div class="feature">
-        <div class="feature-icon">🔗</div>
-        <h3>Integração Completa</h3>
-        <p>Conecte com suas ferramentas favoritas e automatize seu fluxo de trabalho de vendas.</p>
+        <h3>🔗</h3>
+        <h3 data-i18n="feature5-title">Integração Completa</h3>
+        <p data-i18n="feature5-desc">Conecte com suas ferramentas favoritas e automatize seu fluxo de trabalho de vendas.</p>
       </div>
       <div class="feature">
-        <div class="feature-icon">⚡</div>
-        <h3>Velocidade e Eficiência</h3>
-        <p>Resultados em tempo real. Exporte leads, crie campanhas e publique tudo em segundos.</p>
+        <h3>⚡</h3>
+        <h3 data-i18n="feature6-title">Velocidade e Eficiência</h3>
+        <p data-i18n="feature6-desc">Resultados em tempo real. Exporte leads, crie campanhas e publique tudo em segundos.</p>
       </div>
     </div>
 
-    <!-- VIDEO SECTION -->
     <div class="video-section">
-      <h3>Veja Como Funciona</h3>
-      <p>Um pequeno vídeo mostrando o poder do CAPTA LEADS em ação</p>
+      <h3 data-i18n="video-title">Veja Como Funciona</h3>
+      <p data-i18n="video-desc">Um pequeno vídeo mostrando o poder do CAPTA LEADS em ação</p>
       <div class="video-placeholder" onclick="openVideoModal()">▶️</div>
     </div>
 
-    <!-- USE CASES SECTION -->
-    <h2 class="section-title">Casos de Uso</h2>
+    <h2 class="section-title" data-i18n="usecases-title">Casos de Uso</h2>
     <div class="use-cases">
       <div class="use-case">
-        <h4>📱 Empresários B2B</h4>
-        <p>Encontre clientes em potencial, qualifique leads e feche mais vendas com dados precisos e verificados.</p>
+        <h4 data-i18n="usecase1">📱 Empresários B2B</h4>
+        <p data-i18n="usecase1-desc">Encontre clientes em potencial, qualifique leads e feche mais vendas com dados precisos e verificados.</p>
       </div>
       <div class="use-case">
-        <h4>🏢 Agências de Marketing</h4>
-        <p>Ofereça aos seus clientes uma ferramenta poderosa de geração de leads como parte de seu serviço.</p>
+        <h4 data-i18n="usecase2">🏢 Agências de Marketing</h4>
+        <p data-i18n="usecase2-desc">Ofereça aos seus clientes uma ferramenta poderosa de geração de leads como parte de seu serviço.</p>
       </div>
       <div class="use-case">
-        <h4>💻 Empresas SaaS</h4>
-        <p>Qualifique sua base de usuários, identifique upsell opportunities e aumente o lifetime value.</p>
+        <h4 data-i18n="usecase3">💻 Empresas SaaS</h4>
+        <p data-i18n="usecase3-desc">Qualifique sua base de usuários, identifique upsell opportunities e aumente o lifetime value.</p>
       </div>
       <div class="use-case">
-        <h4>🛍️ E-commerce</h4>
-        <p>Encontre fornecedores, parceiros logísticos e distribuidores para expandir sua operação.</p>
+        <h4 data-i18n="usecase4">🛍️ E-commerce</h4>
+        <p data-i18n="usecase4-desc">Encontre fornecedores, parceiros logísticos e distribuidores para expandir sua operação.</p>
       </div>
       <div class="use-case">
-        <h4>🏭 Indústria</h4>
-        <p>Localize clientes corporativos, fornecedores especializados e oportunidades B2B de alto valor.</p>
+        <h4 data-i18n="usecase5">🏭 Indústria</h4>
+        <p data-i18n="usecase5-desc">Localize clientes corporativos, fornecedores especializados e oportunidades B2B de alto valor.</p>
       </div>
       <div class="use-case">
-        <h4>📈 Consultores</h4>
-        <p>Construa uma carteira de clientes qualificados e prospere com prospecção de vendas automatizada.</p>
+        <h4 data-i18n="usecase6">📈 Consultores</h4>
+        <p data-i18n="usecase6-desc">Construa uma carteira de clientes qualificados e prospere com prospecção de vendas automatizada.</p>
       </div>
     </div>
 
-    <!-- PRICING SECTION -->
     <div class="pricing">
-      <h2>Plano Único e Poderoso</h2>
+      <h2 data-i18n="pricing-title">Plano Único e Poderoso</h2>
       <div class="price-box">
-        <div class="price-label">Por Apenas</div>
+        <div class="price-label" data-i18n="pricing-label">Por Apenas</div>
         <div class="price">R$ 80</div>
-        <div class="price-label">Acesso Ilimitado</div>
-        <div class="price-description">
-          ✓ Busca ilimitada de leads<br>
-          ✓ Campanhas de email ilimitadas<br>
-          ✓ Landing pages ilimitadas<br>
-          ✓ Suporte prioritário<br>
-          ✓ Atualizações gratuitas
+        <div class="price-label" data-i18n="pricing-unlimited">Acesso Ilimitado</div>
+        <div style="margin-top: 20px; line-height: 1.8;">
+          <div>✓ <span data-i18n="pricing1">Busca ilimitada de leads</span></div>
+          <div>✓ <span data-i18n="pricing2">Campanhas de email ilimitadas</span></div>
+          <div>✓ <span data-i18n="pricing3">Landing pages ilimitadas</span></div>
+          <div>✓ <span data-i18n="pricing4">Suporte prioritário</span></div>
+          <div>✓ <span data-i18n="pricing5">Atualizações gratuitas</span></div>
         </div>
-        <button class="cta-button" onclick="comprarAgora()">💰 Comprar Agora - R$80</button>
+        <button class="cta-button" onclick="comprarAgora()" data-i18n="cta">💰 Comprar Agora - R$80</button>
       </div>
     </div>
 
-    <!-- SUCCESS STORIES SECTION -->
     <div class="success-stories">
-      <h3>Histórias de Sucesso</h3>
+      <h3 data-i18n="stories-title">Histórias de Sucesso</h3>
       <div class="story">
-        <strong>Carlos Silva - Consultor de Marketing</strong>
-        <p>"Com o CAPTA LEADS, consegui triplicar minha carteira de clientes em apenas 3 meses. A qualidade dos leads é excepcional e o ROI foi imediato."</p>
+        <strong data-i18n="story1-name">Carlos Silva - Consultor de Marketing</strong>
+        <p data-i18n="story1">Com o CAPTA LEADS, consegui triplicar minha carteira de clientes em apenas 3 meses. A qualidade dos leads é excepcional e o ROI foi imediato.</p>
       </div>
       <div class="story">
-        <strong>Maria Santos - Proprietária de Agência</strong>
-        <p>"Agora ofereço geração de leads como serviço aos meus clientes. Ficou muito mais fácil e eles adoram os resultados."</p>
+        <strong data-i18n="story2-name">Maria Santos - Proprietária de Agência</strong>
+        <p data-i18n="story2">Agora ofereço geração de leads como serviço aos meus clientes. Ficou muito mais fácil e eles adoram os resultados.</p>
       </div>
       <div class="story">
-        <strong>João Oliveira - Empresário B2B</strong>
-        <p>"Os filtros avançados e a qualidade dos dados verificados fazem toda a diferença. Economizei horas em prospecção manual."</p>
+        <strong data-i18n="story3-name">João Oliveira - Empresário B2B</strong>
+        <p data-i18n="story3">Os filtros avançados e a qualidade dos dados verificados fazem toda a diferença. Economizei horas em prospecção manual.</p>
       </div>
       <div class="story">
-        <strong>Ana Costa - Diretora de Vendas</strong>
-        <p>"O email marketing integrado permite que eu acompanhe leads desde o primeiro contato até o fechamento. Simples e eficaz!"</p>
+        <strong data-i18n="story4-name">Ana Costa - Diretora de Vendas</strong>
+        <p data-i18n="story4">O email marketing integrado permite que eu acompanhe leads desde o primeiro contato até o fechamento. Simples e eficaz!</p>
       </div>
     </div>
   </div>
 
   <footer>
-    <p>&copy; 2026 CAPTA LEADS - Todos os direitos reservados</p>
-    <p>Geração de Leads de Alta Qualidade para Seu Negócio</p>
+    <p>&copy; 2026 CAPTA LEADS - <span data-i18n="footer">Todos os direitos reservados</span></p>
+    <p data-i18n="footer-desc">Geração de Leads de Alta Qualidade para Seu Negócio</p>
   </footer>
 
   <!-- Video Modal -->
@@ -494,8 +457,241 @@
   </div>
 
   <script>
+    const translations = {
+      pt: {
+        subtitle: "Encontre Leads de Alta Qualidade para Seu Negócio",
+        hero: "Você tem algo que alguém quer <strong>comprar</strong>",
+        "hero-desc": "Conecte-se com leads qualificados, aumente suas vendas e expanda seu negócio com a ferramenta mais poderosa de geração de leads do mercado.",
+        "features-title": "Funcionalidades Principais",
+        "feature1-title": "Busca de Leads Inteligente",
+        "feature1-desc": "Encontre profissionais e empresas com filtros avançados por indústria, localização, especialidade e muito mais.",
+        "feature2-title": "Campanhas de Email Automáticas",
+        "feature2-desc": "Crie, personalize e envie campanhas de email profissionais com templates prontos e tracking completo.",
+        "feature3-title": "Landing Pages sem Código",
+        "feature3-desc": "Construa landing pages responsivas e profissionais em minutos, sem necessidade de conhecimento técnico.",
+        "feature4-title": "Análises e Relatórios",
+        "feature4-desc": "Acompanhe o desempenho de suas campanhas com dashboards detalhados e insights acionáveis.",
+        "feature5-title": "Integração Completa",
+        "feature5-desc": "Conecte com suas ferramentas favoritas e automatize seu fluxo de trabalho de vendas.",
+        "feature6-title": "Velocidade e Eficiência",
+        "feature6-desc": "Resultados em tempo real. Exporte leads, crie campanhas e publique tudo em segundos.",
+        "video-title": "Veja Como Funciona",
+        "video-desc": "Um pequeno vídeo mostrando o poder do CAPTA LEADS em ação",
+        "usecases-title": "Casos de Uso",
+        usecase1: "📱 Empresários B2B",
+        "usecase1-desc": "Encontre clientes em potencial, qualifique leads e feche mais vendas com dados precisos e verificados.",
+        usecase2: "🏢 Agências de Marketing",
+        "usecase2-desc": "Ofereça aos seus clientes uma ferramenta poderosa de geração de leads como parte de seu serviço.",
+        usecase3: "💻 Empresas SaaS",
+        "usecase3-desc": "Qualifique sua base de usuários, identifique upsell opportunities e aumente o lifetime value.",
+        usecase4: "🛍️ E-commerce",
+        "usecase4-desc": "Encontre fornecedores, parceiros logísticos e distribuidores para expandir sua operação.",
+        usecase5: "🏭 Indústria",
+        "usecase5-desc": "Localize clientes corporativos, fornecedores especializados e oportunidades B2B de alto valor.",
+        usecase6: "📈 Consultores",
+        "usecase6-desc": "Construa uma carteira de clientes qualificados e prospere com prospecção de vendas automatizada.",
+        "pricing-title": "Plano Único e Poderoso",
+        "pricing-label": "Por Apenas",
+        "pricing-unlimited": "Acesso Ilimitado",
+        pricing1: "Busca ilimitada de leads",
+        pricing2: "Campanhas de email ilimitadas",
+        pricing3: "Landing pages ilimitadas",
+        pricing4: "Suporte prioritário",
+        pricing5: "Atualizações gratuitas",
+        cta: "💰 Comprar Agora - R$80",
+        "stories-title": "Histórias de Sucesso",
+        "story1-name": "Carlos Silva - Consultor de Marketing",
+        story1: "Com o CAPTA LEADS, consegui triplicar minha carteira de clientes em apenas 3 meses. A qualidade dos leads é excepcional e o ROI foi imediato.",
+        "story2-name": "Maria Santos - Proprietária de Agência",
+        story2: "Agora ofereço geração de leads como serviço aos meus clientes. Ficou muito mais fácil e eles adoram os resultados.",
+        "story3-name": "João Oliveira - Empresário B2B",
+        story3: "Os filtros avançados e a qualidade dos dados verificados fazem toda a diferença. Economizei horas em prospecção manual.",
+        "story4-name": "Ana Costa - Diretora de Vendas",
+        story4: "O email marketing integrado permite que eu acompanhe leads desde o primeiro contato até o fechamento. Simples e eficaz!",
+        footer: "Todos os direitos reservados",
+        "footer-desc": "Geração de Leads de Alta Qualidade para Seu Negócio"
+      },
+      es: {
+        subtitle: "Encuentre Leads de Alta Calidad para Su Negocio",
+        hero: "Tienes algo que alguien quiere <strong>comprar</strong>",
+        "hero-desc": "Conéctate con leads calificados, aumenta tus ventas y expande tu negocio con la herramienta más poderosa de generación de leads del mercado.",
+        "features-title": "Características Principales",
+        "feature1-title": "Búsqueda Inteligente de Leads",
+        "feature1-desc": "Encuentra profesionales y empresas con filtros avanzados por industria, ubicación, especialidad y mucho más.",
+        "feature2-title": "Campañas de Correo Electrónico Automáticas",
+        "feature2-desc": "Crea, personaliza y envía campañas de correo electrónico profesionales con plantillas listas y seguimiento completo.",
+        "feature3-title": "Landing Pages sin Código",
+        "feature3-desc": "Construye landing pages responsivas y profesionales en minutos, sin necesidad de conocimiento técnico.",
+        "feature4-title": "Análisis e Informes",
+        "feature4-desc": "Realiza un seguimiento del desempeño de tus campañas con dashboards detallados e insights procesables.",
+        "feature5-title": "Integración Completa",
+        "feature5-desc": "Conéctate con tus herramientas favoritas y automatiza tu flujo de trabajo de ventas.",
+        "feature6-title": "Velocidad y Eficiencia",
+        "feature6-desc": "Resultados en tiempo real. Exporta leads, crea campañas y publica todo en segundos.",
+        "video-title": "Ve Cómo Funciona",
+        "video-desc": "Un pequeño video mostrando el poder de CAPTA LEADS en acción",
+        "usecases-title": "Casos de Uso",
+        usecase1: "📱 Empresarios B2B",
+        "usecase1-desc": "Encuentra clientes potenciales, califica leads y cierra más ventas con datos precisos y verificados.",
+        usecase2: "🏢 Agencias de Marketing",
+        "usecase2-desc": "Ofrece a tus clientes una herramienta poderosa de generación de leads como parte de tu servicio.",
+        usecase3: "💻 Empresas SaaS",
+        "usecase3-desc": "Califica tu base de usuarios, identifica oportunidades de upsell y aumenta el lifetime value.",
+        usecase4: "🛍️ E-commerce",
+        "usecase4-desc": "Encuentra proveedores, socios logísticos y distribuidores para expandir tu operación.",
+        usecase5: "🏭 Industria",
+        "usecase5-desc": "Localiza clientes corporativos, proveedores especializados y oportunidades B2B de alto valor.",
+        usecase6: "📈 Consultores",
+        "usecase6-desc": "Construye una cartera de clientes calificados y prospera con prospección de ventas automatizada.",
+        "pricing-title": "Plan Único y Poderoso",
+        "pricing-label": "Solo por",
+        "pricing-unlimited": "Acceso Ilimitado",
+        pricing1: "Búsqueda ilimitada de leads",
+        pricing2: "Campañas de correo electrónico ilimitadas",
+        pricing3: "Landing pages ilimitadas",
+        pricing4: "Soporte prioritario",
+        pricing5: "Actualizaciones gratuitas",
+        cta: "💰 Comprar Ahora - R$80",
+        "stories-title": "Historias de Éxito",
+        "story1-name": "Carlos Silva - Consultor de Marketing",
+        story1: "Con CAPTA LEADS, triplicé mi cartera de clientes en solo 3 meses. La calidad de los leads es excepcional y el ROI fue inmediato.",
+        "story2-name": "Maria Santos - Propietaria de Agencia",
+        story2: "Ahora ofrezco generación de leads como servicio a mis clientes. Fue mucho más fácil y les encanta los resultados.",
+        "story3-name": "João Oliveira - Empresario B2B",
+        story3: "Los filtros avanzados y la calidad de los datos verificados hacen toda la diferencia. Ahorré horas en prospección manual.",
+        "story4-name": "Ana Costa - Directora de Ventas",
+        story4: "El marketing por correo electrónico integrado me permite hacer un seguimiento de los leads desde el primer contacto hasta el cierre. ¡Simple y efectivo!",
+        footer: "Todos los derechos reservados",
+        "footer-desc": "Generación de Leads de Alta Calidad para Su Negocio"
+      },
+      en: {
+        subtitle: "Find High-Quality Leads for Your Business",
+        hero: "You have something someone wants to <strong>buy</strong>",
+        "hero-desc": "Connect with qualified leads, increase your sales and expand your business with the most powerful lead generation tool on the market.",
+        "features-title": "Main Features",
+        "feature1-title": "Smart Lead Search",
+        "feature1-desc": "Find professionals and companies with advanced filters by industry, location, specialty and much more.",
+        "feature2-title": "Automatic Email Campaigns",
+        "feature2-desc": "Create, customize and send professional email campaigns with ready-made templates and complete tracking.",
+        "feature3-title": "No-Code Landing Pages",
+        "feature3-desc": "Build responsive and professional landing pages in minutes, no technical knowledge required.",
+        "feature4-title": "Analytics and Reports",
+        "feature4-desc": "Track your campaign performance with detailed dashboards and actionable insights.",
+        "feature5-title": "Complete Integration",
+        "feature5-desc": "Connect with your favorite tools and automate your sales workflow.",
+        "feature6-title": "Speed and Efficiency",
+        "feature6-desc": "Real-time results. Export leads, create campaigns and publish everything in seconds.",
+        "video-title": "See How It Works",
+        "video-desc": "A short video showing the power of CAPTA LEADS in action",
+        "usecases-title": "Use Cases",
+        usecase1: "📱 B2B Entrepreneurs",
+        "usecase1-desc": "Find potential clients, qualify leads and close more sales with accurate and verified data.",
+        usecase2: "🏢 Marketing Agencies",
+        "usecase2-desc": "Offer your clients a powerful lead generation tool as part of your service.",
+        usecase3: "💻 SaaS Companies",
+        "usecase3-desc": "Qualify your user base, identify upsell opportunities and increase lifetime value.",
+        usecase4: "🛍️ E-commerce",
+        "usecase4-desc": "Find suppliers, logistics partners and distributors to expand your operation.",
+        usecase5: "🏭 Industry",
+        "usecase5-desc": "Locate corporate clients, specialized suppliers and high-value B2B opportunities.",
+        usecase6: "📈 Consultants",
+        "usecase6-desc": "Build a qualified client portfolio and thrive with automated sales prospecting.",
+        "pricing-title": "Unique and Powerful Plan",
+        "pricing-label": "Just",
+        "pricing-unlimited": "Unlimited Access",
+        pricing1: "Unlimited lead search",
+        pricing2: "Unlimited email campaigns",
+        pricing3: "Unlimited landing pages",
+        pricing4: "Priority support",
+        pricing5: "Free updates",
+        cta: "💰 Buy Now - R$80",
+        "stories-title": "Success Stories",
+        "story1-name": "Carlos Silva - Marketing Consultant",
+        story1: "With CAPTA LEADS, I tripled my client portfolio in just 3 months. Lead quality is exceptional and ROI was immediate.",
+        "story2-name": "Maria Santos - Agency Owner",
+        story2: "Now I offer lead generation as a service to my clients. It was much easier and they love the results.",
+        "story3-name": "João Oliveira - B2B Entrepreneur",
+        story3: "The advanced filters and quality of verified data make all the difference. I saved hours on manual prospecting.",
+        "story4-name": "Ana Costa - Sales Director",
+        story4: "Integrated email marketing allows me to track leads from first contact to close. Simple and effective!",
+        footer: "All rights reserved",
+        "footer-desc": "High-Quality Lead Generation for Your Business"
+      },
+      fr: {
+        subtitle: "Trouvez des Leads de Haute Qualité pour Votre Entreprise",
+        hero: "Vous avez quelque chose que quelqu'un veut <strong>acheter</strong>",
+        "hero-desc": "Connectez-vous avec des leads qualifiés, augmentez vos ventes et développez votre entreprise avec l'outil de génération de leads le plus puissant du marché.",
+        "features-title": "Caractéristiques Principales",
+        "feature1-title": "Recherche Intelligente de Leads",
+        "feature1-desc": "Trouvez des professionnels et des entreprises avec des filtres avancés par industrie, localisation, spécialité et bien plus encore.",
+        "feature2-title": "Campagnes E-mail Automatiques",
+        "feature2-desc": "Créez, personnalisez et envoyez des campagnes e-mail professionnelles avec des modèles prêts à l'emploi et un suivi complet.",
+        "feature3-title": "Landing Pages sans Code",
+        "feature3-desc": "Créez des landing pages réactives et professionnelles en quelques minutes, sans connaissances techniques requises.",
+        "feature4-title": "Analyse et Rapports",
+        "feature4-desc": "Suivez les performances de vos campagnes avec des tableaux de bord détaillés et des informations actionnables.",
+        "feature5-title": "Intégration Complète",
+        "feature5-desc": "Connectez-vous avec vos outils préférés et automatisez votre flux de travail commercial.",
+        "feature6-title": "Vitesse et Efficacité",
+        "feature6-desc": "Résultats en temps réel. Exportez les leads, créez des campagnes et publiez tout en secondes.",
+        "video-title": "Voyez Comment Cela Fonctionne",
+        "video-desc": "Une courte vidéo montrant la puissance de CAPTA LEADS en action",
+        "usecases-title": "Cas d'Utilisation",
+        usecase1: "📱 Entrepreneurs B2B",
+        "usecase1-desc": "Trouvez des clients potentiels, qualifiez les leads et concluez plus de ventes avec des données précises et vérifiées.",
+        usecase2: "🏢 Agences de Marketing",
+        "usecase2-desc": "Offrez à vos clients un outil puissant de génération de leads dans le cadre de votre service.",
+        usecase3: "💻 Entreprises SaaS",
+        "usecase3-desc": "Qualifiez votre base d'utilisateurs, identifiez les opportunités de vente croisée et augmentez la valeur de durée de vie.",
+        usecase4: "🛍️ E-commerce",
+        "usecase4-desc": "Trouvez des fournisseurs, des partenaires logistiques et des distributeurs pour développer votre activité.",
+        usecase5: "🏭 Industrie",
+        "usecase5-desc": "Localisez les clients corporatifs, les fournisseurs spécialisés et les opportunités B2B de haute valeur.",
+        usecase6: "📈 Consultants",
+        "usecase6-desc": "Construisez un portefeuille de clients qualifiés et prospérez avec la prospection commerciale automatisée.",
+        "pricing-title": "Plan Unique et Puissant",
+        "pricing-label": "Juste",
+        "pricing-unlimited": "Accès Illimité",
+        pricing1: "Recherche de leads illimitée",
+        pricing2: "Campagnes e-mail illimitées",
+        pricing3: "Landing pages illimitées",
+        pricing4: "Support prioritaire",
+        pricing5: "Mises à jour gratuites",
+        cta: "💰 Acheter Maintenant - R$80",
+        "stories-title": "Histoires de Succès",
+        "story1-name": "Carlos Silva - Consultant en Marketing",
+        story1: "Avec CAPTA LEADS, j'ai triplé mon portefeuille de clients en seulement 3 mois. La qualité des leads est exceptionnelle et le ROI a été immédiat.",
+        "story2-name": "Maria Santos - Propriétaire d'Agence",
+        story2: "J'offre maintenant la génération de leads comme service à mes clients. C'était beaucoup plus facile et ils adorent les résultats.",
+        "story3-name": "João Oliveira - Entrepreneur B2B",
+        story3: "Les filtres avancés et la qualité des données vérifiées font toute la différence. J'ai économisé des heures de prospection manuelle.",
+        "story4-name": "Ana Costa - Directrice des Ventes",
+        story4: "Le marketing e-mail intégré me permet de suivre les leads du premier contact à la conclusion. Simple et efficace!",
+        footer: "Tous droits réservés",
+        "footer-desc": "Génération de Leads de Haute Qualité pour Votre Entreprise"
+      }
+    };
+
+    let currentLanguage = localStorage.getItem('language') || 'pt';
+
+    function changeLanguage(lang) {
+      currentLanguage = lang;
+      localStorage.setItem('language', lang);
+      document.documentElement.lang = lang;
+      updateTranslations();
+    }
+
+    function updateTranslations() {
+      const t = translations[currentLanguage];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) {
+          el.innerHTML = t[key];
+        }
+      });
+    }
+
     function comprarAgora() {
-      // Vai direto para Mercado Pago
       window.location.href = 'https://mpago.la/1py3Tgc';
     }
 
@@ -510,13 +706,17 @@
       document.body.style.overflow = 'auto';
     }
 
-    // Fechar modal ao pressionar ESC
     document.addEventListener('keydown', function(event) {
       if (event.key === 'Escape') {
         closeVideoModal();
       }
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.documentElement.lang = currentLanguage;
+      document.querySelector('.language-selector').value = currentLanguage;
+      updateTranslations();
+    });
   </script>
 </body>
 </html>
-<!-- force rebuild Wed May 27 17:31:17 EDT 2026 -->
