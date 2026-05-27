@@ -625,7 +625,7 @@
     <div class="video-section">
       <h3 data-i18n="video-title">Veja Como Funciona</h3>
       <p data-i18n="video-desc">Um pequeno vídeo mostrando o poder do CAPTA LEADS em ação</p>
-      <button class="video-placeholder" onclick="openVideoModal(event)">▶️</button>
+      <button id="videoPlayBtn" class="video-placeholder">▶️</button>
     </div>
 
     <h2 class="section-title" data-i18n="usecases-title">Casos de Uso</h2>
@@ -1322,6 +1322,17 @@
       document.documentElement.lang = currentLanguage;
       document.querySelector('.language-selector').value = currentLanguage;
       updateTranslations();
+
+      // Attach event listener to video play button
+      const videoPlayBtn = document.getElementById('videoPlayBtn');
+      if (videoPlayBtn) {
+        videoPlayBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('Video button clicked - opening modal');
+          openVideoModal(e);
+        });
+      }
     });
   </script>
 </body>
