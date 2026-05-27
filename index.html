@@ -562,8 +562,11 @@
     }
 
     function handleCTA() {
-      const consoleUrl = window.location.origin + '/?test=' + (isTestMode ? 'true' : 'false');
-      window.location.href = consoleUrl;
+      if (isTestMode) {
+        window.location.href = window.location.origin + '/console.html?test=true';
+      } else {
+        window.location.href = 'https://mpago.la/1py3Tgc';
+      }
     }
 
     window.addEventListener('load', initLanguage);
