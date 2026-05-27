@@ -201,6 +201,27 @@
       line-height: 1.6;
     }
 
+    .cta-button {
+      background: white;
+      color: #0066CC;
+      padding: 18px 50px;
+      font-size: 1.2em;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 25px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      background: #f0f0f0;
+    }
+
     .success-stories {
       background: white;
       padding: 50px 40px;
@@ -370,6 +391,7 @@
           ✓ Suporte prioritário<br>
           ✓ Atualizações gratuitas
         </div>
+        <button class="cta-button" onclick="comprarAgora()">💰 Comprar Agora - R$80</button>
       </div>
     </div>
 
@@ -399,5 +421,12 @@
     <p>&copy; 2026 CAPTA LEADS - Todos os direitos reservados</p>
     <p>Geração de Leads de Alta Qualidade para Seu Negócio</p>
   </footer>
+
+  <script>
+    function comprarAgora() {
+      // Vai direto para Mercado Pago
+      window.location.href = 'https://mpago.la/1py3Tgc';
+    }
+  </script>
 </body>
 </html>
