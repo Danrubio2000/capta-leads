@@ -1,25 +1,5 @@
 {
   "version": 2,
   "name": "capta-leads",
-  "public": true,
-  "builds": [
-    {
-      "src": "server-simple.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": "**/*.js",
-        "includeDirs": ["./"]
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "server-simple.js"
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production",
-    "CACHE_BUST": "2026-05-27-17-00-rebuild-landingpage"
-  }
+  "public": true
 }
