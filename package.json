@@ -3,10 +3,7 @@
   "version": "2.0.0",
   "description": "CAPTA LEADS - All-in-One Lead Generation, Email Marketing & Landing Page Builder",
   "type": "module",
-  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
     "test": "echo 'Tests coming soon'"
   },
   "keywords": [

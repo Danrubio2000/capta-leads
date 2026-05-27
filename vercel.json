@@ -2,22 +2,12 @@
   "version": 2,
   "name": "capta-leads",
   "public": true,
-  "rewrites": [
+  "buildCommand": "echo 'static site'",
+  "outputDirectory": ".",
+  "routes": [
     {
-      "source": "/",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/index.html",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/dashboard.html",
-      "destination": "/dashboard.html"
-    },
-    {
-      "source": "/console.html",
-      "destination": "/dashboard.html"
+      "src": "/(.*)",
+      "dest": "/$1"
     }
   ]
 }
