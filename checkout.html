@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CAPTALEADS - Adquira Agora</title>
+  <title>CAPTA LEADS - Planos e Preços</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -11,143 +11,303 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+      padding: 40px 20px;
     }
 
     .container {
-      background: white;
-      border-radius: 20px;
-      padding: 60px 40px;
-      max-width: 500px;
-      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
       text-align: center;
+      color: white;
+      margin-bottom: 60px;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.2em;
+      opacity: 0.9;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .plan {
+      background: white;
+      border-radius: 10px;
+      padding: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .plan:hover {
+      transform: translateY(-10px);
       box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     }
 
-    h1 {
-      font-size: 2.5em;
+    .plan.featured {
+      border: 3px solid #667eea;
+      position: relative;
+      top: -10px;
+    }
+
+    .plan .badge {
+      display: inline-block;
+      background: #667eea;
+      color: white;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.8em;
+      margin-bottom: 15px;
+    }
+
+    .plan h2 {
+      font-size: 1.5em;
       color: #333;
       margin-bottom: 10px;
     }
 
-    .tagline {
-      font-size: 1.1em;
-      color: #666;
-      margin-bottom: 30px;
-      line-height: 1.6;
-    }
-
-    .description {
-      background: #f0f0f0;
-      padding: 25px;
-      border-radius: 12px;
-      margin-bottom: 30px;
-      text-align: left;
-      font-size: 1em;
-      color: #555;
-      line-height: 1.8;
-    }
-
-    .description strong {
+    .plan .price {
+      font-size: 2.5em;
       color: #667eea;
+      font-weight: bold;
+      margin: 20px 0;
     }
 
-    .price-box {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    .plan .price small {
+      font-size: 0.4em;
+      color: #999;
+    }
+
+    .plan ul {
+      list-style: none;
+      margin: 30px 0;
+      text-align: left;
+    }
+
+    .plan li {
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+      color: #666;
+    }
+
+    .plan li:last-child {
+      border-bottom: none;
+    }
+
+    .plan li:before {
+      content: "✓ ";
+      color: #667eea;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .plan button {
+      background: #667eea;
       color: white;
-      padding: 30px;
-      border-radius: 15px;
-      margin-bottom: 30px;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+      transition: background 0.3s;
     }
 
-    .price-box .label {
-      font-size: 1em;
-      opacity: 0.9;
+    .plan button:hover {
+      background: #5568d3;
+    }
+
+    .features {
+      background: white;
+      border-radius: 10px;
+      padding: 40px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    .features h3 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .feature {
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 5px;
+    }
+
+    .feature h4 {
+      color: #667eea;
       margin-bottom: 10px;
     }
 
-    .price-box .price {
-      font-size: 3.5em;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    .price-box .period {
-      font-size: 1.1em;
-      opacity: 0.95;
-    }
-
-    .btn-pay {
-      display: block;
-      width: 100%;
-      background: #009B3A;
-      color: white;
-      text-decoration: none;
-      border: none;
-      padding: 18px;
-      border-radius: 10px;
-      font-size: 1.2em;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s;
-      margin-bottom: 15px;
-    }
-
-    .btn-pay:hover {
-      background: #007A2E;
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(0, 155, 58, 0.3);
-    }
-
-    .security {
-      color: #999;
+    .feature p {
+      color: #666;
       font-size: 0.9em;
+    }
+
+    .use-cases {
+      background: white;
+      border-radius: 10px;
+      padding: 40px;
+      margin-bottom: 40px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    .use-cases h3 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+
+    .use-cases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .use-case {
+      padding: 20px;
+      background: #f0f4ff;
+      border-left: 4px solid #667eea;
+      border-radius: 5px;
+    }
+
+    .use-case strong {
+      color: #667eea;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .use-case p {
+      color: #666;
+      font-size: 0.95em;
     }
 
     footer {
       text-align: center;
-      color: rgba(255,255,255,0.7);
-      margin-top: 40px;
-      font-size: 0.85em;
+      color: white;
+      margin-top: 60px;
+      padding: 20px;
     }
   </style>
 </head>
 <body>
-
   <div class="container">
-    <h1>🚀 CAPTALEADS</h1>
-    <p class="tagline">Plataforma All-in-One para Geração de Leads, Email Marketing e Landing Pages</p>
+    <header>
+      <h1>🚀 CAPTA LEADS</h1>
+      <p>Encontre leads, crie campanhas e venda para qualquer negócio</p>
+    </header>
 
-    <div class="description">
-      <strong>O que você recebe:</strong><br>
-      ✓ Busca ilimitada de leads em qualquer segmento<br>
-      ✓ Envio de campanhas de email em massa<br>
-      ✓ Criador de landing pages sem código<br>
-      ✓ Assistente IA integrado<br>
-      ✓ Dashboard com analytics completo<br>
-      <strong>Acesso vitalício — use quantas vezes quiser</strong>
+    <div class="pricing-grid">
+      <div class="plan featured">
+        <div class="badge">MELHOR OPÇÃO</div>
+        <h2>Acesso Completo</h2>
+        <div class="price">R$ 80<small> — Pagamento Único</small></div>
+        <ul>
+          <li>Busca ilimitada de leads</li>
+          <li>Campanhas de email em massa</li>
+          <li>Criador de landing pages</li>
+          <li>Chat IA integrado</li>
+          <li>Analytics avançado</li>
+          <li>Multi-projetos isolados</li>
+          <li>Acesso vitalício</li>
+        </ul>
+        <button onclick="irParaPagamento()">💳 Adquirir Agora</button>
+      </div>
     </div>
 
-    <div class="price-box">
-      <div class="label">Preço Único — Pagamento Única Vez</div>
-      <div class="price">R$ 80</div>
-      <div class="period">Acesso vitalício</div>
+    <div class="features">
+      <h3>🎯 Recursos Principais</h3>
+      <div class="features-grid">
+        <div class="feature">
+          <h4>🔍 Busca de Leads</h4>
+          <p>Encontre contatos qualificados em qualquer segmento de mercado</p>
+        </div>
+        <div class="feature">
+          <h4>📧 Email Marketing</h4>
+          <p>Envie campanhas automáticas e acompanhe resultados em tempo real</p>
+        </div>
+        <div class="feature">
+          <h4>🎨 Landing Pages</h4>
+          <p>Crie páginas de venda profissionais sem conhecimento técnico</p>
+        </div>
+        <div class="feature">
+          <h4>🤖 IA Especializada</h4>
+          <p>Assistente inteligente para otimizar seus textos e estratégias</p>
+        </div>
+        <div class="feature">
+          <h4>📊 Analytics</h4>
+          <p>Acompanhe sua performance com dashboards detalhados</p>
+        </div>
+        <div class="feature">
+          <h4>🔒 Dados Seguros</h4>
+          <p>Seus projetos protegidos com isolamento completo</p>
+        </div>
+      </div>
     </div>
 
-    <a href="https://mpago.la/1py3Tgc" target="_blank" rel="noopener noreferrer" class="btn-pay">
-      💳 Pagar com Mercado Pago
-    </a>
-
-    <p class="security">🔒 Pagamento 100% seguro — Mercado Pago</p>
+    <div class="use-cases">
+      <h3>💼 Para Qualquer Tipo de Negócio</h3>
+      <div class="use-cases-grid">
+        <div class="use-case">
+          <strong>🎬 Produtoras e Cineastas</strong>
+          <p>Encontre fundações, patrocinadores e investidores para seus projetos audiovisuais</p>
+        </div>
+        <div class="use-case">
+          <strong>🎨 Artistas e Criadores</strong>
+          <p>Acesse oportunidades de financiamento, bolsas e editais para sua carreira artística</p>
+        </div>
+        <div class="use-case">
+          <strong>🎭 Espaços Culturais</strong>
+          <p>Encontre leads para eventos, workshops, patrocínios e parcerias culturais</p>
+        </div>
+        <div class="use-case">
+          <strong>🏢 Pequenos Negócios</strong>
+          <p>Gere leads qualificados para sua empresa e aumente suas vendas</p>
+        </div>
+        <div class="use-case">
+          <strong>📱 Agências e Consultorias</strong>
+          <p>Automatize prospecção e crie campanhas para seus clientes</p>
+        </div>
+        <div class="use-case">
+          <strong>💰 Investidores</strong>
+          <p>Encontre oportunidades de negócio e conexões estratégicas</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <footer>
-    <p>© 2026 CAPTALEADS · danrubio_2000@yahoo.com</p>
+    <p>© 2026 CAPTA LEADS. Todos os direitos reservados.</p>
+    <p>Email: danrubio_2000@yahoo.com | WhatsApp: +55 11 98765-4321</p>
   </footer>
+
+  <script>
+    function irParaPagamento() {
+      window.location.href = 'https://mpago.la/1py3Tgc';
+    }
+  </script>
 
 </body>
 </html>
