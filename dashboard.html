@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAPTA LEADS — Geração de Leads para Qualquer Negócio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #0066CC;
+      --primary-light: #0088FF;
+      --dark: #0D0D0D;
+      --bg: #FAFAF8;
+      --text: #333;
+      --muted: #666;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0, 102, 204, 0.2);
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8em;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    nav button {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.95em;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    nav button:hover,
+    nav button.active {
+      background: white;
+      color: var(--primary);
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1400px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    /* Sections */
+    section {
+      display: none;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    section.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2em;
+      font-weight: 900;
+      color: var(--primary);
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
+    }
+
+    /* Cards */
+    .card {
+      background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%);
+      padding: 25px;
+      margin: 15px 0;
+      border-radius: 10px;
+      border-left: 5px solid var(--primary);
+      transition: all 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 102, 204, 0.1);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: var(--primary);
+      font-family: 'Playfair Display', serif;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    /* Forms */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    form input,
+    form textarea,
+    form select {
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 1em;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.3s;
+    }
+
+    form input:focus,
+    form textarea:focus,
+    form select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+    }
+
+    form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    form button {
+      padding: 12px 30px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1em;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(0, 102, 204, 0.2);
+    }
+
+    form button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 102, 204, 0.3);
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table th {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      padding: 12px;
+      text-align: left;
+      font-weight: bold;
+    }
+
+    table td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    table tr:hover {
+      background: #f5f5f5;
+    }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    /* Status Badge */
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      font-weight: bold;
+    }
+
+    .badge.success {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .badge.warning {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .badge.danger {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .badge.info {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+
+    /* Alert */
+    .alert {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border-left: 4px solid var(--primary);
+    }
+
+    .alert.success {
+      background: #d4edda;
+      border-color: #28a745;
+      color: #155724;
+    }
+
+    .alert.error {
+      background: #f8d7da;
+      border-color: #dc3545;
+      color: #721c24;
+    }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 102, 204, 0.2);
+    }
+
+    .stat-number {
+      font-size: 2.5em;
+      font-weight: bold;
+      margin: 10px 0;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .stat-label {
+      font-size: 0.95em;
+      opacity: 0.95;
+    }
+
+    /* Button Group */
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-group button {
+      padding: 10px 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95em;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .btn-group button:hover {
+      background: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 102, 204, 0.2);
+    }
+
+    .btn-group button.secondary {
+      background: #999;
+    }
+
+    .btn-group button.secondary:hover {
+      background: #777;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+    }
+
+    .modal.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .modal-header {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+
+    /* Splash Screen */
+    .splash-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .splash-overlay.hidden {
+      animation: slideOut 0.5s ease forwards;
+      display: none;
+    }
+
+    @keyframes slideOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
+    .splash-content {
+      text-align: center;
+      color: white;
+      max-width: 600px;
+      padding: 40px;
+    }
+
+    .splash-content h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3em;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .splash-content p {
+      font-size: 1.2em;
+      margin-bottom: 50px;
+      opacity: 0.95;
+      line-height: 1.6;
+    }
+
+    .splash-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .splash-btn {
+      background: white;
+      color: var(--primary);
+      border: none;
+      padding: 25px 20px;
+      border-radius: 10px;
+      font-size: 1.1em;
+      font-family: 'Inter', sans-serif;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .splash-btn:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    }
+
+    .splash-btn span {
+      display: block;
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    #alert-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      max-width: 400px;
+      z-index: 999;
+    }
+
+    @media (max-width: 768px) {
+      nav { flex-direction: column; }
+      nav button { width: 100%; }
+      .splash-buttons { grid-template-columns: 1fr; }
+      section h2 { font-size: 1.5em; }
+      table { font-size: 0.9em; }
+      table th, table td { padding: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Home Screen -->
+  <div id="home-screen" class="splash-overlay" style="display: flex;">
+    <div class="splash-content">
+      <h1>🚀 CAPTA LEADS</h1>
+      <p style="font-size: 1.3em; margin-bottom: 30px;">Para Artistas, Produtoras, Pequenos Negócios e Criativos</p>
+      <div class="splash-buttons">
+        <button class="splash-btn" id="home-new-project">
+          <span>➕</span>
+          Novo Projeto
+        </button>
+        <button class="splash-btn" id="home-projects">
+          <span>📁</span>
+          Meus Projetos
+        </button>
+        <button class="splash-btn" id="home-tutorial">
+          <span>📚</span>
+          Tutorial
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 15px;">
+      <h1 id="current-project-name">🚀 CAPTA LEADS</h1>
+      <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <button id="back-to-home-btn" style="background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.95em; display: none;">📁 Meus Projetos</button>
+        <button id="new-project-btn" style="background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.95em; display: none;">➕ Novo</button>
+        <select id="language-selector" style="background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-family: 'Inter', sans-serif;">
+          <option value="pt" selected>🇧🇷 Português</option>
+          <option value="en">🇺🇸 English</option>
+          <option value="es">🇪🇸 Español</option>
+        </select>
+      </div>
+    </div>
+    <nav>
+      <button class="nav-btn active" data-section="dashboard">📊 Dashboard</button>
+      <button class="nav-btn" data-section="leads">🎯 Buscar Leads</button>
+      <button class="nav-btn" data-section="campaigns">📧 Campanhas</button>
+      <button class="nav-btn" data-section="landing">🎨 Landing Pages</button>
+      <button class="nav-btn" data-section="chat">🤖 IA Chat</button>
+      <button class="nav-btn" data-section="settings">⚙️ Config</button>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- Dashboard -->
+    <section id="dashboard" class="active">
+      <h2>📊 Dashboard</h2>
+
+      <div style="background: white; padding: 25px; border-radius: 10px; margin-bottom: 30px; border-left: 5px solid var(--primary); box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 15px;">
+          <div>
+            <h3 style="color: var(--primary); margin-bottom: 8px; font-weight: bold;">📁 Projeto Ativo</h3>
+            <p id="current-project-display" style="font-size: 1.1em; font-weight: bold; color: #333;">Carregando...</p>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button onclick="openNewProjectModal()" style="padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">➕ Novo Projeto</button>
+            <select id="project-selector-dashboard" style="padding: 10px 15px; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; font-family: 'Inter', sans-serif;">
+              <option value="">📁 Selecionar Projeto</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-label">Leads Encontrados</div>
+          <div class="stat-number" id="stat-leads">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Campanhas Criadas</div>
+          <div class="stat-number" id="stat-campaigns">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Emails Enviados</div>
+          <div class="stat-number" id="stat-sent">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Landing Pages</div>
+          <div class="stat-number" id="stat-pages">0</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>✨ Bem-vindo ao CAPTA LEADS</h3>
+        <p>CAPTA LEADS é a solução completa para geração de leads, email marketing e criação de landing pages para artistas, produtoras, criadores, pequenos negócios e profissionais.</p>
+        <ul style="margin-left: 20px; margin-top: 15px; line-height: 1.8;">
+          <li>🎯 <strong>Busca de Leads:</strong> Encontre contatos de qualquer indústria, especialmente para cinema, arte, cultura e negócios criativos</li>
+          <li>📧 <strong>Campanhas de Email:</strong> Envie emails personalizados em massa com rastreamento</li>
+          <li>🎨 <strong>Landing Pages:</strong> Crie páginas de vendas sem código</li>
+          <li>🤖 <strong>IA Integrada:</strong> Assistente Claude IA para melhorar seus textos e estratégias</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Leads -->
+    <section id="leads">
+      <h2>🎯 Buscar Leads</h2>
+
+      <div class="card">
+        <h3>🔍 Busca de Leads</h3>
+        <form id="search-leads-form">
+          <input type="text" id="search-keywords" placeholder="Digite palavras-chave (ex: produtoras, artistas, editais)" required>
+          <input type="text" id="search-location" placeholder="Localização (ex: Brasil, São Paulo)" value="Brasil">
+          <select id="search-type">
+            <option value="business">Negócio</option>
+            <option value="foundation">Fundação</option>
+            <option value="ngo">ONG</option>
+            <option value="cultural">Cultural/Artístico</option>
+            <option value="any">Qualquer</option>
+          </select>
+          <button type="submit">🔍 Buscar Leads</button>
+        </form>
+      </div>
+
+      <div id="search-results" style="margin-top: 20px;"></div>
+
+      <div class="card" style="margin-top: 20px;">
+        <h3>📊 Leads Encontrados</h3>
+        <div id="leads-list"></div>
+        <div class="btn-group" style="margin-top: 15px;">
+          <button onclick="exportLeads('csv')">📥 Baixar CSV</button>
+          <button onclick="exportLeads('json')" class="secondary">📥 Baixar JSON</button>
+          <button onclick="clearLeads()" class="secondary">🗑️ Limpar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Campaigns -->
+    <section id="campaigns">
+      <h2>📧 Campanhas de Email</h2>
+
+      <div class="card">
+        <h3>📝 Nova Campanha</h3>
+        <form id="create-campaign-form">
+          <input type="text" id="campaign-subject" placeholder="Assunto do email" required>
+          <textarea id="campaign-body" placeholder="Corpo do email&#10;Use {nome}, {empresa}, {email} para personalizações" required></textarea>
+          <input type="email" id="campaign-from-email" placeholder="Email de origem" required>
+          <input type="text" id="campaign-from-name" placeholder="Nome de origem" required>
+          <button type="submit">✉️ Criar Campanha</button>
+        </form>
+      </div>
+
+      <div class="card" style="margin-top: 20px;">
+        <h3>📋 Campanhas Ativas</h3>
+        <div id="campaigns-list"></div>
+      </div>
+    </section>
+
+    <!-- Landing Pages -->
+    <section id="landing">
+      <h2>🎨 Landing Pages</h2>
+
+      <div class="card">
+        <h3>➕ Criar Nova Landing Page</h3>
+        <form id="create-page-form">
+          <input type="text" id="page-title" placeholder="Título da página" required>
+          <select id="page-industry" required>
+            <option value="generic">Genérico</option>
+            <option value="cinema">Cinema & Audiovisual</option>
+            <option value="arte">Arte & Cultura</option>
+            <option value="producao">Produção/Produtora</option>
+            <option value="tech">Tecnologia</option>
+            <option value="education">Educação</option>
+            <option value="ecommerce">E-commerce</option>
+          </select>
+          <input type="text" id="page-seo-title" placeholder="SEO Title (opcional)">
+          <input type="text" id="page-seo-description" placeholder="SEO Description (opcional)">
+          <button type="submit">🚀 Criar Landing Page</button>
+        </form>
+      </div>
+
+      <div class="card" style="margin-top: 20px;">
+        <h3>📄 Minhas Landing Pages</h3>
+        <div id="pages-list"></div>
+      </div>
+    </section>
+
+    <!-- AI Chat -->
+    <section id="chat">
+      <h2>🤖 Assistente IA</h2>
+
+      <div class="card">
+        <h3>💬 Chat com IA</h3>
+        <p style="margin-bottom: 15px;">Faça perguntas sobre CAPTA LEADS, leads, campanhas, landing pages, estratégias de venda e muito mais!</p>
+
+        <div id="chat-messages" style="border: 2px solid #ddd; border-radius: 8px; padding: 15px; height: 400px; overflow-y: auto; background: #f9f9f9; margin-bottom: 15px;"></div>
+
+        <div style="display: flex; gap: 10px;">
+          <input type="text" id="chat-input" placeholder="Digite sua pergunta..." style="flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-family: 'Inter', sans-serif;">
+          <button onclick="sendMessage()" style="padding: 12px 25px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-family: 'Inter', sans-serif;">Enviar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section id="settings">
+      <h2>⚙️ Configurações</h2>
+
+      <div class="card">
+        <h3>📝 Configurações do Projeto</h3>
+        <form id="project-settings-form">
+          <input type="text" id="settings-project-name" placeholder="Nome do projeto" required style="border: 2px solid #ddd; padding: 12px; border-radius: 8px;">
+          <input type="text" id="settings-business-type" placeholder="Tipo (ex: Produtora, Artista, Negócio...)" required style="border: 2px solid #ddd; padding: 12px; border-radius: 8px;">
+          <input type="url" id="settings-website" placeholder="Website (opcional)" style="border: 2px solid #ddd; padding: 12px; border-radius: 8px;">
+          <input type="email" id="settings-email" placeholder="Email de contato" style="border: 2px solid #ddd; padding: 12px; border-radius: 8px;">
+          <textarea id="settings-about" placeholder="Sobre seu projeto..." style="border: 2px solid #ddd; padding: 12px; border-radius: 8px; min-height: 100px;"></textarea>
+          <button type="submit" style="background: var(--primary); color: white; padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">💾 Salvar</button>
+        </form>
+      </div>
+
+      <div class="card" style="margin-top: 20px;">
+        <h3>ℹ️ Informações do Sistema</h3>
+        <p><strong>Versão:</strong> CAPTA LEADS v2.0</p>
+        <p><strong>Status:</strong> <span class="badge success">Operacional ✅</span></p>
+      </div>
+    </section>
+  </div>
+
+  <!-- Alert Container -->
+  <div id="alert-container"></div>
+
+  <!-- Modal for New Project -->
+  <div id="new-project-modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center;">
+    <div class="modal-content">
+      <h3 style="color: var(--primary); margin-bottom: 20px; font-family: 'Playfair Display', serif; font-size: 1.5em;">📁 Criar Novo Projeto</h3>
+      <form id="new-project-form">
+        <input type="text" id="project-name" placeholder="Nome do projeto" required style="border: 2px solid #ddd; padding: 12px; border-radius: 8px;">
+        <textarea id="project-description" placeholder="Descrição (opcional)" style="border: 2px solid #ddd; padding: 12px; border-radius: 8px; min-height: 80px;"></textarea>
+        <div style="display: flex; gap: 10px; justify-content: flex-end;">
+          <button type="button" onclick="closeNewProjectModal()" style="padding: 10px 20px; background: #999; color: white; border: none; border-radius: 8px; cursor: pointer;">Cancelar</button>
+          <button type="submit" style="padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Criar Projeto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:3000/api'
+      : `${window.location.protocol}//${window.location.host}/api`;
+
+    let currentProject = null;
+    let projectSelected = false;
+
+    // ═══════════════════════════════════════════════════════════════
+    // HOME SCREEN
+    // ═══════════════════════════════════════════════════════════════
+
+    function showHomeScreen() {
+      document.getElementById('home-screen').style.display = 'flex';
+      document.querySelector('header').style.display = 'none';
+      document.querySelector('.container').style.display = 'none';
+      projectSelected = false;
+    }
+
+    function hideHomeScreen() {
+      document.getElementById('home-screen').style.display = 'none';
+      document.querySelector('header').style.display = 'block';
+      document.querySelector('.container').style.display = 'block';
+      document.getElementById('back-to-home-btn').style.display = 'inline-block';
+      document.getElementById('new-project-btn').style.display = 'inline-block';
+      projectSelected = true;
+    }
+
+    document.getElementById('home-new-project').addEventListener('click', () => {
+      hideHomeScreen();
+      setTimeout(() => openNewProjectModal(), 300);
+    });
+
+    document.getElementById('home-projects').addEventListener('click', () => {
+      hideHomeScreen();
+      setTimeout(() => {
+        document.querySelector('[data-section="dashboard"]').click();
+      }, 300);
+    });
+
+    document.getElementById('home-tutorial').addEventListener('click', () => {
+      window.open('tutorial.html', '_blank');
+    });
+
+    document.getElementById('back-to-home-btn').addEventListener('click', showHomeScreen);
+
+    // ═══════════════════════════════════════════════════════════════
+    // PROJECT MANAGEMENT
+    // ═══════════════════════════════════════════════════════════════
+
+    async function initializeProjects() {
+      let projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
+      if (projects.length === 0) {
+        const defaultProject = { id: 'default_' + Date.now(), name: '📊 Meu Primeiro Projeto', created: Date.now() };
+        projects.push(defaultProject);
+        localStorage.setItem('capta_projects', JSON.stringify(projects));
+        currentProject = defaultProject.id;
+        localStorage.setItem('capta_active_project', currentProject);
+      } else {
+        currentProject = localStorage.getItem('capta_active_project') || projects[0].id;
+      }
+      updateProjectSelector();
+    }
+
+    function updateProjectSelector() {
+      const selector = document.getElementById('project-selector-dashboard');
+      const projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
+      const currentProjectObj = projects.find(p => p.id === currentProject);
+
+      if (currentProjectObj) {
+        document.getElementById('current-project-name').textContent = currentProjectObj.name;
+        document.getElementById('current-project-display').textContent = currentProjectObj.name;
+      }
+
+      if (selector) {
+        selector.innerHTML = '<option value="">📁 Selecionar Projeto</option>';
+        projects.forEach(proj => {
+          const option = document.createElement('option');
+          option.value = proj.id;
+          option.textContent = proj.name;
+          if (proj.id === currentProject) option.selected = true;
+          selector.appendChild(option);
+        });
+      }
+    }
+
+    function openNewProjectModal() {
+      document.getElementById('new-project-modal').style.display = 'flex';
+    }
+
+    function closeNewProjectModal() {
+      document.getElementById('new-project-modal').style.display = 'none';
+      document.getElementById('new-project-form').reset();
+    }
+
+    document.getElementById('new-project-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('project-name').value;
+      const newProject = {
+        id: 'proj_' + Date.now(),
+        name: name,
+        created: Date.now()
+      };
+      let projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
+      projects.push(newProject);
+      localStorage.setItem('capta_projects', JSON.stringify(projects));
+      currentProject = newProject.id;
+      localStorage.setItem('capta_active_project', newProject.id);
+      updateProjectSelector();
+      closeNewProjectModal();
+      showAlert('✅ Projeto criado!', 'success');
+    });
+
+    document.getElementById('project-settings-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const settings = {
+        name: document.getElementById('settings-project-name').value,
+        businessType: document.getElementById('settings-business-type').value,
+        website: document.getElementById('settings-website').value,
+        email: document.getElementById('settings-email').value,
+        about: document.getElementById('settings-about').value
+      };
+      localStorage.setItem(`project_settings_${currentProject}`, JSON.stringify(settings));
+      showAlert('✅ Configurações salvas!', 'success');
+    });
+
+    // ═══════════════════════════════════════════════════════════════
+    // NAVIGATION
+    // ═══════════════════════════════════════════════════════════════
+
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const sectionId = btn.dataset.section;
+        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+        document.getElementById(sectionId).classList.add('active');
+      });
+    });
+
+    // ═══════════════════════════════════════════════════════════════
+    // LEADS HUNTING
+    // ═══════════════════════════════════════════════════════════════
+
+    function generateMockLeads(keywords, location) {
+      const names = [
+        'Carlos Silva', 'Maria Santos', 'João Oliveira', 'Ana Sousa', 'Pedro Costa',
+        'Paula Mendes', 'Lucas Gomes', 'Juliana Martins', 'Bruno Ferreira', 'Fernanda Dias'
+      ];
+      const count = Math.floor(Math.random() * 50) + 50;
+      const leads = [];
+      for (let i = 0; i < count; i++) {
+        const name = names[Math.floor(Math.random() * names.length)];
+        leads.push({
+          name: name + ' ' + i,
+          email: name.replace(' ', '.').toLowerCase() + i + '@empresa.com.br',
+          website: 'https://www.empresa' + i + '.com.br',
+          score: Math.floor(Math.random() * 40) + 60
+        });
+      }
+      return leads;
+    }
+
+    document.getElementById('search-leads-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const keywords = document.getElementById('search-keywords').value;
+      const location = document.getElementById('search-location').value;
+      const container = document.getElementById('search-results');
+      container.innerHTML = '🔍 Buscando...';
+      setTimeout(() => {
+        const leads = generateMockLeads(keywords, location);
+        const html = `<h3>✅ ${leads.length} leads encontrados</h3>
+          <table><thead><tr><th>Nome</th><th>Email</th><th>Website</th><th>Score</th></tr></thead><tbody>
+          ${leads.map(l => `<tr><td>${l.name}</td><td>${l.email}</td><td><a href="${l.website}" target="_blank">Visitar</a></td><td><span class="badge success">${l.score}</span></td></tr>`).join('')}
+          </tbody></table>`;
+        container.innerHTML = html;
+      }, 800);
+    });
+
+    function refreshLeadsList() {
+      const leads = JSON.parse(localStorage.getItem(`my_leads_${currentProject}`) || '[]');
+      const container = document.getElementById('leads-list');
+      if (leads.length === 0) {
+        container.innerHTML = '<p>Nenhum lead adicionado ainda.</p>';
+        return;
+      }
+      container.innerHTML = `<table><thead><tr><th>Nome</th><th>Email</th></tr></thead><tbody>
+        ${leads.map((l, i) => `<tr><td>${l.name}</td><td>${l.email}</td></tr>`).join('')}
+        </tbody></table>`;
+      document.getElementById('stat-leads').textContent = leads.length;
+    }
+
+    function exportLeads(format) {
+      const leads = JSON.parse(localStorage.getItem(`my_leads_${currentProject}`) || '[]');
+      const content = format === 'csv'
+        ? ['Nome,Email', ...leads.map(l => `${l.name},${l.email}`)].join('\n')
+        : JSON.stringify(leads, null, 2);
+      const blob = new Blob([content], { type: format === 'csv' ? 'text/csv' : 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `leads.${format}`;
+      a.click();
+    }
+
+    function clearLeads() {
+      if (confirm('Tem certeza?')) {
+        localStorage.removeItem(`my_leads_${currentProject}`);
+        refreshLeadsList();
+        showAlert('✅ Leads limpos!', 'success');
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // CAMPAIGNS
+    // ═══════════════════════════════════════════════════════════════
+
+    document.getElementById('create-campaign-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const campaign = {
+        subject: document.getElementById('campaign-subject').value,
+        body: document.getElementById('campaign-body').value,
+        id: 'camp_' + Date.now()
+      };
+      let campaigns = JSON.parse(localStorage.getItem(`campaigns_${currentProject}`) || '[]');
+      campaigns.push(campaign);
+      localStorage.setItem(`campaigns_${currentProject}`, JSON.stringify(campaigns));
+      showAlert('✅ Campanha criada!', 'success');
+      document.getElementById('create-campaign-form').reset();
+    });
+
+    function refreshCampaignsList() {
+      const campaigns = JSON.parse(localStorage.getItem(`campaigns_${currentProject}`) || '[]');
+      const container = document.getElementById('campaigns-list');
+      if (campaigns.length === 0) {
+        container.innerHTML = '<p>Nenhuma campanha criada ainda.</p>';
+        return;
+      }
+      container.innerHTML = `<table><thead><tr><th>Assunto</th><th>Status</th></tr></thead><tbody>
+        ${campaigns.map(c => `<tr><td>${c.subject}</td><td><span class="badge success">Ativa</span></td></tr>`).join('')}
+        </tbody></table>`;
+      document.getElementById('stat-campaigns').textContent = campaigns.length;
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // LANDING PAGES
+    // ═══════════════════════════════════════════════════════════════
+
+    document.getElementById('create-page-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const page = {
+        title: document.getElementById('page-title').value,
+        industry: document.getElementById('page-industry').value,
+        id: 'page_' + Date.now()
+      };
+      let pages = JSON.parse(localStorage.getItem(`pages_${currentProject}`) || '[]');
+      pages.push(page);
+      localStorage.setItem(`pages_${currentProject}`, JSON.stringify(pages));
+      showAlert('✅ Landing page criada!', 'success');
+      document.getElementById('create-page-form').reset();
+    });
+
+    function refreshPagesList() {
+      const pages = JSON.parse(localStorage.getItem(`pages_${currentProject}`) || '[]');
+      const container = document.getElementById('pages-list');
+      if (pages.length === 0) {
+        container.innerHTML = '<p>Nenhuma landing page criada ainda.</p>';
+        return;
+      }
+      container.innerHTML = `<table><thead><tr><th>Título</th><th>Indústria</th></tr></thead><tbody>
+        ${pages.map(p => `<tr><td>${p.title}</td><td>${p.industry}</td></tr>`).join('')}
+        </tbody></table>`;
+      document.getElementById('stat-pages').textContent = pages.length;
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // AI CHAT
+    // ═══════════════════════════════════════════════════════════════
+
+    async function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const message = input.value.trim();
+      if (!message) return;
+
+      const messagesDiv = document.getElementById('chat-messages');
+      const userMsg = document.createElement('div');
+      userMsg.style.cssText = 'margin-bottom: 10px; padding: 10px; background: var(--primary); color: white; border-radius: 8px; text-align: right;';
+      userMsg.textContent = message;
+      messagesDiv.appendChild(userMsg);
+      input.value = '';
+
+      const aiMsg = document.createElement('div');
+      aiMsg.style.cssText = 'margin-bottom: 10px; padding: 10px; background: #f0f0f0; border-radius: 8px;';
+      aiMsg.textContent = 'Obrigado pela pergunta! Esta é uma versão demo. Para respostas completas, configure a integração com Claude IA.';
+      messagesDiv.appendChild(aiMsg);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    document.getElementById('chat-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    // ═══════════════════════════════════════════════════════════════
+    // UTILITIES
+    // ═══════════════════════════════════════════════════════════════
+
+    function showAlert(message, type = 'success') {
+      const container = document.getElementById('alert-container');
+      const alert = document.createElement('div');
+      alert.className = `alert ${type}`;
+      alert.textContent = message;
+      container.appendChild(alert);
+      setTimeout(() => alert.remove(), 5000);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // INITIALIZATION
+    // ═══════════════════════════════════════════════════════════════
+
+    initializeProjects();
+    refreshLeadsList();
+    refreshCampaignsList();
+    refreshPagesList();
+    showHomeScreen();
+
+    document.getElementById('project-selector-dashboard').addEventListener('change', (e) => {
+      if (e.target.value) {
+        currentProject = e.target.value;
+        localStorage.setItem('capta_active_project', currentProject);
+        updateProjectSelector();
+        refreshLeadsList();
+        refreshCampaignsList();
+        refreshPagesList();
+        showAlert('✅ Projeto alterado!', 'success');
+      }
+    });
+
+    document.getElementById('new-project-btn').addEventListener('click', openNewProjectModal);
+  </script>
+</body>
+</html>
