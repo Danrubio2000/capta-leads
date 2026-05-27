@@ -1,13 +1,6 @@
 {
   "version": 2,
-  "name": "capta-leads",
   "public": true,
-  "buildCommand": "echo 'static site'",
-  "outputDirectory": ".",
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ]
+  "cleanUrls": true,
+  "trailingSlash": false
 }
