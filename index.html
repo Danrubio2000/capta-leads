@@ -1157,8 +1157,16 @@
         e.preventDefault();
         e.stopPropagation();
       }
+      console.log('Opening video modal');
       document.getElementById('videoModal').classList.add('active');
       document.body.style.overflow = 'hidden';
+      // Reset and start player
+      setTimeout(() => {
+        current = 0;
+        playing = true;
+        elapsed = 0;
+        initVideoPlayer();
+      }, 100);
     }
 
     function closeVideoModal(event) {
@@ -1309,21 +1317,6 @@
       startTimer();
     }
 
-    // Initialize player when modal opens
-    const originalOpenModal = openVideoModal;
-    openVideoModal = function(e) {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      document.getElementById('videoModal').classList.add('active');
-      document.body.style.overflow = 'hidden';
-      // Reset and start player
-      current = 0;
-      playing = true;
-      elapsed = 0;
-      initVideoPlayer();
-    };
 
     document.addEventListener('DOMContentLoaded', function() {
       document.documentElement.lang = currentLanguage;
