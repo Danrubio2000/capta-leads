@@ -189,6 +189,7 @@ class BusinessFinder {
 
       // SUPERMERCADOS - 30+ entries
       supermercado: [
+        // Brasil
         { nome: "Carrefour Paulista", localizacao: "São Paulo, Brasil", website: "carrefour.com.br", telefone: "(11) 5555-0101", email: "contato@carrefour.com.br", descricao: "Hipermercado" },
         { nome: "Zona Leste Mart", localizacao: "São Paulo, Brasil", website: "zonalez.com.br", telefone: "(11) 5555-0102", email: "info@zonalez.com.br", descricao: "Mercado de bairro" },
         { nome: "Éxito Supermercados", localizacao: "São Paulo, Brasil", website: "exitosuper.com.br", telefone: "(11) 5555-0103", email: "reservas@exitosuper.com.br", descricao: "Preço baixo" },
@@ -198,7 +199,20 @@ class BusinessFinder {
         { nome: "Dia Brasil", localizacao: "Rio de Janeiro, Brasil", website: "diabrasil.com.br", telefone: "(21) 5555-0107", email: "contato@diabrasil.com.br", descricao: "Compre e economize" },
         { nome: "Extra Supermarket", localizacao: "Rio de Janeiro, Brasil", website: "extrasupermarket.com.br", telefone: "(21) 5555-0108", email: "reservas@extrasupermarket.com.br", descricao: "Ofertas semanais" },
         { nome: "Época Supermercados", localizacao: "Belo Horizonte, Brasil", website: "epocasuper.com.br", telefone: "(31) 5555-0109", email: "contato@epocasuper.com.br", descricao: "Qualidade garantida" },
-        { nome: "Harris Teeter", localizacao: "Astoria, Queens, NY", website: "harristeeter.com", telefone: "(718) 555-0110", email: "info@harristeeter.com", descricao: "Grocery store" }
+        { nome: "Recife Shopping Cia", localizacao: "Recife, Brasil", website: "recifeshop.com.br", telefone: "(81) 5555-0111", email: "info@recifeshop.com.br", descricao: "Compras variadas" },
+        { nome: "Bahia Mart", localizacao: "Salvador, Brasil", website: "bahiamart.com.br", telefone: "(71) 5555-0112", email: "contato@bahiamart.com.br", descricao: "Economia com qualidade" },
+        // USA - New York
+        { nome: "Harris Teeter", localizacao: "Astoria, Queens, NY", website: "harristeeter.com", telefone: "(718) 555-0110", email: "info@harristeeter.com", descricao: "Grocery store" },
+        { nome: "Whole Foods Market NY", localizacao: "New York, USA", website: "wholefoodsmarket.com", telefone: "(212) 555-0120", email: "info@wholefoodsmarket.com", descricao: "Organic premium grocery" },
+        { nome: "Trader Joe's Manhattan", localizacao: "New York, USA", website: "traderjoes.com", telefone: "(212) 555-0121", email: "info@traderjoes.com", descricao: "Natural foods market" },
+        // USA - California
+        { nome: "Safeway San Francisco", localizacao: "San Francisco, USA", website: "safeway.com", telefone: "(415) 555-0130", email: "info@safeway.com", descricao: "Supermarket chain" },
+        { nome: "Whole Foods Bay Area", localizacao: "San Francisco, USA", website: "wholefoodsmarket.com", telefone: "(415) 555-0131", email: "bayarea@wholefoodsmarket.com", descricao: "Organic grocery store" },
+        { nome: "Trader Joe's Bay Area", localizacao: "San Francisco, USA", website: "traderjoes.com", telefone: "(415) 555-0132", email: "bayarea@traderjoes.com", descricao: "Natural foods market" },
+        { nome: "Sprouts Farmers Market", localizacao: "San Francisco, USA", website: "sprouts.com", telefone: "(415) 555-0133", email: "sf@sprouts.com", descricao: "Health food market" },
+        // USA - Washington
+        { nome: "PCC Community Market", localizacao: "Washington, USA", website: "pccmarkets.com", telefone: "(206) 555-0140", email: "info@pccmarkets.com", descricao: "Co-op grocery store" },
+        { nome: "QFC Washington", localizacao: "Washington, USA", website: "qfc.com", telefone: "(206) 555-0141", email: "info@qfc.com", descricao: "Quality food center" }
       ],
 
       // FUNDAÇÕES DE ARTE - 25+ entries
@@ -311,7 +325,14 @@ class BusinessFinder {
       fitness: "academia",
       gym: "academia",
       academia: "academia",
-      pharmacy: "farmácia"
+      pharmacy: "farmácia",
+      supermarket: "supermercado",
+      supermercado: "supermercado",
+      store: "supermercado",
+      loja: "supermercado",
+      market: "supermercado",
+      mercado: "supermercado",
+      grocery: "supermercado"
     };
 
     // Normaliza o query usando aliases
