@@ -895,1181 +895,1195 @@
   </div>
 
   <script>
-  document.addEventListener('DOMContentLoaded', function() {
-        // ═══════════════════════════════════════════════════════════════
-        // UTILITIES
-        // ═══════════════════════════════════════════════════════════════
-    
-        // Detect API URL - use current domain in production, localhost in development
-        const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-          ? 'http://localhost:3000/api'
-          : `${window.location.protocol}//${window.location.host}/api`;
-    
-        // ═══════════════════════════════════════════════════════════════
-        // INDEXEDDB - AUTO-SAVE LOCAL STORAGE
-        // ═══════════════════════════════════════════════════════════════
-    
-        const DB_NAME = 'CAPTA_LEADS_DB';
-        const DB_VERSION = 1;
-        let db = null;
-    
-        // Initialize IndexedDB
-        function initIndexedDB() {
-          return new Promise((resolve, reject) => {
-            const request = indexedDB.open(DB_NAME, DB_VERSION);
-    
-            request.onerror = () => reject(request.error);
-            request.onsuccess = () => {
-              db = request.result;
-              resolve(db);
-            };
-    
-            request.onupgradeneeded = (event) => {
-              const database = event.target.result;
-    
-              // Create object stores if they don't exist
-              if (!database.objectStoreNames.contains('projects')) {
-                database.createObjectStore('projects', { keyPath: 'id' });
-              }
-              if (!database.objectStoreNames.contains('leads')) {
-                database.createObjectStore('leads', { keyPath: 'id' });
-              }
-              if (!database.objectStoreNames.contains('settings')) {
-                database.createObjectStore('settings', { keyPath: 'key' });
-              }
-              if (!database.objectStoreNames.contains('language')) {
-                database.createObjectStore('language', { keyPath: 'key' });
-              }
-            };
-          });
-        }
-    
-        // Save to IndexedDB
-        async function saveToIndexedDB(storeName, key, data) {
-          if (!db) return;
-          try {
-            const transaction = db.transaction(storeName, 'readwrite');
-            const store = transaction.objectStore(storeName);
-    
-            if (typeof data === 'object' && !data.id && !data.key) {
-              data = { ...data, id: key, key: key };
-            }
-    
-            store.put(data);
-          } catch (error) {
-            console.error('IndexedDB save error:', error);
+    // ═══════════════════════════════════════════════════════════════
+    // UTILITIES
+    // ═══════════════════════════════════════════════════════════════
+
+    // Detect API URL - use current domain in production, localhost in development
+    const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:3000/api'
+      : `${window.location.protocol}//${window.location.host}/api`;
+
+    // ═══════════════════════════════════════════════════════════════
+    // INDEXEDDB - AUTO-SAVE LOCAL STORAGE
+    // ═══════════════════════════════════════════════════════════════
+
+    const DB_NAME = 'CAPTA_LEADS_DB';
+    const DB_VERSION = 1;
+    let db = null;
+
+    // Initialize IndexedDB
+    function initIndexedDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+          db = request.result;
+          resolve(db);
+        };
+
+        request.onupgradeneeded = (event) => {
+          const database = event.target.result;
+
+          // Create object stores if they don't exist
+          if (!database.objectStoreNames.contains('projects')) {
+            database.createObjectStore('projects', { keyPath: 'id' });
           }
-        }
-    
-        // Read from IndexedDB
-        async function readFromIndexedDB(storeName, key) {
-          if (!db) return null;
-          return new Promise((resolve) => {
-            try {
-              const transaction = db.transaction(storeName, 'readonly');
-              const store = transaction.objectStore(storeName);
-              const request = store.get(key);
-              request.onsuccess = () => resolve(request.result);
-              request.onerror = () => resolve(null);
-            } catch (error) {
-              console.error('IndexedDB read error:', error);
-              resolve(null);
-            }
-          });
-        }
-    
-        // Get all from IndexedDB
-        async function getAllFromIndexedDB(storeName) {
-          if (!db) return [];
-          return new Promise((resolve) => {
-            try {
-              const transaction = db.transaction(storeName, 'readonly');
-              const store = transaction.objectStore(storeName);
-              const request = store.getAll();
-              request.onsuccess = () => resolve(request.result || []);
-              request.onerror = () => resolve([]);
-            } catch (error) {
-              console.error('IndexedDB getAll error:', error);
-              resolve([]);
-            }
-          });
-        }
-    
-        // ═══════════════════════════════════════════════════════════════
-        // HOME SCREEN / CONSOLE PRINCIPAL
-        // ═══════════════════════════════════════════════════════════════
-    
-        let projectSelected = false;
-    
-        // ═══════════════════════════════════════════════════════════════
-        // AUTO-SAVE WRAPPER FUNCTIONS
-        // ═══════════════════════════════════════════════════════════════
-    
-        // Auto-save to both localStorage and IndexedDB
-        async function autoSaveData(key, value) {
-          // Save to localStorage for backward compatibility
-          try {
-            localStorage.setItem(key, JSON.stringify(value));
-          } catch (e) {
-            console.warn('localStorage save failed:', e);
+          if (!database.objectStoreNames.contains('leads')) {
+            database.createObjectStore('leads', { keyPath: 'id' });
           }
-    
-          // Save to IndexedDB
-          const storeName = key.includes('projects') ? 'projects' :
-                           key.includes('settings') ? 'settings' :
-                           key.includes('leads') ? 'leads' : 'language';
-    
-          await saveToIndexedDB(storeName, key, value);
-        }
-    
-        // Auto-load from IndexedDB with fallback to localStorage
-        async function autoLoadData(key) {
-          // Try IndexedDB first
-          const idbData = await readFromIndexedDB('projects', key) ||
-                          await readFromIndexedDB('settings', key) ||
-                          await readFromIndexedDB('leads', key) ||
-                          await readFromIndexedDB('language', key);
-    
-          if (idbData) {
-            return idbData;
+          if (!database.objectStoreNames.contains('settings')) {
+            database.createObjectStore('settings', { keyPath: 'key' });
           }
-    
-          // Fallback to localStorage
-          try {
-            const lsData = localStorage.getItem(key);
-            return lsData ? JSON.parse(lsData) : null;
-          } catch (e) {
-            console.warn('localStorage read failed:', e);
-            return null;
-          }
-        }
-    
-        function showHomeScreen() {
-          const home = document.getElementById('home-screen');
-          const header = document.querySelector('header');
-          const container = document.querySelector('.container');
-    
-          home.style.display = 'flex';
-          header.style.display = 'none';
-          container.style.display = 'none';
-          projectSelected = false;
-        }
-    
-        function hideHomeScreen() {
-          const home = document.getElementById('home-screen');
-          const header = document.querySelector('header');
-          const container = document.querySelector('.container');
-    
-          home.style.display = 'none';
-          header.style.display = 'block';
-          container.style.display = 'block';
-          document.getElementById('back-to-home-btn').style.display = 'inline-block';
-          document.getElementById('new-project-btn').style.display = 'inline-block';
-          projectSelected = true;
-        }
-    
-        // Home screen button handlers
-        document.getElementById('home-new-project').addEventListener('click', () => {
-          hideHomeScreen();
-          setTimeout(() => {
-            // Trigger new project modal
-            const modal = document.getElementById('new-project-modal');
-            if (modal) {
-              modal.style.display = 'flex';
-            } else {
-              // Fallback: create new project
-              const projectName = prompt('Nome do novo projeto:');
-              if (projectName) {
-                createNewProject(projectName);
-                hideHomeScreen();
-              }
-            }
-          }, 300);
-        });
-    
-        document.getElementById('home-projects').addEventListener('click', () => {
-          console.log('\n🏠 Home Projects botão clicado');
-          hideHomeScreen();
-          console.log('✅ Home screen escondido');
-    
-          setTimeout(() => {
-            console.log('⏱️ Timeout de 300ms executado');
-            const dashboardBtn = document.querySelector('[data-section="dashboard"]');
-            console.log(`🔍 Dashboard button encontrado: ${dashboardBtn ? 'SIM' : 'NÃO'}`);
-    
-            if (dashboardBtn) {
-              console.log('🖱️ Simulando click no dashboard button...');
-              dashboardBtn.click();
-            } else {
-              console.error('❌ ERRO: Dashboard button não encontrado!');
-              console.log('Tentando alternativa...');
-              const allBtns = document.querySelectorAll('.nav-btn');
-              console.log(`Encontrados ${allBtns.length} nav buttons`);
-              if (allBtns.length > 0) {
-                console.log('Clicando no primeiro botão...');
-                allBtns[0].click();
-              }
-            }
-          }, 300);
-        });
-    
-        document.getElementById('home-tutorial').addEventListener('click', () => {
-          window.open('tutorial.html', '_blank');
-        });
-    
-        // Back to home button
-        document.getElementById('back-to-home-btn').addEventListener('click', () => {
-          showHomeScreen();
-        });
-    
-        // ═══════════════════════════════════════════════════════════════
-        // PROJECT MANAGEMENT
-        // ═══════════════════════════════════════════════════════════════
-    
-        let currentProject = null;
-    
-        async function initializeProjects() {
-          let projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
-          let activeProject = localStorage.getItem('capta_active_project');
-    
-          if (projects.length === 0) {
-            // Create default project
-            const defaultProject = { id: 'default_' + Date.now(), name: '📊 Meu Primeiro Projeto', created: Date.now() };
-            projects.push(defaultProject);
-            await autoSaveData('capta_projects', projects);
-            activeProject = defaultProject.id;
-            await autoSaveData('capta_active_project', activeProject);
-          }
-    
-          currentProject = activeProject || projects[0].id;
-          updateProjectSelector();
-        }
-    
-        function updateProjectSelector() {
-          const selector = document.getElementById('project-selector');
-          const dashboardSelector = document.getElementById('project-selector-dashboard');
-          const projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
-          const currentProjectObj = projects.find(p => p.id === currentProject);
-    
-          // Update current project name
-          if (currentProjectObj) {
-            document.getElementById('current-project-name').textContent = currentProjectObj.name;
-          }
-    
-          // Update both selectors
-          [selector, dashboardSelector].forEach(sel => {
-            if (!sel) return;
-            sel.innerHTML = '<option value="">📁 Selecionar Projeto</option>';
-            projects.forEach(proj => {
-              const option = document.createElement('option');
-              option.value = proj.id;
-              option.textContent = proj.name;
-              if (proj.id === currentProject) option.selected = true;
-              sel.appendChild(option);
-            });
-          });
-        }
-    
-        async function selectProject(projectId) {
-          if (!projectId) return;
-    
-          // Validate project exists
-          const projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
-          const projectExists = projects.find(p => p.id === projectId);
-    
-          if (!projectExists) {
-            showAlert('❌ Projeto não encontrado!', 'error');
-            return;
-          }
-    
-          currentProject = projectId;
-          await autoSaveData('capta_active_project', projectId);
-          updateProjectSelector();
-          loadProjectSettings();
-          refreshLeadsList();
-          refreshCampaignsList();
-          refreshPagesList();
-          showAlert('✅ Projeto alterado!', 'success');
-        }
-    
-        function openNewProjectModal() {
-          document.getElementById('new-project-modal').style.display = 'flex';
-        }
-    
-        function closeNewProjectModal() {
-          document.getElementById('new-project-modal').style.display = 'none';
-          document.getElementById('new-project-form').reset();
-        }
-    
-        function openProjectSettingsModal() {
-          loadProjectSettings();
-          document.getElementById('project-settings-modal').style.display = 'flex';
-        }
-    
-        function closeProjectSettingsModal() {
-          document.getElementById('project-settings-modal').style.display = 'none';
-        }
-    
-        function loadProjectSettings() {
-          const settings = JSON.parse(localStorage.getItem(getProjectKey('settings')) || '{}');
-          document.getElementById('settings-project-name').value = settings.name || '';
-          document.getElementById('settings-business-type').value = settings.businessType || '';
-          document.getElementById('settings-website').value = settings.website || '';
-          document.getElementById('settings-email').value = settings.email || '';
-          document.getElementById('settings-phone').value = settings.phone || '';
-          document.getElementById('settings-instagram').value = settings.instagram || '';
-          document.getElementById('settings-facebook').value = settings.facebook || '';
-          document.getElementById('settings-linkedin').value = settings.linkedin || '';
-          document.getElementById('settings-youtube').value = settings.youtube || '';
-          document.getElementById('settings-about').value = settings.about || '';
-        }
-    
-        document.getElementById('project-settings-form')?.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          const settings = {
-            name: document.getElementById('settings-project-name').value,
-            businessType: document.getElementById('settings-business-type').value,
-            website: document.getElementById('settings-website').value,
-            email: document.getElementById('settings-email').value,
-            phone: document.getElementById('settings-phone').value,
-            instagram: document.getElementById('settings-instagram').value,
-            facebook: document.getElementById('settings-facebook').value,
-            linkedin: document.getElementById('settings-linkedin').value,
-            youtube: document.getElementById('settings-youtube').value,
-            about: document.getElementById('settings-about').value
-          };
-          await autoSaveData(getProjectKey('settings'), settings);
-          closeProjectSettingsModal();
-          showAlert('✅ Configurações do projeto salvas!', 'success');
-        });
-    
-        document.getElementById('project-selector')?.addEventListener('change', (e) => {
-          selectProject(e.target.value);
-        });
-    
-        document.getElementById('project-selector-dashboard')?.addEventListener('change', (e) => {
-          selectProject(e.target.value);
-        });
-    
-        document.getElementById('new-project-btn')?.addEventListener('click', openNewProjectModal);
-    
-        document.getElementById('new-project-form')?.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          const name = document.getElementById('project-name').value;
-          const description = document.getElementById('project-description').value;
-    
-          const newProject = {
-            id: 'proj_' + Date.now(),
-            name: name,
-            description: description,
-            created: Date.now()
-          };
-    
-          let projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
-          projects.push(newProject);
-          await autoSaveData('capta_projects', projects);
-    
-          currentProject = newProject.id;
-          await autoSaveData('capta_active_project', newProject.id);
-    
-          updateProjectSelector();
-          closeNewProjectModal();
-          showAlert('✅ Projeto criado com sucesso!', 'success');
-          refreshLeadsList();
-        });
-    
-        function getProjectKey(baseKey) {
-          return `${baseKey}_${currentProject}`;
-        }
-    
-        function showAlert(message, type = "success") {
-          const container = document.getElementById("alert-container");
-          const alert = document.createElement("div");
-          alert.className = `alert ${type}`;
-          alert.textContent = message;
-          container.appendChild(alert);
-    
-          setTimeout(() => alert.remove(), 5000);
-        }
-    
-        async function apiCall(endpoint, method = "GET", body = null) {
-          try {
-            const options = {
-              method,
-              headers: { "Content-Type": "application/json" }
-            };
-            if (body) options.body = JSON.stringify(body);
-    
-            const res = await fetch(`${API}${endpoint}`, options);
-            const data = await res.json();
-    
-            if (!res.ok) throw new Error(data.error || "Erro na API");
-            return data;
-          } catch (error) {
-            showAlert(error.message, "error");
-            throw error;
-          }
-        }
-    
-        // ═══════════════════════════════════════════════════════════════
-        // NAVIGATION
-        // ═══════════════════════════════════════════════════════════════
-    
-        console.log('🔍 Registrando event listeners para nav buttons...');
-        const navButtons = document.querySelectorAll(".nav-btn");
-        console.log(`Found ${navButtons.length} nav buttons`);
-    
-        navButtons.forEach((btn, index) => {
-          console.log(`  ✅ Button ${index}: ${btn.textContent.trim()} [data-section="${btn.dataset.section}"]`);
-    
-          btn.addEventListener("click", (e) => {
-            console.log(`\n🖱️ NAV BUTTON CLICADO: ${btn.textContent.trim()}`);
-            e.preventDefault();
-            e.stopPropagation();
-    
-            // Update active nav
-            document.querySelectorAll(".nav-btn").forEach((b) => b.classList.remove("active"));
-            btn.classList.add("active");
-            console.log('✅ Active class updated');
-    
-            // Update active section
-            const sectionId = btn.dataset.section;
-            console.log(`📍 Section ID: ${sectionId}`);
-    
-            if (!sectionId) {
-              console.error('❌ Botão sem data-section:', btn);
-              return;
-            }
-    
-            const section = document.getElementById(sectionId);
-            console.log(`🔍 Procurando seção #${sectionId}:`, section ? '✅ ENCONTRADA' : '❌ NÃO ENCONTRADA');
-    
-            if (!section) {
-              console.error(`❌ Seção ${sectionId} não encontrada no DOM`);
-              return;
-            }
-    
-            document.querySelectorAll("section").forEach((s) => s.classList.remove("active"));
-            section.classList.add("active");
-            console.log(`✅ Seção ${sectionId} ativada com sucesso!`);
-    
-            // Refresh data
-            if (sectionId === "leads") {
-              console.log('↻ Atualizando leads...');
-              refreshLeadsList();
-            }
-            if (sectionId === "campaigns") {
-              console.log('↻ Atualizando campanhas...');
-              if (typeof refreshCampaignsList === 'function') refreshCampaignsList();
-            }
-            if (sectionId === "landing") {
-              console.log('↻ Atualizando landing pages...');
-              if (typeof refreshPagesList === 'function') refreshPagesList();
-            }
-            if (sectionId === "settings") {
-              console.log('↻ Atualizando configurações...');
-              refreshSettings();
-            }
-          });
-        });
-        console.log('✅ Event listeners registrados com sucesso\n');
-    
-        // ═══════════════════════════════════════════════════════════════
-        // LEADS HUNTING
-        // ═══════════════════════════════════════════════════════════════
-    
-        let searchResults = [];
-    
-        // Initialize: Keep search results EMPTY - no pre-loaded data
-        function initializeSearchResults() {
-          const container = document.getElementById("search-results");
-          container.innerHTML = ""; // Always starts clean
-        }
-        initializeSearchResults();
-    
-        document.getElementById("search-leads-form")?.addEventListener("submit", async (e) => {
-          e.preventDefault();
-    
-          const keywords = document.getElementById("search-keywords").value;
-          const location = document.getElementById("search-location").value;
-          const type = document.getElementById("search-type").value;
-    
-          showAlert("🔍 Buscando negócios/leads (até 150 resultados)...", "info");
-    
-          try {
-            // Use BusinessFinder ONLY (geographic + category-based search)
-            const result = await apiCall("/businesses/search", "POST", {
-              query: keywords,
-              location: location || "Internacional",
-              type: type
-            });
-    
-            searchResults = result.results || [];
-    
-            if (searchResults.length === 0) {
-              showAlert("⚠️ Nenhum resultado encontrado. Tente outras palavras-chave ou localização.", "warning");
-            } else {
-              showAlert(`✅ ${searchResults.length} resultados encontrados!`, "success");
-            }
-    
-            renderSearchResults();
-          } catch (error) {
-            console.error(error);
-            showAlert("❌ Erro ao buscar. Tente novamente.", "error");
-          }
-        });
-    
-        function renderSearchResults() {
-          const container = document.getElementById("search-results");
-          if (searchResults.length === 0) {
-            const lang = getCurrentLanguage();
-            const messages = {
-              pt: "Nenhum resultado. Faça uma busca primeiro.",
-              en: "No results. Make a search first.",
-              es: "Sin resultados. Realiza una búsqueda primero.",
-              fr: "Aucun résultat. Effectuez une recherche d'abord."
-            };
-            container.innerHTML = `<p>${messages[lang] || messages.pt}</p>`;
-            return;
-          }
-    
-          container.innerHTML = `
-            <h3>📊 Resultados (${searchResults.length}/150)</h3>
-            <table style="font-size: 0.9em; overflow-x: auto;">
-              <thead>
-                <tr>
-                  <th>Nome</th>
-                  <th>Email</th>
-                  <th>Telefone</th>
-                  <th>Website</th>
-                  <th>Localização</th>
-                  <th>Descrição</th>
-                  <th>Score</th>
-                  <th>Ação</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${searchResults
-                  .map(
-                    (lead) => `
-                  <tr>
-                    <td><strong>${lead.nome || lead.name || 'N/A'}</strong></td>
-                    <td>${lead.email || 'N/A'}</td>
-                    <td>${lead.telefone || 'N/A'}</td>
-                    <td>${lead.website ? `<a href="https://${lead.website}" target="_blank" title="${lead.website}">${lead.website}</a>` : '-'}</td>
-                    <td>${lead.localizacao || lead.location || 'N/A'}</td>
-                    <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${lead.descricao || ''}">${lead.descricao || 'N/A'}</td>
-                    <td><span class="badge success">${lead.score || 'N/A'}</span></td>
-                    <td><button onclick="addToLeads('${(lead.email || '').replace(/'/g, "\\'")}', '${(lead.nome || lead.name || 'Lead').replace(/'/g, "\\'")}')">➕</button></td>
-                  </tr>`
-                  )
-                  .join("")}
-              </tbody>
-            </table>
-          `;
-        }
-    
-        async function addToLeads(email, name) {
-          let leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
-          if (!leads.find((l) => l.email === email)) {
-            leads.push({ email, name });
-            await autoSaveData(getProjectKey("my_leads"), leads);
-            showAlert(`✅ ${name} adicionado à lista!`, "success");
-            refreshLeadsList();
-          } else {
-            showAlert("⚠️ Lead já existe!", "warning");
-          }
-        }
-    
-        function refreshLeadsList() {
-          const leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
-          const container = document.getElementById("leads-list");
-    
-          if (leads.length === 0) {
-            const lang = getCurrentLanguage();
-            const messages = {
-              pt: "Nenhum lead adicionado ainda.",
-              en: "No leads added yet.",
-              es: "Sin leads añadidos aún.",
-              fr: "Aucun lead ajouté pour l'instant."
-            };
-            container.innerHTML = `<p>${messages[lang] || messages.pt}</p>`;
-            return;
-          }
-    
-          container.innerHTML = `
-            <table>
-              <thead>
-                <tr><th>Nome</th><th>Email</th><th>Ação</th></tr>
-              </thead>
-              <tbody>
-                ${leads
-                  .map(
-                    (lead, i) => `
-                  <tr>
-                    <td>${lead.nome}</td>
-                    <td>${lead.email}</td>
-                    <td><button onclick="removeFromLeads(${i})">🗑️ Remover</button></td>
-                  </tr>`
-                  )
-                  .join("")}
-              </tbody>
-            </table>
-          `;
-    
-          // Update stat
-          document.getElementById("stat-leads").textContent = leads.length;
-        }
-    
-        async function removeFromLeads(index) {
-          let leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
-          leads.splice(index, 1);
-          await autoSaveData(getProjectKey("my_leads"), leads);
-          refreshLeadsList();
-        }
-    
-        function exportLeads(format) {
-          const leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
-          if (format === "csv") {
-            const csv = ["Nome,Email", ...leads.map((l) => `${l.nome},${l.email}`)].join("\n");
-            downloadFile(csv, "leads.csv", "text/csv");
-          } else {
-            downloadFile(JSON.stringify(leads, null, 2), "leads.json", "application/json");
-          }
-        }
-    
-        function downloadFile(content, filename, type) {
-          const blob = new Blob([content], { type });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = filename;
-          a.click();
-        }
-    
-        function clearLeads() {
-          if (confirm("Tem certeza? Esta ação não pode ser desfeita.")) {
-            localStorage.removeItem(getProjectKey("my_leads"));
-            refreshLeadsList();
-            showAlert("✅ Leads limpos!", "success");
-          }
-        }
-    
-        // ═══════════════════════════════════════════════════════════════
-        // EMAIL CAMPAIGNS
-        // ═══════════════════════════════════════════════════════════════
-    
-        document.getElementById("create-campaign-form")?.addEventListener("submit", async (e) => {
-          e.preventDefault();
-    
-          const campaign = {
-            subject: document.getElementById("campaign-subject").value,
-            body: document.getElementById("campaign-body").value,
-            fromEmail: document.getElementById("campaign-from-email").value,
-            fromName: document.getElementById("campaign-from-name").value,
-            recipients: JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]")
-          };
-    
-          try {
-            const result = await apiCall("/campaigns/create", "POST", campaign);
-            showAlert("✅ Campanha criada com sucesso!", "success");
-            document.getElementById("create-campaign-form").reset();
-            refreshCampaignsList();
-          } catch (error) {
-            console.error(error);
-            showAlert("❌ Erro ao criar campanha.", "error");
-          }
-        });
-    
-        async function refreshCampaignsList() {
-          try {
-            const result = await apiCall("/campaigns/list");
-            const container = document.getElementById("campaigns-list");
-    
-            if (!result.campaigns || result.campaigns.length === 0) {
-              const lang = getCurrentLanguage();
-              const messages = {
-                pt: "Nenhuma campanha criada ainda.",
-                en: "No campaigns created yet.",
-                es: "Sin campañas creadas aún.",
-                fr: "Aucune campagne créée pour l'instant."
-              };
-              container.innerHTML = `<p>${messages[lang] || messages.pt}</p>`;
-              return;
-            }
-    
-            container.innerHTML = `
-              <table>
-                <thead>
-                  <tr>
-                    <th>Assunto</th>
-                    <th>Status</th>
-                    <th>Enviados</th>
-                    <th>Ação</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${result.campaigns
-                    .map(
-                      (c) => `
-                    <tr>
-                      <td>${c.subject}</td>
-                      <td><span class="badge ${c.status === "sent" ? "success" : "warning"}">${c.status.toUpperCase()}</span></td>
-                      <td>${c.sentCount || 0}</td>
-                      <td>
-                        <button onclick="sendCampaign('${c.id}')">📧 Enviar</button>
-                      </td>
-                    </tr>`
-                    )
-                    .join("")}
-                </tbody>
-              </table>
-            `;
-    
-            document.getElementById("stat-campaigns").textContent = result.campaigns.length;
-          } catch (error) {
-            console.error(error);
-            showAlert("❌ Erro ao carregar campanhas.", "error");
-          }
-        }
-    
-        async function sendCampaign(campaignId) {
-          const leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
-          if (leads.length === 0) {
-            showAlert("⚠️ Adicione leads primeiro!", "warning");
-            return;
-          }
-    
-          try {
-            const result = await apiCall("/campaigns/send", "POST", {
-              campaignId,
-              leads
-            });
-            showAlert(`✅ ${result.result.success} emails enviados!`, "success");
-            refreshCampaignsList();
-          } catch (error) {
-            console.error(error);
-            showAlert("❌ Erro ao enviar emails.", "error");
-          }
-        }
-    
-        document.getElementById("test-email-form")?.addEventListener("submit", async (e) => {
-          e.preventDefault();
-          const email = document.getElementById("test-email-address").value;
-    
-          try {
-            const result = await apiCall("/campaigns/test-email", "POST", { email });
-            if (result.success) {
-              showAlert("✅ Email de teste enviado!", "success");
-            } else {
-              showAlert("⚠️ Configure RESEND_API_KEY para enviar emails reais", "warning");
-            }
-          } catch (error) {
-            console.error(error);
-            showAlert("❌ Erro ao testar email.", "error");
-          }
-        });
-    
-        // ═══════════════════════════════════════════════════════════════
-        // LANDING PAGES
-        // ═══════════════════════════════════════════════════════════════
-    
-        document.getElementById("create-page-form")?.addEventListener("submit", async (e) => {
-          e.preventDefault();
-    
-          const page = {
-            title: document.getElementById("page-title").value,
-            industry: document.getElementById("page-industry").value,
-            seoTitle: document.getElementById("page-seo-title").value,
-            seoDescription: document.getElementById("page-seo-description").value
-          };
-    
-          try {
-            const result = await apiCall("/pages/create", "POST", page);
-            showAlert("✅ Landing page criada!", "success");
-            document.getElementById("create-page-form").reset();
-            refreshPagesList();
-          } catch (error) {
-            console.error(error);
-            showAlert("❌ Erro ao criar landing page.", "error");
-          }
-        });
-    
-        async function refreshPagesList() {
-          try {
-            const result = await apiCall("/pages/list");
-            const container = document.getElementById("pages-list");
-    
-            if (!result.pages || result.pages.length === 0) {
-              const lang = getCurrentLanguage();
-              const messages = {
-                pt: "Nenhuma landing page criada ainda.",
-                en: "No landing pages created yet.",
-                es: "Sin landing pages creadas aún.",
-                fr: "Aucune landing page créée pour l'instant."
-              };
-              container.innerHTML = `<p>${messages[lang] || messages.pt}</p>`;
-              return;
-            }
-    
-            container.innerHTML = `
-              <table>
-                <thead>
-                  <tr>
-                    <th>Título</th>
-                    <th>Indústria</th>
-                    <th>Seções</th>
-                    <th>Ação</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${result.pages
-                    .map(
-                      (p) => `
-                    <tr>
-                      <td>${p.title}</td>
-                      <td>${p.industry}</td>
-                      <td>${p.sections}</td>
-                      <td>
-                        <a href="${API}/pages/preview?pageId=${p.id}" target="_blank">
-                          <button>👁️ Ver</button>
-                        </a>
-                      </td>
-                    </tr>`
-                    )
-                    .join("")}
-                </tbody>
-              </table>
-            `;
-    
-            document.getElementById("stat-pages").textContent = result.pages.length;
-          } catch (error) {
-            console.error(error);
-            showAlert("❌ Erro ao carregar landing pages.", "error");
-          }
-        }
-    
-        // ═══════════════════════════════════════════════════════════════
-        // SETTINGS
-        // ═══════════════════════════════════════════════════════════════
-    
-        document.getElementById("email-settings-form")?.addEventListener("submit", async (e) => {
-          e.preventDefault();
-    
-          const settings = {
-            fromEmail: document.getElementById("settings-from-email").value,
-            fromName: document.getElementById("settings-from-name").value
-          };
-    
-          try {
-            const result = await apiCall("/campaigns/settings", "POST", settings);
-            showAlert("✅ Configurações salvas!", "success");
-          } catch (error) {
-            console.error(error);
-          }
-        });
-    
-        async function refreshSettings() {
-          try {
-            const result = await apiCall("/campaigns/settings");
-            document.getElementById("settings-from-email").value = result.settings.fromEmail || "";
-            document.getElementById("settings-from-name").value = result.settings.fromName || "";
-    
-            const status = result.settings.resendConfigured
-              ? '<span class="badge success">Configurado ✅</span>'
-              : '<span class="badge warning">Não configurado</span>';
-            document.getElementById("email-status").innerHTML = `Status: ${status}`;
-          } catch (error) {
-            console.error(error);
-          }
-        }
-    
-        // ═══════════════════════════════════════════════════════════════
-        // AI CHAT
-        // ═══════════════════════════════════════════════════════════════
-    
-        async function sendMessage() {
-          const input = document.getElementById("chat-input");
-          const message = input.value.trim();
-    
-          if (!message) return;
-    
-          // Display user message
-          const messagesDiv = document.getElementById("chat-messages");
-          const userMsg = document.createElement("div");
-          userMsg.style.cssText = "margin-bottom: 10px; padding: 10px; background: #667eea; color: white; border-radius: 5px; text-align: right;";
-          userMsg.textContent = message;
-          messagesDiv.appendChild(userMsg);
-    
-          input.value = "";
-          messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    
-          try {
-            const response = await fetch("/api/chat/message", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ message })
-            });
-            const data = await response.json();
-    
-            const aiMsg = document.createElement("div");
-            aiMsg.style.cssText = "margin-bottom: 10px; padding: 10px; background: #f0f0f0; border-radius: 5px;";
-            aiMsg.textContent = data.response || "Desculpe, não consegui processar sua solicitação.";
-            messagesDiv.appendChild(aiMsg);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-          } catch (error) {
-            const errorMsg = document.createElement("div");
-            errorMsg.style.cssText = "margin-bottom: 10px; padding: 10px; background: #f8d7da; color: #721c24; border-radius: 5px;";
-            errorMsg.textContent = "Erro ao conectar com IA: " + error.message;
-            messagesDiv.appendChild(errorMsg);
-          }
-        }
-    
-        // Allow Enter key to send message
-        document.getElementById("chat-input")?.addEventListener("keypress", (e) => {
-          if (e.key === "Enter") sendMessage();
-        });
-    
-        // ═══════════════════════════════════════════════════════════════
-        // MULTILINGUAL SUPPORT
-        // ═══════════════════════════════════════════════════════════════
-    
-        const translations = {
-          pt: {
-            "dashboard": "Dashboard",
-            "leads": "🎯 Buscar Leads",
-            "campaigns": "📧 Campanhas",
-            "landing": "🎨 Landing Pages",
-            "chat": "🤖 IA Chat",
-            "settings": "⚙️ Configurações",
-            "welcome": "✨ Bem-vindo! Gerencie seus projetos de seus futuros clientes",
-            "found": "Leads Encontrados",
-            "created": "Campanhas Criadas",
-            "sent": "Emails Enviados",
-            "pages": "Landing Pages",
-            "test-mode": "⚠️ VOCÊ ESTÁ NO MODO TESTE - Acesso grátis e ilimitado para testar todas as funcionalidades",
-            "stat-leads-label": "Leads Encontrados",
-            "stat-campaigns-label": "Campanhas Criadas",
-            "stat-sent-label": "Emails Enviados",
-            "stat-pages-label": "Landing Pages",
-            "section-dashboard": "📊 Dashboard",
-            "section-leads": "🎯 Buscar Leads",
-            "section-campaigns": "📧 Campanhas de Email",
-            "section-landing": "🎨 Criador de Landing Pages",
-            "section-chat": "🤖 Assistente IA",
-            "section-settings": "⚙️ Configurações",
-            "btn-new-project": "➕ Novo",
-            "modal-new-project": "📁 Criar Novo Projeto",
-            "btn-cancel": "Cancelar",
-            "btn-create": "Criar Projeto",
-            "modal-settings-title": "⚙️ Configurações do Projeto",
-            "label-project-name": "📝 Nome do Projeto",
-            "label-business-type": "💼 Tipo de Negócio ou Serviço",
-            "label-website": "🌐 Website",
-            "label-email": "📧 Email",
-            "label-phone": "📱 Telefone",
-            "label-social": "📱 Redes Sociais",
-            "label-about": "📝 Sobre o Projeto",
-            "btn-save-settings": "💾 Salvar Configurações"
-          },
-          en: {
-            "dashboard": "Dashboard",
-            "leads": "🎯 Find Leads",
-            "campaigns": "📧 Campaigns",
-            "landing": "🎨 Landing Pages",
-            "chat": "🤖 AI Chat",
-            "settings": "⚙️ Settings",
-            "welcome": "✨ Welcome! Manage your projects with your future customers",
-            "found": "Leads Found",
-            "created": "Campaigns Created",
-            "sent": "Emails Sent",
-            "pages": "Landing Pages",
-            "test-mode": "⚠️ YOU ARE IN TEST MODE - Free and unlimited access to test all features",
-            "stat-leads-label": "Leads Found",
-            "stat-campaigns-label": "Campaigns Created",
-            "stat-sent-label": "Emails Sent",
-            "stat-pages-label": "Landing Pages",
-            "section-dashboard": "📊 Dashboard",
-            "section-leads": "🎯 Find Leads",
-            "section-campaigns": "📧 Email Campaigns",
-            "section-landing": "🎨 Landing Page Builder",
-            "section-chat": "🤖 AI Assistant",
-            "section-settings": "⚙️ Settings",
-            "btn-new-project": "➕ New",
-            "modal-new-project": "📁 Create New Project",
-            "btn-cancel": "Cancel",
-            "btn-create": "Create Project",
-            "modal-settings-title": "⚙️ Project Settings",
-            "label-project-name": "📝 Project Name",
-            "label-business-type": "💼 Type of Business or Service",
-            "label-website": "🌐 Website",
-            "label-email": "📧 Email",
-            "label-phone": "📱 Phone",
-            "label-social": "📱 Social Media",
-            "label-about": "📝 About the Project",
-            "btn-save-settings": "💾 Save Settings"
-          },
-          es: {
-            "dashboard": "Panel de Control",
-            "leads": "🎯 Buscar Leads",
-            "campaigns": "📧 Campañas",
-            "landing": "🎨 Landing Pages",
-            "chat": "🤖 Chat IA",
-            "settings": "⚙️ Configuración",
-            "welcome": "✨ ¡Bienvenido! Gestiona tus proyectos con tus futuros clientes",
-            "found": "Leads Encontrados",
-            "created": "Campañas Creadas",
-            "sent": "Correos Enviados",
-            "pages": "Landing Pages",
-            "test-mode": "⚠️ ESTÁS EN MODO PRUEBA - Acceso gratuito e ilimitado para probar todas las funciones",
-            "stat-leads-label": "Leads Encontrados",
-            "stat-campaigns-label": "Campañas Creadas",
-            "stat-sent-label": "Correos Enviados",
-            "stat-pages-label": "Landing Pages",
-            "section-dashboard": "📊 Panel de Control",
-            "section-leads": "🎯 Buscar Leads",
-            "section-campaigns": "📧 Campañas de Email",
-            "section-landing": "🎨 Constructor de Landing Pages",
-            "section-chat": "🤖 Asistente IA",
-            "section-settings": "⚙️ Configuración",
-            "btn-new-project": "➕ Nuevo",
-            "modal-new-project": "📁 Crear Nuevo Proyecto",
-            "btn-cancel": "Cancelar",
-            "btn-create": "Crear Proyecto",
-            "modal-settings-title": "⚙️ Configuración del Proyecto",
-            "label-project-name": "📝 Nombre del Proyecto",
-            "label-business-type": "💼 Tipo de Negocio o Servicio",
-            "label-website": "🌐 Sitio Web",
-            "label-email": "📧 Correo Electrónico",
-            "label-phone": "📱 Teléfono",
-            "label-social": "📱 Redes Sociales",
-            "label-about": "📝 Acerca del Proyecto",
-            "btn-save-settings": "💾 Guardar Configuración"
-          },
-          fr: {
-            "dashboard": "Tableau de Bord",
-            "leads": "🎯 Trouver des Leads",
-            "campaigns": "📧 Campagnes",
-            "landing": "🎨 Landing Pages",
-            "chat": "🤖 Chat IA",
-            "settings": "⚙️ Paramètres",
-            "welcome": "✨ Bienvenue! Gérez vos projets avec vos futurs clients",
-            "found": "Leads Trouvés",
-            "created": "Campagnes Créées",
-            "sent": "Courriels Envoyés",
-            "pages": "Landing Pages",
-            "test-mode": "⚠️ VOUS ÊTES EN MODE TEST - Accès gratuit et illimité pour tester toutes les fonctionnalités",
-            "stat-leads-label": "Leads Trouvés",
-            "stat-campaigns-label": "Campagnes Créées",
-            "stat-sent-label": "Courriels Envoyés",
-            "stat-pages-label": "Landing Pages",
-            "section-dashboard": "📊 Tableau de Bord",
-            "section-leads": "🎯 Trouver des Leads",
-            "section-campaigns": "📧 Campagnes d'Email",
-            "section-landing": "🎨 Constructeur de Landing Pages",
-            "section-chat": "🤖 Assistant IA",
-            "section-settings": "⚙️ Paramètres",
-            "btn-new-project": "➕ Nouveau",
-            "modal-new-project": "📁 Créer un Nouveau Projet",
-            "btn-cancel": "Annuler",
-            "btn-create": "Créer un Projet",
-            "modal-settings-title": "⚙️ Paramètres du Projet",
-            "label-project-name": "📝 Nom du Projet",
-            "label-business-type": "💼 Type d'Entreprise ou de Service",
-            "label-website": "🌐 Site Web",
-            "label-email": "📧 Email",
-            "label-phone": "📱 Téléphone",
-            "label-social": "📱 Réseaux Sociaux",
-            "label-about": "📝 À Propos du Projet",
-            "btn-save-settings": "💾 Enregistrer les Paramètres"
+          if (!database.objectStoreNames.contains('language')) {
+            database.createObjectStore('language', { keyPath: 'key' });
           }
         };
-    
-        function getCurrentLanguage() {
-          // Check if language is saved in localStorage
-          const saved = localStorage.getItem('console_language');
-          if (saved) return saved;
-    
-          // Auto-detect from browser language
-          const browserLang = navigator.language || navigator.userLanguage;
-          const langPrefix = browserLang.split('-')[0].toLowerCase();
-    
-          // Map browser language to our supported languages
-          const langMap = {
-            'pt': 'pt',
-            'en': 'en',
-            'es': 'es',
-            'fr': 'fr'
-          };
-    
-          return langMap[langPrefix] || 'pt';
+      });
+    }
+
+    // Save to IndexedDB
+    async function saveToIndexedDB(storeName, key, data) {
+      if (!db) return;
+      try {
+        const transaction = db.transaction(storeName, 'readwrite');
+        const store = transaction.objectStore(storeName);
+
+        if (typeof data === 'object' && !data.id && !data.key) {
+          data = { ...data, id: key, key: key };
         }
-    
-        async function setLanguage(lang) {
-          await autoSaveData('console_language', lang);
-          document.documentElement.lang = lang;
-          document.getElementById('language-selector').value = lang;
-    
-          // Update navigation buttons
-          document.querySelectorAll('.nav-btn').forEach(btn => {
-            const section = btn.getAttribute('data-section');
-            if (section === 'dashboard') btn.textContent = translations[lang]["dashboard"];
-            else if (section === 'leads') btn.textContent = translations[lang]["leads"];
-            else if (section === 'campaigns') btn.textContent = translations[lang]["campaigns"];
-            else if (section === 'landing') btn.textContent = translations[lang]["landing"];
-            else if (section === 'chat') btn.textContent = translations[lang]["chat"];
-            else if (section === 'settings') btn.textContent = translations[lang]["settings"];
-          });
-    
-          // Update test mode alert
-          const testAlert = document.getElementById('test-mode-alert');
-          if (testAlert) testAlert.textContent = translations[lang]["test-mode"];
-    
-          // Update labels
-          document.querySelectorAll('[data-i18n]').forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            if (translations[lang][key]) el.textContent = translations[lang][key];
-          });
+
+        store.put(data);
+      } catch (error) {
+        console.error('IndexedDB save error:', error);
+      }
+    }
+
+    // Read from IndexedDB
+    async function readFromIndexedDB(storeName, key) {
+      if (!db) return null;
+      return new Promise((resolve) => {
+        try {
+          const transaction = db.transaction(storeName, 'readonly');
+          const store = transaction.objectStore(storeName);
+          const request = store.get(key);
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => resolve(null);
+        } catch (error) {
+          console.error('IndexedDB read error:', error);
+          resolve(null);
         }
-    
-        // Initialize language
-        document.getElementById('language-selector').addEventListener('change', (e) => {
-          setLanguage(e.target.value);
+      });
+    }
+
+    // Get all from IndexedDB
+    async function getAllFromIndexedDB(storeName) {
+      if (!db) return [];
+      return new Promise((resolve) => {
+        try {
+          const transaction = db.transaction(storeName, 'readonly');
+          const store = transaction.objectStore(storeName);
+          const request = store.getAll();
+          request.onsuccess = () => resolve(request.result || []);
+          request.onerror = () => resolve([]);
+        } catch (error) {
+          console.error('IndexedDB getAll error:', error);
+          resolve([]);
+        }
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // HOME SCREEN / CONSOLE PRINCIPAL
+    // ═══════════════════════════════════════════════════════════════
+
+    let projectSelected = false;
+
+    // ═══════════════════════════════════════════════════════════════
+    // AUTO-SAVE WRAPPER FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════
+
+    // Auto-save to both localStorage and IndexedDB
+    async function autoSaveData(key, value) {
+      // Save to localStorage for backward compatibility
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch (e) {
+        console.warn('localStorage save failed:', e);
+      }
+
+      // Save to IndexedDB
+      const storeName = key.includes('projects') ? 'projects' :
+                       key.includes('settings') ? 'settings' :
+                       key.includes('leads') ? 'leads' : 'language';
+
+      await saveToIndexedDB(storeName, key, value);
+    }
+
+    // Auto-load from IndexedDB with fallback to localStorage
+    async function autoLoadData(key) {
+      // Try IndexedDB first
+      const idbData = await readFromIndexedDB('projects', key) ||
+                      await readFromIndexedDB('settings', key) ||
+                      await readFromIndexedDB('leads', key) ||
+                      await readFromIndexedDB('language', key);
+
+      if (idbData) {
+        return idbData;
+      }
+
+      // Fallback to localStorage
+      try {
+        const lsData = localStorage.getItem(key);
+        return lsData ? JSON.parse(lsData) : null;
+      } catch (e) {
+        console.warn('localStorage read failed:', e);
+        return null;
+      }
+    }
+
+    function showHomeScreen() {
+      const home = document.getElementById('home-screen');
+      const header = document.querySelector('header');
+      const container = document.querySelector('.container');
+
+      home.style.display = 'flex';
+      header.style.display = 'none';
+      container.style.display = 'none';
+      projectSelected = false;
+    }
+
+    function hideHomeScreen() {
+      const home = document.getElementById('home-screen');
+      const header = document.querySelector('header');
+      const container = document.querySelector('.container');
+
+      home.style.display = 'none';
+      header.style.display = 'block';
+      container.style.display = 'block';
+      document.getElementById('back-to-home-btn').style.display = 'inline-block';
+      document.getElementById('new-project-btn').style.display = 'inline-block';
+      projectSelected = true;
+    }
+
+    // Home screen button handlers
+    document.getElementById('home-new-project').addEventListener('click', () => {
+      hideHomeScreen();
+      setTimeout(() => {
+        // Trigger new project modal
+        const modal = document.getElementById('new-project-modal');
+        if (modal) {
+          modal.style.display = 'flex';
+        } else {
+          // Fallback: create new project
+          const projectName = prompt('Nome do novo projeto:');
+          if (projectName) {
+            createNewProject(projectName);
+            hideHomeScreen();
+          }
+        }
+      }, 300);
+    });
+
+    document.getElementById('home-projects').addEventListener('click', () => {
+      console.log('\n🏠 Home Projects botão clicado');
+      hideHomeScreen();
+      console.log('✅ Home screen escondido');
+
+      setTimeout(() => {
+        console.log('⏱️ Timeout de 300ms executado');
+        const dashboardBtn = document.querySelector('[data-section="dashboard"]');
+        console.log(`🔍 Dashboard button encontrado: ${dashboardBtn ? 'SIM' : 'NÃO'}`);
+
+        if (dashboardBtn) {
+          console.log('🖱️ Simulando click no dashboard button...');
+          dashboardBtn.click();
+        } else {
+          console.error('❌ ERRO: Dashboard button não encontrado!');
+          console.log('Tentando alternativa...');
+          const allBtns = document.querySelectorAll('.nav-btn');
+          console.log(`Encontrados ${allBtns.length} nav buttons`);
+          if (allBtns.length > 0) {
+            console.log('Clicando no primeiro botão...');
+            allBtns[0].click();
+          }
+        }
+      }, 300);
+    });
+
+    document.getElementById('home-tutorial').addEventListener('click', () => {
+      window.open('tutorial.html', '_blank');
+    });
+
+    // Back to home button
+    document.getElementById('back-to-home-btn').addEventListener('click', () => {
+      showHomeScreen();
+    });
+
+    // ═══════════════════════════════════════════════════════════════
+    // PROJECT MANAGEMENT
+    // ═══════════════════════════════════════════════════════════════
+
+    let currentProject = null;
+
+    async function initializeProjects() {
+      let projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
+      let activeProject = localStorage.getItem('capta_active_project');
+
+      if (projects.length === 0) {
+        // Create default project
+        const defaultProject = { id: 'default_' + Date.now(), name: '📊 Meu Primeiro Projeto', created: Date.now() };
+        projects.push(defaultProject);
+        await autoSaveData('capta_projects', projects);
+        activeProject = defaultProject.id;
+        await autoSaveData('capta_active_project', activeProject);
+      }
+
+      currentProject = activeProject || projects[0].id;
+      updateProjectSelector();
+    }
+
+    function updateProjectSelector() {
+      const selector = document.getElementById('project-selector');
+      const dashboardSelector = document.getElementById('project-selector-dashboard');
+      const projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
+      const currentProjectObj = projects.find(p => p.id === currentProject);
+
+      // Update current project name
+      if (currentProjectObj) {
+        document.getElementById('current-project-name').textContent = currentProjectObj.name;
+      }
+
+      // Update both selectors
+      [selector, dashboardSelector].forEach(sel => {
+        if (!sel) return;
+        sel.innerHTML = '<option value="">📁 Selecionar Projeto</option>';
+        projects.forEach(proj => {
+          const option = document.createElement('option');
+          option.value = proj.id;
+          option.textContent = proj.name;
+          if (proj.id === currentProject) option.selected = true;
+          sel.appendChild(option);
         });
-    
-        // Set initial language
-        setLanguage(getCurrentLanguage());
-    
-        // ═══════════════════════════════════════════════════════════════
-        // TEST MODE DETECTION
-        // ═══════════════════════════════════════════════════════════════
-    
-        const params = new URLSearchParams(window.location.search);
-        const isTestMode = params.has('test') && params.get('test') === 'true';
-    
-        if (isTestMode) {
-          document.getElementById('test-mode-alert').style.display = 'block';
-          autoSaveData('test_mode', 'true').catch(err => console.warn('Test mode save failed:', err));
+      });
+    }
+
+    async function selectProject(projectId) {
+      if (!projectId) return;
+
+      // Validate project exists
+      const projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
+      const projectExists = projects.find(p => p.id === projectId);
+
+      if (!projectExists) {
+        showAlert('❌ Projeto não encontrado!', 'error');
+        return;
+      }
+
+      currentProject = projectId;
+      await autoSaveData('capta_active_project', projectId);
+      updateProjectSelector();
+      loadProjectSettings();
+      refreshLeadsList();
+      refreshCampaignsList();
+      refreshPagesList();
+      showAlert('✅ Projeto alterado!', 'success');
+    }
+
+    function openNewProjectModal() {
+      document.getElementById('new-project-modal').style.display = 'flex';
+    }
+
+    function closeNewProjectModal() {
+      document.getElementById('new-project-modal').style.display = 'none';
+      document.getElementById('new-project-form').reset();
+    }
+
+    function openProjectSettingsModal() {
+      loadProjectSettings();
+      document.getElementById('project-settings-modal').style.display = 'flex';
+    }
+
+    function closeProjectSettingsModal() {
+      document.getElementById('project-settings-modal').style.display = 'none';
+    }
+
+    function loadProjectSettings() {
+      const settings = JSON.parse(localStorage.getItem(getProjectKey('settings')) || '{}');
+      document.getElementById('settings-project-name').value = settings.name || '';
+      document.getElementById('settings-business-type').value = settings.businessType || '';
+      document.getElementById('settings-website').value = settings.website || '';
+      document.getElementById('settings-email').value = settings.email || '';
+      document.getElementById('settings-phone').value = settings.phone || '';
+      document.getElementById('settings-instagram').value = settings.instagram || '';
+      document.getElementById('settings-facebook').value = settings.facebook || '';
+      document.getElementById('settings-linkedin').value = settings.linkedin || '';
+      document.getElementById('settings-youtube').value = settings.youtube || '';
+      document.getElementById('settings-about').value = settings.about || '';
+    }
+
+    document.getElementById('project-settings-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const settings = {
+        name: document.getElementById('settings-project-name').value,
+        businessType: document.getElementById('settings-business-type').value,
+        website: document.getElementById('settings-website').value,
+        email: document.getElementById('settings-email').value,
+        phone: document.getElementById('settings-phone').value,
+        instagram: document.getElementById('settings-instagram').value,
+        facebook: document.getElementById('settings-facebook').value,
+        linkedin: document.getElementById('settings-linkedin').value,
+        youtube: document.getElementById('settings-youtube').value,
+        about: document.getElementById('settings-about').value
+      };
+      await autoSaveData(getProjectKey('settings'), settings);
+      closeProjectSettingsModal();
+      showAlert('✅ Configurações do projeto salvas!', 'success');
+    });
+
+    document.getElementById('project-selector')?.addEventListener('change', (e) => {
+      selectProject(e.target.value);
+    });
+
+    document.getElementById('project-selector-dashboard')?.addEventListener('change', (e) => {
+      selectProject(e.target.value);
+    });
+
+    document.getElementById('new-project-btn')?.addEventListener('click', openNewProjectModal);
+
+    document.getElementById('new-project-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('project-name').value;
+      const description = document.getElementById('project-description').value;
+
+      const newProject = {
+        id: 'proj_' + Date.now(),
+        name: name,
+        description: description,
+        created: Date.now()
+      };
+
+      let projects = JSON.parse(localStorage.getItem('capta_projects') || '[]');
+      projects.push(newProject);
+      await autoSaveData('capta_projects', projects);
+
+      currentProject = newProject.id;
+      await autoSaveData('capta_active_project', newProject.id);
+
+      updateProjectSelector();
+      closeNewProjectModal();
+      showAlert('✅ Projeto criado com sucesso!', 'success');
+      refreshLeadsList();
+    });
+
+    function getProjectKey(baseKey) {
+      return `${baseKey}_${currentProject}`;
+    }
+
+    function showAlert(message, type = "success") {
+      const container = document.getElementById("alert-container");
+      const alert = document.createElement("div");
+      alert.className = `alert ${type}`;
+      alert.textContent = message;
+      container.appendChild(alert);
+
+      setTimeout(() => alert.remove(), 5000);
+    }
+
+    async function apiCall(endpoint, method = "GET", body = null) {
+      try {
+        const options = {
+          method,
+          headers: { "Content-Type": "application/json" }
+        };
+        if (body) options.body = JSON.stringify(body);
+
+        const res = await fetch(`${API}${endpoint}`, options);
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || "Erro na API");
+        return data;
+      } catch (error) {
+        showAlert(error.message, "error");
+        throw error;
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // NAVIGATION
+    // ═══════════════════════════════════════════════════════════════
+
+    console.log('🔍 Registrando event listeners para nav buttons...');
+    const navButtons = document.querySelectorAll(".nav-btn");
+    console.log(`Found ${navButtons.length} nav buttons`);
+
+    navButtons.forEach((btn, index) => {
+      console.log(`  ✅ Button ${index}: ${btn.textContent.trim()} [data-section="${btn.dataset.section}"]`);
+
+      btn.addEventListener("click", (e) => {
+        console.log(`\n🖱️ NAV BUTTON CLICADO: ${btn.textContent.trim()}`);
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Update active nav
+        document.querySelectorAll(".nav-btn").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        console.log('✅ Active class updated');
+
+        // Update active section
+        const sectionId = btn.dataset.section;
+        console.log(`📍 Section ID: ${sectionId}`);
+
+        if (!sectionId) {
+          console.error('❌ Botão sem data-section:', btn);
+          return;
         }
-    
-        // ═══════════════════════════════════════════════════════════════
-        // INITIALIZATION
-        // ═══════════════════════════════════════════════════════════════
-    
-        // Initialize IndexedDB for local auto-save
-        initIndexedDB().then(() => {
-          console.log('✅ IndexedDB initialized - Auto-save enabled');
-        }).catch((error) => {
-          console.warn('⚠️ IndexedDB not available, using localStorage:', error);
-        });
-    
-        initializeProjects();
+
+        const section = document.getElementById(sectionId);
+        console.log(`🔍 Procurando seção #${sectionId}:`, section ? '✅ ENCONTRADA' : '❌ NÃO ENCONTRADA');
+
+        if (!section) {
+          console.error(`❌ Seção ${sectionId} não encontrada no DOM`);
+          return;
+        }
+
+        document.querySelectorAll("section").forEach((s) => s.classList.remove("active"));
+        section.classList.add("active");
+        console.log(`✅ Seção ${sectionId} ativada com sucesso!`);
+
+        // Refresh data
+        if (sectionId === "leads") {
+          console.log('↻ Atualizando leads...');
+          refreshLeadsList();
+        }
+        if (sectionId === "campaigns") {
+          console.log('↻ Atualizando campanhas...');
+          if (typeof refreshCampaignsList === 'function') refreshCampaignsList();
+        }
+        if (sectionId === "landing") {
+          console.log('↻ Atualizando landing pages...');
+          if (typeof refreshPagesList === 'function') refreshPagesList();
+        }
+        if (sectionId === "settings") {
+          console.log('↻ Atualizando configurações...');
+          refreshSettings();
+        }
+      });
+    });
+    console.log('✅ Event listeners registrados com sucesso\n');
+
+    // ═══════════════════════════════════════════════════════════════
+    // LEADS HUNTING
+    // ═══════════════════════════════════════════════════════════════
+
+    let searchResults = [];
+
+    // Initialize: Keep search results EMPTY - no pre-loaded data
+    function initializeSearchResults() {
+      const container = document.getElementById("search-results");
+      container.innerHTML = ""; // Always starts clean
+    }
+    initializeSearchResults();
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById("search-leads-form")?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const keywords = document.getElementById("search-keywords").value;
+        const location = document.getElementById("search-location").value;
+        const type = document.getElementById("search-type").value;
+
+        showAlert("🔍 Buscando negócios/leads (até 150 resultados)...", "info");
+
+        try {
+          const result = await apiCall("/businesses/search", "POST", {
+            query: keywords,
+            location: location || "Internacional",
+            type: type
+          });
+
+          searchResults = result.results || [];
+
+          if (searchResults.length === 0) {
+            showAlert("⚠️ Nenhum resultado encontrado. Tente outras palavras-chave ou localização.", "warning");
+          } else {
+            showAlert(`✅ ${searchResults.length} resultados encontrados!`, "success");
+          }
+
+          renderSearchResults();
+        } catch (error) {
+          console.error(error);
+          showAlert("❌ Erro ao buscar. Tente novamente.", "error");
+        }
+      });
+    });
+
+        searchResults = result.results || [];
+
+        if (searchResults.length === 0) {
+          showAlert("⚠️ Nenhum resultado encontrado. Tente outras palavras-chave ou localização.", "warning");
+        } else {
+          showAlert(`✅ ${searchResults.length} resultados encontrados!`, "success");
+        }
+
+        renderSearchResults();
+      } catch (error) {
+        console.error(error);
+        showAlert("❌ Erro ao buscar. Tente novamente.", "error");
+      }
+    });
+
+    function renderSearchResults() {
+      const container = document.getElementById("search-results");
+      if (searchResults.length === 0) {
+        const lang = getCurrentLanguage();
+        const messages = {
+          pt: "Nenhum resultado. Faça uma busca primeiro.",
+          en: "No results. Make a search first.",
+          es: "Sin resultados. Realiza una búsqueda primero.",
+          fr: "Aucun résultat. Effectuez une recherche d'abord."
+        };
+        container.innerHTML = `<p>${messages[lang] || messages.pt}</p>`;
+        return;
+      }
+
+      container.innerHTML = `
+        <h3>📊 Resultados (${searchResults.length}/150)</h3>
+        <table style="font-size: 0.9em; overflow-x: auto;">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Telefone</th>
+              <th>Website</th>
+              <th>Localização</th>
+              <th>Descrição</th>
+              <th>Score</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${searchResults
+              .map(
+                (lead) => `
+              <tr>
+                <td><strong>${lead.nome || lead.name || 'N/A'}</strong></td>
+                <td>${lead.email || 'N/A'}</td>
+                <td>${lead.telefone || 'N/A'}</td>
+                <td>${lead.website ? `<a href="https://${lead.website}" target="_blank" title="${lead.website}">${lead.website}</a>` : '-'}</td>
+                <td>${lead.localizacao || lead.location || 'N/A'}</td>
+                <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${lead.descricao || ''}">${lead.descricao || 'N/A'}</td>
+                <td><span class="badge success">${lead.score || 'N/A'}</span></td>
+                <td><button onclick="addToLeads('${(lead.email || '').replace(/'/g, "\\'")}', '${(lead.nome || lead.name || 'Lead').replace(/'/g, "\\'")}')">➕</button></td>
+              </tr>`
+              )
+              .join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    async function addToLeads(email, name) {
+      let leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
+      if (!leads.find((l) => l.email === email)) {
+        leads.push({ email, name });
+        await autoSaveData(getProjectKey("my_leads"), leads);
+        showAlert(`✅ ${name} adicionado à lista!`, "success");
         refreshLeadsList();
-        refreshSettings();
-    
-        // Show home screen on initial load
-        showHomeScreen();
-  });
+      } else {
+        showAlert("⚠️ Lead já existe!", "warning");
+      }
+    }
+
+    function refreshLeadsList() {
+      const leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
+      const container = document.getElementById("leads-list");
+
+      if (leads.length === 0) {
+        const lang = getCurrentLanguage();
+        const messages = {
+          pt: "Nenhum lead adicionado ainda.",
+          en: "No leads added yet.",
+          es: "Sin leads añadidos aún.",
+          fr: "Aucun lead ajouté pour l'instant."
+        };
+        container.innerHTML = `<p>${messages[lang] || messages.pt}</p>`;
+        return;
+      }
+
+      container.innerHTML = `
+        <table>
+          <thead>
+            <tr><th>Nome</th><th>Email</th><th>Ação</th></tr>
+          </thead>
+          <tbody>
+            ${leads
+              .map(
+                (lead, i) => `
+              <tr>
+                <td>${lead.nome}</td>
+                <td>${lead.email}</td>
+                <td><button onclick="removeFromLeads(${i})">🗑️ Remover</button></td>
+              </tr>`
+              )
+              .join("")}
+          </tbody>
+        </table>
+      `;
+
+      // Update stat
+      document.getElementById("stat-leads").textContent = leads.length;
+    }
+
+    async function removeFromLeads(index) {
+      let leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
+      leads.splice(index, 1);
+      await autoSaveData(getProjectKey("my_leads"), leads);
+      refreshLeadsList();
+    }
+
+    function exportLeads(format) {
+      const leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
+      if (format === "csv") {
+        const csv = ["Nome,Email", ...leads.map((l) => `${l.nome},${l.email}`)].join("\n");
+        downloadFile(csv, "leads.csv", "text/csv");
+      } else {
+        downloadFile(JSON.stringify(leads, null, 2), "leads.json", "application/json");
+      }
+    }
+
+    function downloadFile(content, filename, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.click();
+    }
+
+    function clearLeads() {
+      if (confirm("Tem certeza? Esta ação não pode ser desfeita.")) {
+        localStorage.removeItem(getProjectKey("my_leads"));
+        refreshLeadsList();
+        showAlert("✅ Leads limpos!", "success");
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // EMAIL CAMPAIGNS
+    // ═══════════════════════════════════════════════════════════════
+
+    document.getElementById("create-campaign-form")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const campaign = {
+        subject: document.getElementById("campaign-subject").value,
+        body: document.getElementById("campaign-body").value,
+        fromEmail: document.getElementById("campaign-from-email").value,
+        fromName: document.getElementById("campaign-from-name").value,
+        recipients: JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]")
+      };
+
+      try {
+        const result = await apiCall("/campaigns/create", "POST", campaign);
+        showAlert("✅ Campanha criada com sucesso!", "success");
+        document.getElementById("create-campaign-form").reset();
+        refreshCampaignsList();
+      } catch (error) {
+        console.error(error);
+        showAlert("❌ Erro ao criar campanha.", "error");
+      }
+    });
+
+    async function refreshCampaignsList() {
+      try {
+        const result = await apiCall("/campaigns/list");
+        const container = document.getElementById("campaigns-list");
+
+        if (!result.campaigns || result.campaigns.length === 0) {
+          const lang = getCurrentLanguage();
+          const messages = {
+            pt: "Nenhuma campanha criada ainda.",
+            en: "No campaigns created yet.",
+            es: "Sin campañas creadas aún.",
+            fr: "Aucune campagne créée pour l'instant."
+          };
+          container.innerHTML = `<p>${messages[lang] || messages.pt}</p>`;
+          return;
+        }
+
+        container.innerHTML = `
+          <table>
+            <thead>
+              <tr>
+                <th>Assunto</th>
+                <th>Status</th>
+                <th>Enviados</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${result.campaigns
+                .map(
+                  (c) => `
+                <tr>
+                  <td>${c.subject}</td>
+                  <td><span class="badge ${c.status === "sent" ? "success" : "warning"}">${c.status.toUpperCase()}</span></td>
+                  <td>${c.sentCount || 0}</td>
+                  <td>
+                    <button onclick="sendCampaign('${c.id}')">📧 Enviar</button>
+                  </td>
+                </tr>`
+                )
+                .join("")}
+            </tbody>
+          </table>
+        `;
+
+        document.getElementById("stat-campaigns").textContent = result.campaigns.length;
+      } catch (error) {
+        console.error(error);
+        showAlert("❌ Erro ao carregar campanhas.", "error");
+      }
+    }
+
+    async function sendCampaign(campaignId) {
+      const leads = JSON.parse(localStorage.getItem(getProjectKey("my_leads")) || "[]");
+      if (leads.length === 0) {
+        showAlert("⚠️ Adicione leads primeiro!", "warning");
+        return;
+      }
+
+      try {
+        const result = await apiCall("/campaigns/send", "POST", {
+          campaignId,
+          leads
+        });
+        showAlert(`✅ ${result.result.success} emails enviados!`, "success");
+        refreshCampaignsList();
+      } catch (error) {
+        console.error(error);
+        showAlert("❌ Erro ao enviar emails.", "error");
+      }
+    }
+
+    document.getElementById("test-email-form")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("test-email-address").value;
+
+      try {
+        const result = await apiCall("/campaigns/test-email", "POST", { email });
+        if (result.success) {
+          showAlert("✅ Email de teste enviado!", "success");
+        } else {
+          showAlert("⚠️ Configure RESEND_API_KEY para enviar emails reais", "warning");
+        }
+      } catch (error) {
+        console.error(error);
+        showAlert("❌ Erro ao testar email.", "error");
+      }
+    });
+
+    // ═══════════════════════════════════════════════════════════════
+    // LANDING PAGES
+    // ═══════════════════════════════════════════════════════════════
+
+    document.getElementById("create-page-form")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const page = {
+        title: document.getElementById("page-title").value,
+        industry: document.getElementById("page-industry").value,
+        seoTitle: document.getElementById("page-seo-title").value,
+        seoDescription: document.getElementById("page-seo-description").value
+      };
+
+      try {
+        const result = await apiCall("/pages/create", "POST", page);
+        showAlert("✅ Landing page criada!", "success");
+        document.getElementById("create-page-form").reset();
+        refreshPagesList();
+      } catch (error) {
+        console.error(error);
+        showAlert("❌ Erro ao criar landing page.", "error");
+      }
+    });
+
+    async function refreshPagesList() {
+      try {
+        const result = await apiCall("/pages/list");
+        const container = document.getElementById("pages-list");
+
+        if (!result.pages || result.pages.length === 0) {
+          const lang = getCurrentLanguage();
+          const messages = {
+            pt: "Nenhuma landing page criada ainda.",
+            en: "No landing pages created yet.",
+            es: "Sin landing pages creadas aún.",
+            fr: "Aucune landing page créée pour l'instant."
+          };
+          container.innerHTML = `<p>${messages[lang] || messages.pt}</p>`;
+          return;
+        }
+
+        container.innerHTML = `
+          <table>
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>Indústria</th>
+                <th>Seções</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${result.pages
+                .map(
+                  (p) => `
+                <tr>
+                  <td>${p.title}</td>
+                  <td>${p.industry}</td>
+                  <td>${p.sections}</td>
+                  <td>
+                    <a href="${API}/pages/preview?pageId=${p.id}" target="_blank">
+                      <button>👁️ Ver</button>
+                    </a>
+                  </td>
+                </tr>`
+                )
+                .join("")}
+            </tbody>
+          </table>
+        `;
+
+        document.getElementById("stat-pages").textContent = result.pages.length;
+      } catch (error) {
+        console.error(error);
+        showAlert("❌ Erro ao carregar landing pages.", "error");
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // SETTINGS
+    // ═══════════════════════════════════════════════════════════════
+
+    document.getElementById("email-settings-form")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const settings = {
+        fromEmail: document.getElementById("settings-from-email").value,
+        fromName: document.getElementById("settings-from-name").value
+      };
+
+      try {
+        const result = await apiCall("/campaigns/settings", "POST", settings);
+        showAlert("✅ Configurações salvas!", "success");
+      } catch (error) {
+        console.error(error);
+      }
+    });
+
+    async function refreshSettings() {
+      try {
+        const result = await apiCall("/campaigns/settings");
+        document.getElementById("settings-from-email").value = result.settings.fromEmail || "";
+        document.getElementById("settings-from-name").value = result.settings.fromName || "";
+
+        const status = result.settings.resendConfigured
+          ? '<span class="badge success">Configurado ✅</span>'
+          : '<span class="badge warning">Não configurado</span>';
+        document.getElementById("email-status").innerHTML = `Status: ${status}`;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // AI CHAT
+    // ═══════════════════════════════════════════════════════════════
+
+    async function sendMessage() {
+      const input = document.getElementById("chat-input");
+      const message = input.value.trim();
+
+      if (!message) return;
+
+      // Display user message
+      const messagesDiv = document.getElementById("chat-messages");
+      const userMsg = document.createElement("div");
+      userMsg.style.cssText = "margin-bottom: 10px; padding: 10px; background: #667eea; color: white; border-radius: 5px; text-align: right;";
+      userMsg.textContent = message;
+      messagesDiv.appendChild(userMsg);
+
+      input.value = "";
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+      try {
+        const response = await fetch("/api/chat/message", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+        const data = await response.json();
+
+        const aiMsg = document.createElement("div");
+        aiMsg.style.cssText = "margin-bottom: 10px; padding: 10px; background: #f0f0f0; border-radius: 5px;";
+        aiMsg.textContent = data.response || "Desculpe, não consegui processar sua solicitação.";
+        messagesDiv.appendChild(aiMsg);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      } catch (error) {
+        const errorMsg = document.createElement("div");
+        errorMsg.style.cssText = "margin-bottom: 10px; padding: 10px; background: #f8d7da; color: #721c24; border-radius: 5px;";
+        errorMsg.textContent = "Erro ao conectar com IA: " + error.message;
+        messagesDiv.appendChild(errorMsg);
+      }
+    }
+
+    // Allow Enter key to send message
+    document.getElementById("chat-input")?.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+
+    // ═══════════════════════════════════════════════════════════════
+    // MULTILINGUAL SUPPORT
+    // ═══════════════════════════════════════════════════════════════
+
+    const translations = {
+      pt: {
+        "dashboard": "Dashboard",
+        "leads": "🎯 Buscar Leads",
+        "campaigns": "📧 Campanhas",
+        "landing": "🎨 Landing Pages",
+        "chat": "🤖 IA Chat",
+        "settings": "⚙️ Configurações",
+        "welcome": "✨ Bem-vindo! Gerencie seus projetos de seus futuros clientes",
+        "found": "Leads Encontrados",
+        "created": "Campanhas Criadas",
+        "sent": "Emails Enviados",
+        "pages": "Landing Pages",
+        "test-mode": "⚠️ VOCÊ ESTÁ NO MODO TESTE - Acesso grátis e ilimitado para testar todas as funcionalidades",
+        "stat-leads-label": "Leads Encontrados",
+        "stat-campaigns-label": "Campanhas Criadas",
+        "stat-sent-label": "Emails Enviados",
+        "stat-pages-label": "Landing Pages",
+        "section-dashboard": "📊 Dashboard",
+        "section-leads": "🎯 Buscar Leads",
+        "section-campaigns": "📧 Campanhas de Email",
+        "section-landing": "🎨 Criador de Landing Pages",
+        "section-chat": "🤖 Assistente IA",
+        "section-settings": "⚙️ Configurações",
+        "btn-new-project": "➕ Novo",
+        "modal-new-project": "📁 Criar Novo Projeto",
+        "btn-cancel": "Cancelar",
+        "btn-create": "Criar Projeto",
+        "modal-settings-title": "⚙️ Configurações do Projeto",
+        "label-project-name": "📝 Nome do Projeto",
+        "label-business-type": "💼 Tipo de Negócio ou Serviço",
+        "label-website": "🌐 Website",
+        "label-email": "📧 Email",
+        "label-phone": "📱 Telefone",
+        "label-social": "📱 Redes Sociais",
+        "label-about": "📝 Sobre o Projeto",
+        "btn-save-settings": "💾 Salvar Configurações"
+      },
+      en: {
+        "dashboard": "Dashboard",
+        "leads": "🎯 Find Leads",
+        "campaigns": "📧 Campaigns",
+        "landing": "🎨 Landing Pages",
+        "chat": "🤖 AI Chat",
+        "settings": "⚙️ Settings",
+        "welcome": "✨ Welcome! Manage your projects with your future customers",
+        "found": "Leads Found",
+        "created": "Campaigns Created",
+        "sent": "Emails Sent",
+        "pages": "Landing Pages",
+        "test-mode": "⚠️ YOU ARE IN TEST MODE - Free and unlimited access to test all features",
+        "stat-leads-label": "Leads Found",
+        "stat-campaigns-label": "Campaigns Created",
+        "stat-sent-label": "Emails Sent",
+        "stat-pages-label": "Landing Pages",
+        "section-dashboard": "📊 Dashboard",
+        "section-leads": "🎯 Find Leads",
+        "section-campaigns": "📧 Email Campaigns",
+        "section-landing": "🎨 Landing Page Builder",
+        "section-chat": "🤖 AI Assistant",
+        "section-settings": "⚙️ Settings",
+        "btn-new-project": "➕ New",
+        "modal-new-project": "📁 Create New Project",
+        "btn-cancel": "Cancel",
+        "btn-create": "Create Project",
+        "modal-settings-title": "⚙️ Project Settings",
+        "label-project-name": "📝 Project Name",
+        "label-business-type": "💼 Type of Business or Service",
+        "label-website": "🌐 Website",
+        "label-email": "📧 Email",
+        "label-phone": "📱 Phone",
+        "label-social": "📱 Social Media",
+        "label-about": "📝 About the Project",
+        "btn-save-settings": "💾 Save Settings"
+      },
+      es: {
+        "dashboard": "Panel de Control",
+        "leads": "🎯 Buscar Leads",
+        "campaigns": "📧 Campañas",
+        "landing": "🎨 Landing Pages",
+        "chat": "🤖 Chat IA",
+        "settings": "⚙️ Configuración",
+        "welcome": "✨ ¡Bienvenido! Gestiona tus proyectos con tus futuros clientes",
+        "found": "Leads Encontrados",
+        "created": "Campañas Creadas",
+        "sent": "Correos Enviados",
+        "pages": "Landing Pages",
+        "test-mode": "⚠️ ESTÁS EN MODO PRUEBA - Acceso gratuito e ilimitado para probar todas las funciones",
+        "stat-leads-label": "Leads Encontrados",
+        "stat-campaigns-label": "Campañas Creadas",
+        "stat-sent-label": "Correos Enviados",
+        "stat-pages-label": "Landing Pages",
+        "section-dashboard": "📊 Panel de Control",
+        "section-leads": "🎯 Buscar Leads",
+        "section-campaigns": "📧 Campañas de Email",
+        "section-landing": "🎨 Constructor de Landing Pages",
+        "section-chat": "🤖 Asistente IA",
+        "section-settings": "⚙️ Configuración",
+        "btn-new-project": "➕ Nuevo",
+        "modal-new-project": "📁 Crear Nuevo Proyecto",
+        "btn-cancel": "Cancelar",
+        "btn-create": "Crear Proyecto",
+        "modal-settings-title": "⚙️ Configuración del Proyecto",
+        "label-project-name": "📝 Nombre del Proyecto",
+        "label-business-type": "💼 Tipo de Negocio o Servicio",
+        "label-website": "🌐 Sitio Web",
+        "label-email": "📧 Correo Electrónico",
+        "label-phone": "📱 Teléfono",
+        "label-social": "📱 Redes Sociales",
+        "label-about": "📝 Acerca del Proyecto",
+        "btn-save-settings": "💾 Guardar Configuración"
+      },
+      fr: {
+        "dashboard": "Tableau de Bord",
+        "leads": "🎯 Trouver des Leads",
+        "campaigns": "📧 Campagnes",
+        "landing": "🎨 Landing Pages",
+        "chat": "🤖 Chat IA",
+        "settings": "⚙️ Paramètres",
+        "welcome": "✨ Bienvenue! Gérez vos projets avec vos futurs clients",
+        "found": "Leads Trouvés",
+        "created": "Campagnes Créées",
+        "sent": "Courriels Envoyés",
+        "pages": "Landing Pages",
+        "test-mode": "⚠️ VOUS ÊTES EN MODE TEST - Accès gratuit et illimité pour tester toutes les fonctionnalités",
+        "stat-leads-label": "Leads Trouvés",
+        "stat-campaigns-label": "Campagnes Créées",
+        "stat-sent-label": "Courriels Envoyés",
+        "stat-pages-label": "Landing Pages",
+        "section-dashboard": "📊 Tableau de Bord",
+        "section-leads": "🎯 Trouver des Leads",
+        "section-campaigns": "📧 Campagnes d'Email",
+        "section-landing": "🎨 Constructeur de Landing Pages",
+        "section-chat": "🤖 Assistant IA",
+        "section-settings": "⚙️ Paramètres",
+        "btn-new-project": "➕ Nouveau",
+        "modal-new-project": "📁 Créer un Nouveau Projet",
+        "btn-cancel": "Annuler",
+        "btn-create": "Créer un Projet",
+        "modal-settings-title": "⚙️ Paramètres du Projet",
+        "label-project-name": "📝 Nom du Projet",
+        "label-business-type": "💼 Type d'Entreprise ou de Service",
+        "label-website": "🌐 Site Web",
+        "label-email": "📧 Email",
+        "label-phone": "📱 Téléphone",
+        "label-social": "📱 Réseaux Sociaux",
+        "label-about": "📝 À Propos du Projet",
+        "btn-save-settings": "💾 Enregistrer les Paramètres"
+      }
+    };
+
+    function getCurrentLanguage() {
+      // Check if language is saved in localStorage
+      const saved = localStorage.getItem('console_language');
+      if (saved) return saved;
+
+      // Auto-detect from browser language
+      const browserLang = navigator.language || navigator.userLanguage;
+      const langPrefix = browserLang.split('-')[0].toLowerCase();
+
+      // Map browser language to our supported languages
+      const langMap = {
+        'pt': 'pt',
+        'en': 'en',
+        'es': 'es',
+        'fr': 'fr'
+      };
+
+      return langMap[langPrefix] || 'pt';
+    }
+
+    async function setLanguage(lang) {
+      await autoSaveData('console_language', lang);
+      document.documentElement.lang = lang;
+      document.getElementById('language-selector').value = lang;
+
+      // Update navigation buttons
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        const section = btn.getAttribute('data-section');
+        if (section === 'dashboard') btn.textContent = translations[lang]["dashboard"];
+        else if (section === 'leads') btn.textContent = translations[lang]["leads"];
+        else if (section === 'campaigns') btn.textContent = translations[lang]["campaigns"];
+        else if (section === 'landing') btn.textContent = translations[lang]["landing"];
+        else if (section === 'chat') btn.textContent = translations[lang]["chat"];
+        else if (section === 'settings') btn.textContent = translations[lang]["settings"];
+      });
+
+      // Update test mode alert
+      const testAlert = document.getElementById('test-mode-alert');
+      if (testAlert) testAlert.textContent = translations[lang]["test-mode"];
+
+      // Update labels
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) el.textContent = translations[lang][key];
+      });
+    }
+
+    // Initialize language
+    document.getElementById('language-selector').addEventListener('change', (e) => {
+      setLanguage(e.target.value);
+    });
+
+    // Set initial language
+    setLanguage(getCurrentLanguage());
+
+    // ═══════════════════════════════════════════════════════════════
+    // TEST MODE DETECTION
+    // ═══════════════════════════════════════════════════════════════
+
+    const params = new URLSearchParams(window.location.search);
+    const isTestMode = params.has('test') && params.get('test') === 'true';
+
+    if (isTestMode) {
+      document.getElementById('test-mode-alert').style.display = 'block';
+      autoSaveData('test_mode', 'true').catch(err => console.warn('Test mode save failed:', err));
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // INITIALIZATION
+    // ═══════════════════════════════════════════════════════════════
+
+    // Initialize IndexedDB for local auto-save
+    initIndexedDB().then(() => {
+      console.log('✅ IndexedDB initialized - Auto-save enabled');
+    }).catch((error) => {
+      console.warn('⚠️ IndexedDB not available, using localStorage:', error);
+    });
+
+    initializeProjects();
+    refreshLeadsList();
+    refreshSettings();
+
+    // Show home screen on initial load
+    showHomeScreen();
   </script>
   <script src="chat-widget.js"></script>
 </body>
