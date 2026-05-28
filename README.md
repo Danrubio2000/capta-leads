@@ -1,318 +1,297 @@
-# 🎯 CAPTA LEADS - Setup Local
+# 🚀 CAPTA LEADS v2.0
 
-Guia completo para rodar o CAPTA LEADS no seu computador para testes e desenvolvimento.
+**All-in-One Lead Generation, Email Marketing & Landing Page Builder**
 
----
-
-## 📋 OPÇÃO 1: Rápido (Sem instalação)
-
-Se você só quer testar rapidinho, sem instalar nada:
-
-### Passo 1: Baixe os arquivos
-```bash
-git clone https://github.com/Danrubio2000/capta-leads.git
-cd capta-leads
-```
-
-### Passo 2: Abra o dashboard
-Simplesmente **dê double-click** em:
-- `dashboard.html` - Abre no navegador padrão
-
-**Pronto!** O app roda 100% local no seu computador.
+> Encontre leads, envie campanhas de email e crie landing pages—tudo em um único agente configurável.
 
 ---
 
-## 🚀 OPÇÃO 2: Recomendada (Com servidor Node.js)
+## ⚡ Início Rápido (3 passos)
 
-Para testar como se fosse de verdade, com servidor local:
-
-### Pré-requisitos
-- **Node.js** instalado ([Download aqui](https://nodejs.org/))
-  - Versão mínima: 14.0.0
-  - Teste: `node --version`
-
-### Passo 1: Clone o repositório
+### 1️⃣ Instalar Dependências
 ```bash
-git clone https://github.com/Danrubio2000/capta-leads.git
-cd capta-leads
-```
-
-### Passo 2: Instale dependências
-```bash
+cd /Users/Dan/Projects/CAPTA-LEADS
 npm install
 ```
 
-### Passo 3: Inicie o servidor local
+### 2️⃣ Configurar Variáveis de Ambiente
+```bash
+# Copiar arquivo de exemplo
+cp .env.example .env
+
+# Editar .env e adicionar suas chaves (opcional)
+# RESEND_API_KEY=re_sua_chave
+# HUNTER_API_KEY=sua_chave
+```
+
+### 3️⃣ Iniciar o Servidor
 ```bash
 npm start
+# ou
+node server.js
 ```
 
-**Você verá:**
-```
-Server running on http://localhost:3000
-Dashboard: http://localhost:3000/dashboard
-Landing page: http://localhost:3000
-```
-
-### Passo 4: Abra no navegador
-Acesse: **http://localhost:3000**
+**Acesso:** http://localhost:3000
 
 ---
 
-## 📂 Estrutura de Pastas
+## 🎯 O que é CAPTA LEADS?
 
+CAPTA LEADS é a solução completa para:
+
+| Funcionalidade | Descrição |
+|---|---|
+| 🎯 **Busca de Leads** | Encontre contatos de qualquer profissão/negócio |
+| 📧 **Email Marketing** | Crie e envie campanhas em massa |
+| 🎨 **Landing Pages** | Construtor de páginas sem código |
+| ⚙️ **Configurável** | Adapte para sua industria específica |
+| 🤖 **Otimizado** | Interface amigável e intuitiva |
+
+---
+
+## 📋 Funcionalidades
+
+### 🎯 Lead Hunting
+- **Busca Multi-Fonte:** Hunter.io, Clearbit, Google
+- **Filtros:** Palavras-chave, localização, tipo
+- **Validação:** Verificação de emails válidos
+- **Exportação:** CSV, JSON
+- **Dados:** 50+ leads pré-verificados no banco de dados
+
+### 📧 Email Campaigns
+- **Criação:** Interface simples para criar campanhas
+- **Personalização:** Use {nome}, {empresa}, {email}
+- **Envio:** Via Resend (100 emails/dia gratis)
+- **Estatísticas:** Rastreio de enviados, abertos, clicados
+- **Templates:** Prontos para usar
+
+### 🎨 Landing Page Builder
+- **Arrastar & Soltar:** Interface intuitiva
+- **Múltiplas Seções:** Hero, Features, Testimonials, CTA, Footer
+- **Suporte de Mídia:** Imagens, vídeos, URLs
+- **Responsivo:** Funciona em desktop e mobile
+- **SEO:** Meta tags, títulos, keywords
+- **Exportação:** HTML, JSON
+
+### ⚙️ Configurável por Indústria
 ```
-capta-leads/
-├── index.html           ← Landing page
-├── dashboard.html       ← App principal (teste aqui!)
-├── tutorial.html        ← Vídeo tutorial
-├── server.js           ← Servidor local (Node.js)
-├── package.json        ← Configurações
-├── .env                ← Variáveis de ambiente
-├── TESTING.md          ← Guia de testes
-├── MARKETING.md        ← Estratégia de marketing
-└── README.md           ← Este arquivo
+✅ Genérico
+✅ Cinema & Audiovisual
+✅ Arte & Cultura
+✅ Saúde & Medicina
+✅ Tecnologia
+✅ E-commerce & Varejo
+✅ Imóveis
+✅ Educação
 ```
 
 ---
 
-## 🎮 Como Usar o Dashboard Localmente
+## 📁 Estrutura do Projeto
 
-### 1️⃣ DESCOBRIR LEADS
-1. Abra o dashboard
-2. Clique em **"Buscar Leads"**
-3. Configure:
-   - 🎯 Indústria (ex: Construção, Consultoria)
-   - 📍 Localização
-   - 💼 Tamanho da empresa
-4. Clique **"Buscar"**
-5. Veja a lista de contatos encontrados
-
-### 2️⃣ ORGANIZAR LEADS
-- [ ] Salve leads em **listas**
-- [ ] Marque como **favorito** ⭐
-- [ ] Anote **observações** pessoais
-- [ ] Defina **status** (Novo, Contatado, Qualificado)
-
-### 3️⃣ ENVIAR PROPOSTAS
-1. Selecione um lead
-2. Clique **"Gerar Proposta"**
-3. Escolha template
-4. Personalize o texto
-5. Clique **"Enviar"** (salva localmente)
-
-### 4️⃣ ACOMPANHAR CAMPANHA
-- Veja **histórico** de contatos
-- Monitore **conversão**
-- Analise **próximos passos**
+```
+CAPTA-LEADS/
+├── server.js                 ← Backend integrado
+├── console.html              ← Interface principal
+├── leads-hunter.js           ← Busca de leads
+├── email-sender.js           ← Envio de emails
+├── landing-builder.js        ← Criador de landing pages
+├── config.js                 ← Configurações e templates
+├── package.json
+├── .env.example
+├── README.md                 ← Este arquivo
+├── data/                     ← Dados salvos (JSON)
+├── uploads/                  ← Imagens e mídia
+└── .gitignore
+```
 
 ---
 
-## 🔧 Comandos Úteis
+## 🔧 APIs & Endpoints
 
-### Iniciar servidor
-```bash
-npm start
+### Lead Hunting
+```
+POST   /api/leads/search          - Buscar leads
+GET    /api/leads/list            - Listar leads
+POST   /api/leads/enrich          - Enriquecer lead
+GET    /api/leads/export          - Exportar (CSV/JSON)
 ```
 
-### Parar servidor
+### Email Campaigns
 ```
-Ctrl + C (Windows/Linux)
-Cmd + C (Mac)
+POST   /api/campaigns/create      - Criar campanha
+GET    /api/campaigns/list        - Listar campanhas
+POST   /api/campaigns/send        - Enviar campanha
+POST   /api/campaigns/test-email  - Testar email
+GET    /api/campaigns/settings    - Obter configurações
+POST   /api/campaigns/settings    - Atualizar configurações
 ```
 
-### Reinstalar dependências
-```bash
-npm install
+### Landing Pages
+```
+POST   /api/pages/create          - Criar página
+GET    /api/pages/list            - Listar páginas
+POST   /api/pages/add-section     - Adicionar seção
+POST   /api/pages/update-section  - Atualizar seção
+POST   /api/pages/delete-section  - Deletar seção
+GET    /api/pages/preview         - Visualizar página
+GET    /api/pages/export          - Exportar página
 ```
 
-### Ver versão do Node
-```bash
-node --version
-npm --version
+### Configuração
+```
+GET    /api/config/industries     - Obter indústrias
+GET    /api/config/templates      - Obter templates
+```
+
+---
+
+## 🎬 Como Usar
+
+### 1️⃣ Buscar Leads
+1. Acesse **Buscar Leads**
+2. Digite palavras-chave (ex: "fundação documentário")
+3. Selecione localização e tipo
+4. Clique em **Buscar**
+5. Selecione os leads que interessam
+6. Clique em **Adicionar** para cada lead
+
+### 2️⃣ Criar Campanha de Email
+1. Acesse **Campanhas**
+2. Preencha o assunto e corpo do email
+3. Use personalizações: {nome}, {empresa}
+4. Configure email de origem
+5. Clique em **Criar Campanha**
+6. Clique em **Enviar** para enviar aos leads
+
+### 3️⃣ Criar Landing Page
+1. Acesse **Landing Pages**
+2. Preencha título, indústria, SEO
+3. Clique em **Criar Landing Page**
+4. Clique em **Ver** para editar
+5. Adicione seções (Hero, Features, etc)
+6. Publique!
+
+---
+
+## 🔑 Configurar APIs (Opcional)
+
+### Hunter.io (Busca de Emails)
+1. Vá em https://hunter.io
+2. Crie conta grátis
+3. Copie sua API key
+4. Adicione em **.env**: `HUNTER_API_KEY=sua_chave`
+
+### Clearbit (Dados Corporativos)
+1. Vá em https://clearbit.com
+2. Crie conta grátis
+3. Copie sua API key
+4. Adicione em **.env**: `CLEARBIT_API_KEY=sua_chave`
+
+### Resend (Email)
+1. Vá em https://resend.com
+2. Crie conta grátis (100 emails/dia)
+3. Gere API key
+4. Adicione em **.env**: `RESEND_API_KEY=re_sua_chave`
+
+### Claude API (IA Sugestões)
+1. Vá em https://console.anthropic.com
+2. Gere API key
+3. Adicione em **.env**: `ANTHROPIC_API_KEY=sk_sua_chave`
+
+---
+
+## 💡 Exemplos de Uso
+
+### 📽️ Procurar Fundações para Documentários
+```
+Palavras-chave: "documentary grant, film funding"
+Localização: "International"
+Tipo: "Fundação"
+```
+
+### 🏥 Procurar Clínicas Médicas
+```
+Palavras-chave: "clinic, medical center"
+Localização: "São Paulo, Brasil"
+Tipo: "Negócio"
+```
+
+### 💼 Procurar Agências de Marketing
+```
+Palavras-chave: "marketing agency, digital"
+Localização: "Miami, USA"
+Tipo: "Negócio"
 ```
 
 ---
 
 ## 🐛 Troubleshooting
 
-### Erro: "npm: command not found"
-**Solução:** Instale Node.js do site oficial: https://nodejs.org/
-
-### Erro: "Port 3000 already in use"
-**Solução:** Outra aplicação está usando a porta. Mude no `server.js`:
-```javascript
-const PORT = 3001; // Mude de 3000 para 3001
-```
-
-### Página branca ou não carrega
-**Solução:**
-1. Limpe o cache: `Ctrl+Shift+Delete` (Chrome)
-2. Recarregue: `Ctrl+F5`
-3. Abra console: `F12` e procure erros
-
-### "Cannot find module"
-**Solução:**
+### "Porta 3000 em uso"
 ```bash
-rm -rf node_modules package-lock.json
-npm install
+killall node
 npm start
 ```
 
----
+### "Console em branco"
+- Recarregue (Cmd+R)
+- Abra console (F12) e veja erros
 
-## 💾 Salvar Dados Localmente
+### "Email não envia"
+- Configure `RESEND_API_KEY` em `.env`
+- Teste com "Testar Email"
+- Verifique configurações de email
 
-### Dados salvos no navegador
-Os dados são armazenados em **localStorage** (sua máquina):
-- Leads
-- Listas
-- Propostas
-- Preferências
-
-**Não se perdem** ao recarregar a página!
-
-### Exportar dados
-```javascript
-// Cole no console (F12 → Console):
-JSON.stringify(localStorage)
-```
-
-### Limpar todos os dados
-```javascript
-// Console:
-localStorage.clear()
-```
+### "Nenhum lead encontrado"
+- Tente palavras-chave diferentes
+- Especifique a localização
+- Verifique se APIs estão configuradas
 
 ---
 
-## 🔒 Segurança (Local)
+## 📊 Limites Gratuitos
 
-Como você está testando **localmente**:
-- ✅ Seus dados ficam no seu PC
-- ✅ Nada é enviado para internet
-- ✅ Seguro para dados sensíveis
-- ✅ Funciona offline
-
----
-
-## 📱 Acessar de Outro Computador (Mesma rede)
-
-Se quiser testar de outro PC na mesma rede Wi-Fi:
-
-1. Descubra seu IP local:
-   ```bash
-   ipconfig (Windows)
-   ifconfig (Mac/Linux)
-   ```
-   Procure por algo como: `192.168.1.100`
-
-2. No outro computador, acesse:
-   ```
-   http://192.168.1.100:3000
-   ```
+| Serviço | Limite | Upgrade |
+|---------|--------|---------|
+| Hunter.io | 100 buscas/mês | Planos pagos |
+| Clearbit | 100 empresas/mês | Planos pagos |
+| Resend | 100 emails/dia | Planos pagos |
+| Google | 100 queries/dia | Planos pagos |
 
 ---
 
-## 📊 Testar com Dados Reais
+## 🤝 Stack Técnico
 
-### Importar lista de contatos
-1. Crie um arquivo CSV:
-   ```
-   Nome,Email,Empresa,Telefone
-   João Silva,joao@email.com,Tech Ltda,(11) 98765-4321
-   Maria Santos,maria@email.com,Consultoria XYZ,(21) 99999-8888
-   ```
-
-2. No dashboard:
-   - Clique **"Importar"**
-   - Selecione seu arquivo CSV
-   - Pronto! Os contatos aparecem
+- **Backend:** Node.js + HTTP nativo
+- **Frontend:** HTML5 + CSS3 + JavaScript vanilla
+- **Armazenamento:** JSON Files (local)
+- **APIs:** Hunter.io, Clearbit, Resend
+- **Deploy:** Localhost, VPS, Heroku
 
 ---
 
-## 🎯 Checklist de Testes Locais
+## 📄 Licença & Contato
 
-Quando estiver testando no seu PC:
-
-- [ ] Dashboard abre sem erros
-- [ ] Consegue criar nova lista
-- [ ] Consegue adicionar contatos
-- [ ] Consegue gerar proposta
-- [ ] Dados persistem ao recarregar
-- [ ] Funciona offline
-- [ ] Console sem erros (F12)
+**Desenvolvido por:** Dan Rubio  
+**Versão:** 2.0.0  
+**Lançamento:** Maio 2026  
+**Email:** danrubio_2000@yahoo.com  
+**Site:** https://artver.com.br
 
 ---
 
-## 🚀 Próximos Passos
+## 🎁 Roadmap
 
-### Depois de testar localmente:
-
-1. **Melhorar o app:**
-   - Adicione sua logo
-   - Customize cores (branding)
-   - Crie templates de proposta
-
-2. **Preparar para lançamento:**
-   - Teste com 10 clientes
-   - Coleta feedback
-   - Ajuste interface
-
-3. **Deploy na nuvem:**
-   - Vercel (frontend)
-   - Railway/Heroku (backend)
-   - Banco de dados (Firebase, MongoDB)
+- [ ] Integração com Claude API para IA sugestões
+- [ ] Automação de follow-ups
+- [ ] CRM integrado
+- [ ] Dashboard com gráficos
+- [ ] Integração com Zapier/Make
+- [ ] App mobile
+- [ ] Multi-usuários/Teams
+- [ ] Webhooks
 
 ---
 
-## 📞 Problemas?
-
-Se algo não funcionar:
-
-1. Verifique erros no console: `F12 → Console`
-2. Copie a mensagem de erro
-3. Reinicie o servidor: `Ctrl+C` e `npm start`
-4. Se persistir, avise para correção
-
----
-
-## 💡 Dica Pro
-
-Para simular funcionalidades avançadas, use o console do navegador:
-
-```javascript
-// Adicionar lead simulado
-const novoLead = {
-  id: Date.now(),
-  nome: "João Silva",
-  empresa: "Tech Ltda",
-  email: "joao@tech.com.br",
-  telefone: "(11) 98765-4321",
-  criado: new Date().toLocaleDateString('pt-BR')
-};
-
-localStorage.setItem('lead_' + novoLead.id, JSON.stringify(novoLead));
-```
-
-Depois recarregue a página e o lead aparecerá!
-
----
-
-## 📝 Versões
-
-| Versão | Data | Mudanças |
-|--------|------|----------|
-| 1.0.0 | 2025-05-27 | Lançamento inicial |
-| 1.1.0 | Próxima | Backend com database |
-| 2.0.0 | Futura | App mobile |
-
----
-
-## 📄 Licença
-
-Privado - Uso pessoal apenas
-
----
-
-**Bom teste! 🚀**
+**Tudo pronto! Comece a gerar leads agora! 🚀**

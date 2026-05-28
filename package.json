@@ -1,34 +1,28 @@
 {
   "name": "capta-leads",
   "version": "2.0.0",
-  "description": "Ferramenta completa para encontrar, gerenciar e converter leads. Integrado com Hunter.io, Email Marketing, IA e Landing Pages.",
+  "description": "CAPTA LEADS - All-in-One Lead Generation, Email Marketing & Landing Page Builder",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "test": "echo \"No tests yet\""
+    "test": "echo 'Tests coming soon'"
   },
   "keywords": [
-    "leads",
-    "contatos",
-    "prospecção",
-    "marketing",
-    "vendas",
-    "hunter.io",
-    "email marketing",
-    "landing pages",
-    "IA",
-    "automação"
+    "lead-generation",
+    "email-marketing",
+    "landing-page-builder",
+    "automation",
+    "crm"
   ],
-  "author": "CAPTA LEADS",
-  "license": "PRIVATE",
-  "engines": {
-    "node": ">=14.0.0",
-    "npm": ">=6.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Danrubio2000/capta-leads.git"
-  },
-  "dependencies": {}
+  "author": "Dan Rubio",
+  "license": "MIT",
+  "dependencies": {
+    "resend": "^3.0.0",
+    "dotenv": "^16.0.0",
+    "axios": "^1.6.0",
+    "@anthropic-ai/sdk": "^0.24.0",
+    "stripe": "^14.0.0"
+  }
 }

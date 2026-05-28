@@ -1,0 +1,159 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                                                                           ║
+║                  🚀 CAPTA LEADS - QUICK START GUIDE                      ║
+║                                                                           ║
+║                    Get Started in 3 Simple Steps                         ║
+║                                                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+
+📋 STEP 1: Register as Paid Customer (2 minutes)
+═════════════════════════════════════════════════════════════════════════════
+
+Run the setup wizard:
+
+    cd /tmp/capta-leads
+    node setup-paid-customer.js
+
+Answer the prompts:
+    • Email: your@email.com
+    • Plan: 2 (Professional) ← Recommended for full access
+    • Confirm: yes
+
+✅ You're now registered!
+
+
+🚀 STEP 2: Start the Server (1 minute)
+═════════════════════════════════════════════════════════════════════════════
+
+In your terminal:
+
+    npm start
+
+You should see:
+    ✅ Server running on http://localhost:3000
+    ✅ All modules initialized
+    ✅ CORS enabled
+
+
+🌐 STEP 3: Open in Browser (30 seconds)
+═════════════════════════════════════════════════════════════════════════════
+
+Visit this URL:
+
+    http://localhost:3000
+
+✅ Full CAPTA LEADS app is now running locally!
+
+
+📚 NEXT: Use the App
+═════════════════════════════════════════════════════════════════════════════
+
+In the app:
+
+1. Click "Novo Projeto" (New Project)
+2. Give it a name
+3. Click "Criar Projeto" (Create Project)
+4. You're ready! Try these features:
+
+   🎯 Lead Search     → Find leads by keywords
+   📧 Email Campaign  → Send emails to leads
+   🎨 Landing Page    → Build a landing page
+   🤖 AI Chat         → Talk to the AI assistant
+
+
+💡 Available Features
+═════════════════════════════════════════════════════════════════════════════
+
+Since you registered as "Professional" plan, you get:
+
+✅ Unlimited lead search
+✅ Unlimited email campaigns
+✅ Unlimited landing pages
+✅ AI chat 24/7
+✅ Multi-language (PT, EN, ES, FR)
+✅ Project management
+✅ Auto-save (works offline)
+✅ Advanced analytics
+✅ Data export (CSV, JSON)
+✅ API integrations
+
+
+⚡ Quick Tips
+═════════════════════════════════════════════════════════════════════════════
+
+• Test Mode: http://localhost:3000/?test=true
+  (Try this if something doesn't work)
+
+• API Testing:
+  curl -X POST http://localhost:3000/api/leads/search \
+    -H "Content-Type: application/json" \
+    -d '{"keywords":"documentário","location":"Internacional"}'
+
+• Free Plan Access:
+  http://localhost:3000/?mode=demo&access=free&email=your@email.com
+
+• Check Server Status:
+  curl http://localhost:3000/api/config/industries
+
+• Stop Server: Press Ctrl+C in terminal
+
+
+📂 Important Files
+═════════════════════════════════════════════════════════════════════════════
+
+paid-customers.json      ← Your registration (auto-created)
+.env                     ← Configuration (already set up)
+server.js                ← Backend (runs automatically)
+console.html             ← The actual app
+
+
+📖 Documentation
+═════════════════════════════════════════════════════════════════════════════
+
+More detailed guides available:
+
+• SETUP_LOCAL_PAID.md          ← Complete setup guide
+• SETUP_CUSTOMER_EXPERIENCE.md ← How customer access works
+• COMPLETE_IMPLEMENTATION_REPORT.md → Technical details
+• Tutorial in app → Click "📚 Tutorial" in Dashboard
+
+
+🆘 Troubleshooting
+═════════════════════════════════════════════════════════════════════════════
+
+Server won't start?
+  → Check if port 3000 is in use: lsof -i :3000
+  → Use different port: PORT=3001 npm start
+
+App says you're not registered?
+  → Check file exists: cat paid-customers.json
+  → Re-run setup: node setup-paid-customer.js
+
+Features don't work?
+  → Try test mode: http://localhost:3000/?test=true
+  → Check browser console: Press F12
+
+
+🎯 What's Next?
+═════════════════════════════════════════════════════════════════════════════
+
+1. ✅ Server is running
+2. ✅ You're registered
+3. ✅ App is open
+4. → Create your first project
+5. → Try searching for leads ("documentário" is a good test)
+6. → Create and send an email campaign
+7. → Build a landing page
+8. → Explore all features
+
+Enjoy! 🚀
+
+
+═══════════════════════════════════════════════════════════════════════════════
+
+Questions? Check the documentation files or the in-app tutorial.
+
+Happy lead hunting! 🎯
+
+═══════════════════════════════════════════════════════════════════════════════
