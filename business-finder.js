@@ -370,9 +370,39 @@ class BusinessFinder {
       }
     }
 
+    // Mapeamento de abreviações de localização
+    const locationAliases = {
+      sp: "São Paulo",
+      "são paulo": "São Paulo",
+      rj: "Rio de Janeiro",
+      "rio de janeiro": "Rio de Janeiro",
+      bh: "Belo Horizonte",
+      "belo horizonte": "Belo Horizonte",
+      ny: "New York",
+      "new york": "New York",
+      ca: "San Francisco",
+      "san francisco": "San Francisco",
+      sf: "San Francisco",
+      dc: "Washington",
+      washington: "Washington",
+      brasília: "Brasília",
+      recife: "Recife",
+      salvador: "Salvador",
+      madrid: "Madrid",
+      españa: "España",
+      méxico: "México"
+    };
+
+    // Normaliza location usando aliases
+    let normalizedLocation = locationAliases[location.toLowerCase()] || location;
+
     // Filtra por localização se especificada
-    if (location !== "Internacional" && location !== "Qualquer lugar") {
-      filtered = filtered.filter(b => b.localizacao.toLowerCase().includes(location.toLowerCase()));
+    if (normalizedLocation !== "Internacional" && normalizedLocation !== "Qualquer lugar") {
+      filtered = filtered.filter(b => {
+        const locLower = b.localizacao.toLowerCase();
+        const normLocLower = normalizedLocation.toLowerCase();
+        return locLower.includes(normLocLower) || locLower.includes(location.toLowerCase());
+      });
     }
 
     return filtered
