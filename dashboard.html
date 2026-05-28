@@ -495,6 +495,7 @@
     </div>
     <nav>
       <button class="nav-btn active" data-section="dashboard">📊 Dashboard</button>
+      <button class="nav-btn" data-section="businesses">🏪 Buscar Negócios</button>
       <button class="nav-btn" data-section="leads">🎯 Buscar Leads</button>
       <button class="nav-btn" data-section="campaigns">📧 Campanhas</button>
       <button class="nav-btn" data-section="landing">🎨 Landing Pages</button>
@@ -551,6 +552,32 @@
           <li>🎨 <strong>Landing Pages:</strong> Crie páginas de vendas sem código</li>
           <li>🤖 <strong>IA Integrada:</strong> Assistente Claude IA para melhorar seus textos e estratégias</li>
         </ul>
+      </div>
+    </section>
+
+    <!-- Business Search -->
+    <section id="businesses">
+      <h2>🏪 Buscar Negócios</h2>
+
+      <div class="card">
+        <h3>🔍 Busca de Negócios Locais</h3>
+        <form id="search-businesses-form">
+          <input type="text" id="business-keywords" placeholder="Digite tipo de negócio (ex: supermercado, restaurante, dentista)" required>
+          <input type="text" id="business-location" placeholder="Localização (ex: São Paulo, Astoria, Brasil)" value="Brasil">
+          <button type="submit">🔍 Buscar Negócios</button>
+        </form>
+      </div>
+
+      <div id="business-search-results" style="margin-top: 20px;"></div>
+
+      <div class="card" style="margin-top: 20px;">
+        <h3>🏢 Negócios Encontrados</h3>
+        <div id="businesses-list"></div>
+        <div class="btn-group" style="margin-top: 15px;">
+          <button onclick="exportBusinesses('csv')">📥 Baixar CSV</button>
+          <button onclick="exportBusinesses('json')" class="secondary">📥 Baixar JSON</button>
+          <button onclick="clearBusinesses()" class="secondary">🗑️ Limpar</button>
+        </div>
       </div>
     </section>
 
@@ -1098,6 +1125,133 @@
     });
 
     // ═══════════════════════════════════════════════════════════════
+    // BUSINESS SEARCH
+    // ═══════════════════════════════════════════════════════════════
+
+    document.getElementById('search-businesses-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const keywords = document.getElementById('business-keywords').value;
+      const location = document.getElementById('business-location').value;
+
+      try {
+        const response = await fetch(`${API}/businesses/search`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: keywords, location: location })
+        });
+        const data = await response.json();
+
+        if (data.success && data.results) {
+          displayBusinessResults(data.results);
+          saveBusinesses(data.results);
+          showAlert(`✅ Encontrados ${data.results.length} negócios!`);
+        } else {
+          showAlert('Nenhum negócio encontrado', 'warning');
+        }
+      } catch (error) {
+        showAlert(`Erro: ${error.message}`, 'error');
+      }
+    });
+
+    function displayBusinessResults(results) {
+      const resultsDiv = document.getElementById('business-search-results');
+      if (!results || results.length === 0) {
+        resultsDiv.innerHTML = '<p>Nenhum resultado encontrado</p>';
+        return;
+      }
+
+      resultsDiv.innerHTML = `<h3>📍 ${results.length} Negócios Encontrados:</h3><div style="margin-top: 10px;">` +
+        results.map((b, i) => `
+          <div style="padding: 10px; background: #f5f5f5; margin: 5px 0; border-radius: 8px;">
+            <strong>${b.nome}</strong><br>
+            📱 ${b.telefone || 'N/A'} | 🌐 ${b.website || 'N/A'}<br>
+            📍 ${b.localizacao}<br>
+            <small>${b.descricao || ''}</small><br>
+            <button onclick="saveBusiness(${i}, this)" style="margin-top: 8px; padding: 5px 10px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9em;">➕ Salvar</button>
+          </div>
+        `).join('') + '</div>';
+    }
+
+    function saveBusiness(index, button) {
+      const resultsDiv = document.getElementById('business-search-results');
+      const allResults = resultsDiv.querySelectorAll('[style*="padding: 10px"]');
+      if (index < allResults.length) {
+        const saved = JSON.parse(localStorage.getItem(`capta_businesses_${currentProject}`) || '[]');
+        const businessEl = allResults[index];
+        const nome = businessEl.querySelector('strong').textContent;
+        const info = businessEl.textContent;
+        saved.push({ nome, info, timestamp: new Date().toISOString() });
+        localStorage.setItem(`capta_businesses_${currentProject}`, JSON.stringify(saved));
+        button.textContent = '✅ Salvo';
+        button.disabled = true;
+        showAlert(`✅ ${nome} adicionado!`);
+      }
+    }
+
+    function saveBusinesses(results) {
+      const saved = JSON.parse(localStorage.getItem(`capta_businesses_${currentProject}`) || '[]');
+      results.forEach(b => {
+        if (!saved.find(s => s.nome === b.nome)) {
+          saved.push({ ...b, timestamp: new Date().toISOString() });
+        }
+      });
+      localStorage.setItem(`capta_businesses_${currentProject}`, JSON.stringify(saved));
+    }
+
+    function exportBusinesses(format) {
+      const saved = JSON.parse(localStorage.getItem(`capta_businesses_${currentProject}`) || '[]');
+      if (saved.length === 0) {
+        showAlert('Nenhum negócio salvo', 'warning');
+        return;
+      }
+
+      if (format === 'csv') {
+        const csv = 'Nome,Telefone,Website,Localização\n' +
+          saved.map(b => `"${b.nome}","${b.telefone || ''}","${b.website || ''}","${b.localizacao || ''}"`).join('\n');
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `negócios_${currentProject}.csv`;
+        a.click();
+      } else if (format === 'json') {
+        const json = JSON.stringify(saved, null, 2);
+        const blob = new Blob([json], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `negócios_${currentProject}.json`;
+        a.click();
+      }
+    }
+
+    function clearBusinesses() {
+      if (confirm('Tem certeza que quer deletar todos os negócios salvos?')) {
+        localStorage.setItem(`capta_businesses_${currentProject}`, '[]');
+        refreshBusinessesList();
+        showAlert('✅ Negócios deletados');
+      }
+    }
+
+    function refreshBusinessesList() {
+      const saved = JSON.parse(localStorage.getItem(`capta_businesses_${currentProject}`) || '[]');
+      const listDiv = document.getElementById('businesses-list');
+      if (saved.length === 0) {
+        listDiv.innerHTML = '<p style="color: #999;">Nenhum negócio salvo ainda</p>';
+        return;
+      }
+
+      listDiv.innerHTML = saved.map((b, i) => `
+        <div style="padding: 10px; background: #f9f9f9; margin: 5px 0; border-radius: 8px; border-left: 4px solid var(--primary);">
+          <strong>${b.nome}</strong><br>
+          📱 ${b.telefone || 'N/A'} | 🌐 ${b.website || 'N/A'}<br>
+          📍 ${b.localizacao || 'N/A'}<br>
+          <small style="color: #999;">Salvo em ${new Date(b.timestamp).toLocaleDateString('pt-BR')}</small>
+        </div>
+      `).join('');
+    }
+
+    // ═══════════════════════════════════════════════════════════════
     // UTILITIES
     // ═══════════════════════════════════════════════════════════════
 
@@ -1116,6 +1270,7 @@
 
     initializeProjects();
     refreshLeadsList();
+    refreshBusinessesList();
     refreshCampaignsList();
     refreshPagesList();
     showHomeScreen();
@@ -1126,6 +1281,7 @@
         localStorage.setItem('capta_active_project', currentProject);
         updateProjectSelector();
         refreshLeadsList();
+        refreshBusinessesList();
         refreshCampaignsList();
         refreshPagesList();
         showAlert('✅ Projeto alterado!', 'success');
