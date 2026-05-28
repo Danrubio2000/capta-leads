@@ -277,15 +277,60 @@ class BusinessFinder {
     const queryLower = query.toLowerCase();
     let filtered = [];
 
-    // Procura por tipo exato
+    // Language aliases mapping (English ↔ Portuguese)
+    const aliases = {
+      dentist: "dentista",
+      dentista: "dentista",
+      dentistry: "dentista",
+      restaurante: "restaurante",
+      restaurant: "restaurante",
+      lawyer: "advogado",
+      advogado: "advogado",
+      accountant: "contador",
+      contador: "contador",
+      mechanic: "mecânico",
+      mecânico: "mecânico",
+      pharmacist: "farmácia",
+      farmácia: "farmácia",
+      doctor: "médico",
+      médico: "médico",
+      physician: "médico",
+      salon: "cabeleireiro",
+      cabeleireiro: "cabeleireiro",
+      hairdresser: "cabeleireiro",
+      barber: "barbeiro",
+      barbeiro: "barbeiro",
+      auto: "oficina",
+      oficina: "oficina",
+      repair: "oficina",
+      plumbing: "encanador",
+      plumber: "encanador",
+      encanador: "encanador",
+      electrician: "eletricista",
+      eletricista: "eletricista",
+      fitness: "academia",
+      gym: "academia",
+      academia: "academia",
+      pharmacy: "farmácia"
+    };
+
+    // Normaliza o query usando aliases
+    const normalizedQuery = aliases[queryLower] || queryLower;
+
+    // Lista de termos genéricos que devem retornar todos os negócios
+    const genericTerms = ["business", "negócio", "empresa", "estabelecimento", "loja", "comercio", "comércio", "qualquer", "qualquer coisa", "tudo", "all", "any"];
+    const isGenericQuery = genericTerms.includes(queryLower) || queryLower === "" || queryLower === " ";
+
+    // Procura por tipo exato (considerando aliases)
     for (const [category, items] of Object.entries(businesses)) {
-      if (category.includes(queryLower) || queryLower.includes(category)) {
+      if (category.includes(normalizedQuery) || normalizedQuery.includes(category) ||
+          category.includes(queryLower) || queryLower.includes(category)) {
         filtered.push(...items);
       }
     }
 
-    // Se não encontrou por categoria, busca por nome/descrição
-    if (filtered.length === 0) {
+    // Se não encontrou por categoria E não é busca genérica, busca por nome/descrição
+    if (filtered.length === 0 && !isGenericQuery) {
       for (const items of Object.values(businesses)) {
         filtered.push(
           ...items.filter(
@@ -294,6 +339,13 @@ class BusinessFinder {
               b.descricao.toLowerCase().includes(queryLower)
           )
         );
+      }
+    }
+
+    // FALLBACK: Se ainda não encontrou nada E é uma busca genérica, retorna TODOS os negócios
+    if (filtered.length === 0 && isGenericQuery) {
+      for (const items of Object.values(businesses)) {
+        filtered.push(...items);
       }
     }
 
